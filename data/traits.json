@@ -1,0 +1,3 @@
+export const traits = [
+    // Define game traits here
+];
