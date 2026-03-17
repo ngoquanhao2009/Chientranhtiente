@@ -1,3 +1,17 @@
-export const units = [
-    // Define game units here
-];
+[
+  { "id": "u01", "name": "Astra Runner", "cost": 1, "traits": ["Belobog", "Striker"], "stats": { "hp": 560, "atk": 54, "spd": 1.08 } },
+  { "id": "u02", "name": "Belobog Guard", "cost": 1, "traits": ["Belobog", "Tank"], "stats": { "hp": 720, "atk": 38, "spd": 0.84 } },
+  { "id": "u03", "name": "Rail Scout", "cost": 1, "traits": ["Doi Tau", "Support"], "stats": { "hp": 500, "atk": 44, "spd": 1.14 } },
+  { "id": "u04", "name": "Void Mechanic", "cost": 2, "traits": ["Doi Tau", "Striker"], "stats": { "hp": 660, "atk": 66, "spd": 1.0 } },
+  { "id": "u05", "name": "Nebula Medic", "cost": 2, "traits": ["Skill Team", "Support"], "stats": { "hp": 620, "atk": 44, "spd": 1.04 } },
+  { "id": "u06", "name": "Pulse Tanker", "cost": 2, "traits": ["Belobog", "Tank"], "stats": { "hp": 860, "atk": 50, "spd": 0.79 } },
+  { "id": "u07", "name": "Cipher Caster", "cost": 3, "traits": ["Skill Team", "Striker"], "stats": { "hp": 760, "atk": 80, "spd": 1.04 } },
+  { "id": "u08", "name": "Stellar Lancer", "cost": 3, "traits": ["Doi Tau", "Striker"], "stats": { "hp": 820, "atk": 76, "spd": 0.99 } },
+  { "id": "u09", "name": "Aurora Keeper", "cost": 3, "traits": ["Belobog", "Support"], "stats": { "hp": 850, "atk": 54, "spd": 0.94 } },
+  { "id": "u10", "name": "Iron Bulwark", "cost": 4, "traits": ["Belobog", "Tank"], "stats": { "hp": 1160, "atk": 68, "spd": 0.77 } },
+  { "id": "u11", "name": "Quantum Siren", "cost": 4, "traits": ["Skill Team", "Support"], "stats": { "hp": 900, "atk": 92, "spd": 1.12 } },
+  { "id": "u12", "name": "Meteor Admiral", "cost": 4, "traits": ["Doi Tau", "Striker"], "stats": { "hp": 980, "atk": 98, "spd": 0.98 } },
+  { "id": "u13", "name": "Aegis Prime", "cost": 5, "traits": ["Belobog", "Tank"], "stats": { "hp": 1460, "atk": 88, "spd": 0.74 } },
+  { "id": "u14", "name": "Nova Executor", "cost": 5, "traits": ["Skill Team", "Striker"], "stats": { "hp": 1040, "atk": 124, "spd": 1.16 } },
+  { "id": "u15", "name": "Rail Overlord", "cost": 5, "traits": ["Doi Tau", "Support"], "stats": { "hp": 1180, "atk": 108, "spd": 1.0 } }
+]

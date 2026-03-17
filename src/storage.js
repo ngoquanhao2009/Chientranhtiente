@@ -1,7 +1,22 @@
-export function saveToLocalStorage(data) {
-    localStorage.setItem('gameData', JSON.stringify(data));
+const SAVE_KEY = "cttt_save_v3";
+
+export function saveGame(payload) {
+  localStorage.setItem(
+    SAVE_KEY,
+    JSON.stringify({
+      savedAt: new Date().toISOString(),
+      payload,
+    })
+  );
 }
 
-export function loadFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('gameData')) || {};
+export function loadGame() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.payload ?? null;
+  } catch {
+    return null;
+  }
 }

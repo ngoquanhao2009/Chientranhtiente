@@ -1,3 +1,11 @@
-export const shopOdds = [
-    // Define shop odds by level here
-];
+[
+  { "level": 1, "odds": [ { "cost": 1, "pct": 100 }, { "cost": 2, "pct": 0 }, { "cost": 3, "pct": 0 }, { "cost": 4, "pct": 0 }, { "cost": 5, "pct": 0 } ] },
+  { "level": 2, "odds": [ { "cost": 1, "pct": 75 }, { "cost": 2, "pct": 25 }, { "cost": 3, "pct": 0 }, { "cost": 4, "pct": 0 }, { "cost": 5, "pct": 0 } ] },
+  { "level": 3, "odds": [ { "cost": 1, "pct": 55 }, { "cost": 2, "pct": 35 }, { "cost": 3, "pct": 10 }, { "cost": 4, "pct": 0 }, { "cost": 5, "pct": 0 } ] },
+  { "level": 4, "odds": [ { "cost": 1, "pct": 40 }, { "cost": 2, "pct": 35 }, { "cost": 3, "pct": 20 }, { "cost": 4, "pct": 5 }, { "cost": 5, "pct": 0 } ] },
+  { "level": 5, "odds": [ { "cost": 1, "pct": 30 }, { "cost": 2, "pct": 35 }, { "cost": 3, "pct": 25 }, { "cost": 4, "pct": 10 }, { "cost": 5, "pct": 0 } ] },
+  { "level": 6, "odds": [ { "cost": 1, "pct": 22 }, { "cost": 2, "pct": 30 }, { "cost": 3, "pct": 30 }, { "cost": 4, "pct": 15 }, { "cost": 5, "pct": 3 } ] },
+  { "level": 7, "odds": [ { "cost": 1, "pct": 16 }, { "cost": 2, "pct": 24 }, { "cost": 3, "pct": 34 }, { "cost": 4, "pct": 22 }, { "cost": 5, "pct": 4 } ] },
+  { "level": 8, "odds": [ { "cost": 1, "pct": 10 }, { "cost": 2, "pct": 18 }, { "cost": 3, "pct": 32 }, { "cost": 4, "pct": 30 }, { "cost": 5, "pct": 10 } ] },
+  { "level": 9, "odds": [ { "cost": 1, "pct": 4 }, { "cost": 2, "pct": 12 }, { "cost": 3, "pct": 24 }, { "cost": 4, "pct": 40 }, { "cost": 5, "pct": 20 } ] }
+]

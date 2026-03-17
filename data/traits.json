@@ -1,3 +1,59 @@
-export const traits = [
-    // Define game traits here
-];
+[
+  {
+    "id": "Belobog",
+    "name": "Belobog",
+    "desc": "Toc thu, giu tran tuyet voi.",
+    "tiers": [
+      { "need": 2, "label": "+12% HP", "effects": { "hpPct": 0.12 } },
+      { "need": 4, "label": "+24% HP", "effects": { "hpPct": 0.24 } },
+      { "need": 6, "label": "+35% HP", "effects": { "hpPct": 0.35 } }
+    ]
+  },
+  {
+    "id": "Doi Tau",
+    "name": "Doi Tau",
+    "desc": "Toi uu sat thuong vat ly.",
+    "tiers": [
+      { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
+      { "need": 4, "label": "+19% ATK", "effects": { "atkPct": 0.19 } },
+      { "need": 6, "label": "+28% ATK", "effects": { "atkPct": 0.28 } }
+    ]
+  },
+  {
+    "id": "Skill Team",
+    "name": "Skill Team",
+    "desc": "Danh nhanh, da don lien tuc.",
+    "tiers": [
+      { "need": 2, "label": "+8% SPD", "effects": { "spdPct": 0.08 } },
+      { "need": 4, "label": "+16% SPD", "effects": { "spdPct": 0.16 } },
+      { "need": 6, "label": "+24% SPD", "effects": { "spdPct": 0.24 } }
+    ]
+  },
+  {
+    "id": "Tank",
+    "name": "Tank",
+    "desc": "Tien tuyen cang cung.",
+    "tiers": [
+      { "need": 2, "label": "+6% HP", "effects": { "hpPct": 0.06 } },
+      { "need": 4, "label": "+14% HP", "effects": { "hpPct": 0.14 } }
+    ]
+  },
+  {
+    "id": "Striker",
+    "name": "Striker",
+    "desc": "Sat thuong dau ra cao.",
+    "tiers": [
+      { "need": 2, "label": "+7% ATK", "effects": { "atkPct": 0.07 } },
+      { "need": 4, "label": "+15% ATK", "effects": { "atkPct": 0.15 } }
+    ]
+  },
+  {
+    "id": "Support",
+    "name": "Support",
+    "desc": "Don vi ho tro can bang doi hinh.",
+    "tiers": [
+      { "need": 2, "label": "+5% HP, +5% SPD", "effects": { "hpPct": 0.05, "spdPct": 0.05 } },
+      { "need": 4, "label": "+12% HP, +8% SPD", "effects": { "hpPct": 0.12, "spdPct": 0.08 } }
+    ]
+  }
+]

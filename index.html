@@ -1,13 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Currency Wars Simulator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chiến Tranh Tiền Tệ - Simulator</title>
+  <meta name="theme-color" content="#071020" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <h1>Welcome to Currency Wars</h1>
-    <script type="module" src="src/app.js"></script>
+  <div id="fxStage" class="fxStage"></div>
+  <div id="roundBanner" class="roundBanner"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">CT</div>
+      <div>
+        <h1>Chiến Tranh Tiền Tệ</h1>
+        <p>Demo economy + shop + trait + combat basic</p>
+      </div>
+    </div>
+
+    <div id="hud" class="hud"></div>
+
+    <div class="headerActions">
+      <button id="btnNew" class="btn">Ván mới</button>
+      <button id="btnSave" class="btn">Lưu</button>
+      <button id="btnLoad" class="btn">Tải</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panelHead">
+        <h2>Sân đấu</h2>
+        <small>Keo-tha Bench/Board. Mobile: cham giu va keo de doi vi tri.</small>
+      </div>
+      <div id="board" class="slots"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead">
+        <h2>Dự bị</h2>
+        <small>Keo-tha qua lai giua Bench va Board. Click de ban.</small>
+      </div>
+      <div id="bench" class="slots"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead">
+        <h2>Liên kết</h2>
+      </div>
+      <div id="traits" class="traits"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panelHead split">
+        <h2>Combat</h2>
+        <span id="combatResult" class="combatResult"></span>
+      </div>
+
+      <div class="combatGrid">
+        <div>
+          <h3>Đội bạn</h3>
+          <div id="combatAllies" class="fighters"></div>
+        </div>
+        <div>
+          <h3>Đội địch</h3>
+          <div id="combatEnemies" class="fighters"></div>
+        </div>
+      </div>
+
+      <div id="combatLog" class="combatLog"></div>
+    </section>
+
+    <section class="panel shopPanel">
+      <div class="panelHead split">
+        <h2>Cửa hàng</h2>
+        <div class="shopControls">
+          <button id="btnNextRound" class="btn primary">Qua vòng</button>
+          <button id="btnRefresh" class="btn">Làm mới -2</button>
+          <button id="btnBuyXp" class="btn">Mua EXP -4</button>
+          <button id="btnLockShop" class="btn">Khóa Shop</button>
+        </div>
+      </div>
+      <div id="shop" class="shopRow"></div>
+    </section>
+  </main>
+
+  <script type="module" src="src/app.js"></script>
 </body>
 </html>
