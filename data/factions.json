@@ -79,5 +79,14 @@
       { "need": 2, "label": "+8% SPD, +8% ATK", "effects": { "spdPct": 0.08, "atkPct": 0.08 } },
       { "need": 3, "label": "+16% SPD, +14% ATK", "effects": { "spdPct": 0.16, "atkPct": 0.14 } }
     ]
+  },
+  {
+    "id": "Chrysos Heirs",
+    "name": "Chrysos Heirs",
+    "desc": "Suc manh bung no theo nhip combat, de danh round dai.",
+    "tiers": [
+      { "need": 2, "label": "+8% ATK, +6% HP", "effects": { "atkPct": 0.08, "hpPct": 0.06 } },
+      { "need": 4, "label": "+16% ATK, +12% HP", "effects": { "atkPct": 0.16, "hpPct": 0.12 } }
+    ]
   }
 ]

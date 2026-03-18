@@ -416,5 +416,73 @@
       "atk": 54,
       "spd": 1.08
     }
+  },
+  {
+    "id": "c027",
+    "name": "Evanescia",
+    "cost": 2,
+    "faction": "Chrysos Heirs",
+    "archetypes": [
+      "Elation",
+      "Harmony"
+    ],
+    "bio": "Dieu chinh nhip giao tranh, giup doi hinh bung no sat thuong dung luc.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Evanescia_Splash_Art.png",
+    "stats": {
+      "hp": 820,
+      "atk": 70,
+      "spd": 1.12
+    }
+  },
+  {
+    "id": "c028",
+    "name": "Sparxie",
+    "cost": 5,
+    "faction": "Masked Fools",
+    "archetypes": [
+      "Elation",
+      "Hunt"
+    ],
+    "bio": "Carry Vui Ve sat thuong cao, de ket lieu doi thu o cuoi round.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sparxie_Splash_Art.png",
+    "stats": {
+      "hp": 1080,
+      "atk": 136,
+      "spd": 1.14
+    }
+  },
+  {
+    "id": "c029",
+    "name": "Yao Guang",
+    "cost": 4,
+    "faction": "Chrysos Heirs",
+    "archetypes": [
+      "Elation",
+      "Erudition"
+    ],
+    "bio": "Danh rong manh, tao nhieu pha bo no sat thuong tren san.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Yao_Guang_Splash_Art.png",
+    "stats": {
+      "hp": 980,
+      "atk": 122,
+      "spd": 1.07
+    }
+  },
+  {
+    "id": "c030",
+    "name": "Ashveil",
+    "cost": 1,
+    "faction": "Chrysos Heirs",
+    "archetypes": [
+      "Elation",
+      "Nihility"
+    ],
+    "bio": "Pha nhip doi thu tu som, de mo cua cho doi hinh Vui Ve.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Ashveil_Splash_Art.png",
+    "stats": {
+      "hp": 660,
+      "atk": 52,
+      "spd": 1.09
+    }
   }
 ]
