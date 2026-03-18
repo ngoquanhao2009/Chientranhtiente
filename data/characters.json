@@ -2,241 +2,385 @@
   {
     "id": "c001",
     "name": "Trailblazer",
-    "cost": 4,
+    "cost": 2,
     "faction": "Astral Express",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Dan dau doi hinh va vao tran on dinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Trailblazer",
-    "stats": { "hp": 1000, "atk": 106, "spd": 1.02 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Trailblazer_(F)_Destruction_Splash_Art.png",
+    "stats": {
+      "hp": 830,
+      "atk": 74,
+      "spd": 1.02
+    }
   },
   {
     "id": "c002",
     "name": "March 7th",
-    "cost": 2,
+    "cost": 1,
     "faction": "Astral Express",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Lop khien giup doi hinh tru san tot.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=March7th",
-    "stats": { "hp": 780, "atk": 54, "spd": 1.04 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_March_7th_(Preservation)_Splash_Art.png",
+    "stats": {
+      "hp": 730,
+      "atk": 50,
+      "spd": 1.03
+    }
   },
   {
     "id": "c003",
     "name": "Dan Heng",
-    "cost": 3,
+    "cost": 1,
     "faction": "Astral Express",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Don sat thuong don muc tieu on dinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=DanHeng",
-    "stats": { "hp": 830, "atk": 88, "spd": 1.1 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Dan_Heng_Splash_Art.png",
+    "stats": {
+      "hp": 700,
+      "atk": 60,
+      "spd": 1.08
+    }
   },
   {
     "id": "c004",
     "name": "Himeko",
     "cost": 4,
     "faction": "Astral Express",
-    "archetypes": ["Erudition"],
+    "archetypes": [
+      "Erudition"
+    ],
     "bio": "Don sat thuong rong de don dep doi thu.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Himeko",
-    "stats": { "hp": 910, "atk": 112, "spd": 1.0 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Himeko_Splash_Art.png",
+    "stats": {
+      "hp": 940,
+      "atk": 116,
+      "spd": 1
+    }
   },
   {
     "id": "c005",
     "name": "Welt",
-    "cost": 4,
+    "cost": 3,
     "faction": "Astral Express",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Kiem soat nhip danh cua giao tranh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Welt",
-    "stats": { "hp": 940, "atk": 98, "spd": 0.98 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Welt_Splash_Art.png",
+    "stats": {
+      "hp": 900,
+      "atk": 90,
+      "spd": 0.98
+    }
   },
   {
     "id": "c006",
     "name": "Kafka",
-    "cost": 4,
+    "cost": 3,
     "faction": "Stellaron Hunters",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Duy tri sat thuong manh ve cuoi tran.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Kafka",
-    "stats": { "hp": 930, "atk": 116, "spd": 1.06 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Kafka_Splash_Art.png",
+    "stats": {
+      "hp": 920,
+      "atk": 102,
+      "spd": 1.06
+    }
   },
   {
     "id": "c007",
     "name": "Silver Wolf",
-    "cost": 4,
+    "cost": 2,
     "faction": "Stellaron Hunters",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Debuff va pha vo doi hinh doi thu.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=SilverWolf",
-    "stats": { "hp": 860, "atk": 98, "spd": 1.12 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Silver_Wolf_Splash_Art.png",
+    "stats": {
+      "hp": 790,
+      "atk": 72,
+      "spd": 1.12
+    }
   },
   {
     "id": "c008",
     "name": "Firefly",
-    "cost": 5,
+    "cost": 4,
     "faction": "Stellaron Hunters",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Tien phong gay ap luc sat thuong lon.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Firefly",
-    "stats": { "hp": 1240, "atk": 124, "spd": 1.02 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Firefly_Splash_Art.png",
+    "stats": {
+      "hp": 1120,
+      "atk": 118,
+      "spd": 1.02
+    }
   },
   {
     "id": "c009",
     "name": "Blade",
     "cost": 5,
     "faction": "Stellaron Hunters",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Doi mau lay sat thuong, cang danh cang manh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Blade",
-    "stats": { "hp": 1280, "atk": 120, "spd": 1.01 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Blade_Splash_Art.png",
+    "stats": {
+      "hp": 1280,
+      "atk": 122,
+      "spd": 1.01
+    }
   },
   {
     "id": "c010",
     "name": "Seele",
-    "cost": 4,
+    "cost": 3,
     "faction": "Belobog",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Ket lieu muc tieu cuc nhanh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Seele",
-    "stats": { "hp": 860, "atk": 122, "spd": 1.18 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Seele_Splash_Art.png",
+    "stats": {
+      "hp": 850,
+      "atk": 104,
+      "spd": 1.16
+    }
   },
   {
     "id": "c011",
     "name": "Bronya",
-    "cost": 3,
+    "cost": 2,
     "faction": "Belobog",
-    "archetypes": ["Harmony"],
+    "archetypes": [
+      "Harmony"
+    ],
     "bio": "Tang toc do va sat thuong cho doi hinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Bronya",
-    "stats": { "hp": 800, "atk": 64, "spd": 1.12 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Bronya_Splash_Art.png",
+    "stats": {
+      "hp": 770,
+      "atk": 58,
+      "spd": 1.12
+    }
   },
   {
     "id": "c012",
     "name": "Gepard",
-    "cost": 3,
+    "cost": 2,
     "faction": "Belobog",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Chan truoc giu nhiet cho doi hinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Gepard",
-    "stats": { "hp": 920, "atk": 66, "spd": 0.95 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Gepard_Splash_Art.png",
+    "stats": {
+      "hp": 870,
+      "atk": 62,
+      "spd": 0.95
+    }
   },
   {
     "id": "c013",
     "name": "Natasha",
     "cost": 1,
     "faction": "Belobog",
-    "archetypes": ["Abundance"],
+    "archetypes": [
+      "Abundance"
+    ],
     "bio": "Hau can de van hanh doi hinh dau game.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Natasha",
-    "stats": { "hp": 650, "atk": 38, "spd": 0.98 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Natasha_Splash_Art.png",
+    "stats": {
+      "hp": 640,
+      "atk": 42,
+      "spd": 0.98
+    }
   },
   {
     "id": "c014",
     "name": "Jing Yuan",
-    "cost": 5,
+    "cost": 4,
     "faction": "Xianzhou Luofu",
-    "archetypes": ["Erudition"],
+    "archetypes": [
+      "Erudition"
+    ],
     "bio": "Sat thuong dien rong rat manh o giua tran.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=JingYuan",
-    "stats": { "hp": 1020, "atk": 132, "spd": 1.01 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Jing_Yuan_Splash_Art.png",
+    "stats": {
+      "hp": 1000,
+      "atk": 122,
+      "spd": 1.01
+    }
   },
   {
     "id": "c015",
     "name": "Fu Xuan",
     "cost": 5,
     "faction": "Xianzhou Luofu",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Giam sat thuong toan doi va giu form giao tranh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=FuXuan",
-    "stats": { "hp": 1260, "atk": 90, "spd": 1.03 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Fu_Xuan_Splash_Art.png",
+    "stats": {
+      "hp": 1260,
+      "atk": 92,
+      "spd": 1.03
+    }
   },
   {
     "id": "c016",
     "name": "Jingliu",
     "cost": 5,
     "faction": "Xianzhou Luofu",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Burst sat thuong cao, ket lieu nhanh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Jingliu",
-    "stats": { "hp": 1080, "atk": 136, "spd": 1.06 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Jingliu_Splash_Art.png",
+    "stats": {
+      "hp": 1100,
+      "atk": 138,
+      "spd": 1.06
+    }
   },
   {
     "id": "c017",
     "name": "Luocha",
-    "cost": 4,
+    "cost": 3,
     "faction": "Xianzhou Luofu",
-    "archetypes": ["Abundance"],
+    "archetypes": [
+      "Abundance"
+    ],
     "bio": "Giu nhiet doi hinh khi tran keo dai.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Luocha",
-    "stats": { "hp": 860, "atk": 70, "spd": 1.05 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Luocha_Splash_Art.png",
+    "stats": {
+      "hp": 860,
+      "atk": 80,
+      "spd": 1.05
+    }
   },
   {
     "id": "c018",
     "name": "Topaz",
     "cost": 4,
     "faction": "IPC",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Truy sat muc tieu uu tien rat hieu qua.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Topaz",
-    "stats": { "hp": 870, "atk": 118, "spd": 1.12 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Topaz_and_Numby_Splash_Art.png",
+    "stats": {
+      "hp": 900,
+      "atk": 116,
+      "spd": 1.12
+    }
   },
   {
     "id": "c019",
     "name": "Aventurine",
     "cost": 5,
     "faction": "IPC",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Chan dau va giu doi hinh cuc ky ben bi.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Aventurine",
-    "stats": { "hp": 1300, "atk": 92, "spd": 0.96 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Aventurine_Splash_Art.png",
+    "stats": {
+      "hp": 1300,
+      "atk": 94,
+      "spd": 0.96
+    }
   },
   {
     "id": "c020",
     "name": "Dr. Ratio",
-    "cost": 4,
+    "cost": 3,
     "faction": "IPC",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Don sat thuong don vi tri cao, de ket hop buff.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=DrRatio",
-    "stats": { "hp": 900, "atk": 120, "spd": 1.09 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Dr._Ratio_Splash_Art.png",
+    "stats": {
+      "hp": 900,
+      "atk": 104,
+      "spd": 1.08
+    }
   },
   {
     "id": "c021",
     "name": "Ruan Mei",
     "cost": 5,
     "faction": "Genius Society",
-    "archetypes": ["Harmony"],
+    "archetypes": [
+      "Harmony"
+    ],
     "bio": "Buff tong the, giup team tang toc do trien khai.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=RuanMei",
-    "stats": { "hp": 920, "atk": 78, "spd": 1.1 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Ruan_Mei_Splash_Art.png",
+    "stats": {
+      "hp": 930,
+      "atk": 82,
+      "spd": 1.1
+    }
   },
   {
     "id": "c022",
     "name": "Herta",
-    "cost": 2,
+    "cost": 1,
     "faction": "Genius Society",
-    "archetypes": ["Erudition"],
+    "archetypes": [
+      "Erudition"
+    ],
     "bio": "Quet giao tranh bang sat thuong rong.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Herta",
-    "stats": { "hp": 700, "atk": 74, "spd": 1.0 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Herta_Splash_Art.png",
+    "stats": {
+      "hp": 650,
+      "atk": 56,
+      "spd": 1
+    }
   },
   {
     "id": "c023",
     "name": "Robin",
-    "cost": 3,
+    "cost": 2,
     "faction": "Penacony",
-    "archetypes": ["Harmony"],
+    "archetypes": [
+      "Harmony"
+    ],
     "bio": "Ho tro doi hinh toan dien trong combat.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Robin",
-    "stats": { "hp": 790, "atk": 62, "spd": 1.1 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Robin_Splash_Art.png",
+    "stats": {
+      "hp": 760,
+      "atk": 58,
+      "spd": 1.1
+    }
   },
   {
     "id": "c024",
     "name": "Boothill",
     "cost": 4,
     "faction": "Galaxy Rangers",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Tieu diet muc tieu don voi sat thuong cao.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Boothill",
-    "stats": { "hp": 860, "atk": 124, "spd": 1.16 }
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Boothill_Splash_Art.png",
+    "stats": {
+      "hp": 900,
+      "atk": 126,
+      "spd": 1.16
+    }
   }
 ]
