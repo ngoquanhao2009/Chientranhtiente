@@ -486,12 +486,15 @@ function renderTraits(game) {
   ];
 
   for (const g of entries) {
+    const visibleRows = g.rows.filter((row) => row.count > 0);
+    if (visibleRows.length === 0) continue;
+
     const title = document.createElement("div");
     title.className = "traitGroupTitle";
     title.textContent = g.title;
     root.appendChild(title);
 
-    for (const row of g.rows) {
+    for (const row of visibleRows) {
       const node = document.createElement("div");
       node.className = `trait ${row.activeTier ? "active" : ""}`;
 
@@ -546,17 +549,26 @@ function fighterHtml(f) {
 }
 
 function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey) {
-  const hpPct = f.maxHp === 0 ? 0 : Math.round((f.hp / f.maxHp) * 100);
   const actorFlash = f.key === flashActorKey ? " actorFlash" : "";
   const targetFlash = f.key === flashTargetKey ? " targetFlash" : "";
   const currentHp = hp ?? f.hp;
   const effectiveAlive = alive ?? f.alive;
   const effectivePct = f.maxHp === 0 ? 0 : Math.round((currentHp / f.maxHp) * 100);
+  const imageUrl = f.imageUrl ? String(f.imageUrl).trim() : "";
+  const initials = unitInitials(f.name);
   return `
     <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}">
-      <div class="fighterTop">
-        <span>${f.name}</span>
-        <small>${currentHp}/${f.maxHp}</small>
+      <div class="fighterBody">
+        <div class="fighterPortrait ${imageUrl ? "" : "fallback"}">
+          ${imageUrl ? `<img src="${imageUrl}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
+          <span>${initials}</span>
+        </div>
+        <div class="fighterInfo">
+          <div class="fighterTop">
+            <span>${f.name}</span>
+            <small>${currentHp}/${f.maxHp}</small>
+          </div>
+        </div>
       </div>
       <div class="hpTrack"><div class="hpFill" style="width:${effectivePct}%"></div></div>
     </div>
@@ -567,6 +579,7 @@ function cloneLineup(list) {
   return list.map((f) => ({
     key: f.key,
     name: f.name,
+    imageUrl: f.imageUrl ?? "",
     maxHp: f.maxHp,
     hp: f.hp,
     alive: f.alive,
