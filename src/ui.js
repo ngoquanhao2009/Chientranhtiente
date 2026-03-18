@@ -45,6 +45,7 @@ function showRoundBanner(text, type = "") {
 let activePlaybackId = null;
 let playbackToken = 0;
 let suppressClickUntil = 0;
+let isMouseDragging = false;
 
 export function bindUI(game, handlers) {
   el("btnNew").addEventListener("click", handlers.onNew);
@@ -74,40 +75,54 @@ export function bindUI(game, handlers) {
   });
 
   function dragStart(ev) {
-    const card = ev.target.closest("[data-drag-kind]");
+    const target = ev.target;
+    const card = target instanceof Element ? target.closest("[data-drag-kind]") : null;
     if (!card) return;
+    isMouseDragging = true;
+    suppressClickUntil = Date.now() + 300;
     const kind = card.dataset.dragKind;
     const index = card.dataset.dragIndex;
-    ev.dataTransfer.setData("text/plain", `${kind}:${index}`);
+    if (ev.dataTransfer) {
+      ev.dataTransfer.effectAllowed = "move";
+      ev.dataTransfer.setData("text/plain", `${kind}:${index}`);
+      ev.dataTransfer.setData("text/cttt", `${kind}:${index}`);
+    }
     card.classList.add("dragging");
   }
 
   function dragEnd(ev) {
-    const card = ev.target.closest("[data-drag-kind]");
+    const target = ev.target;
+    const card = target instanceof Element ? target.closest("[data-drag-kind]") : null;
     if (!card) return;
     card.classList.remove("dragging");
+    isMouseDragging = false;
+    suppressClickUntil = Date.now() + 220;
   }
 
   function onDragOver(ev) {
-    const drop = ev.target.closest("[data-drop-kind]");
+    const target = ev.target;
+    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
     if (!drop) return;
     ev.preventDefault();
     drop.classList.add("dropTarget");
   }
 
   function onDragLeave(ev) {
-    const drop = ev.target.closest("[data-drop-kind]");
+    const target = ev.target;
+    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
     if (!drop) return;
     drop.classList.remove("dropTarget");
   }
 
   function onDrop(ev) {
-    const drop = ev.target.closest("[data-drop-kind]");
+    const target = ev.target;
+    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
     if (!drop) return;
     ev.preventDefault();
     drop.classList.remove("dropTarget");
+    suppressClickUntil = Date.now() + 260;
 
-    const raw = ev.dataTransfer.getData("text/plain");
+    const raw = ev.dataTransfer?.getData("text/plain") || ev.dataTransfer?.getData("text/cttt") || "";
     if (!raw || !raw.includes(":")) return;
 
     const [fromKind, fromIndexText] = raw.split(":");
@@ -211,6 +226,7 @@ export function bindUI(game, handlers) {
   bench.addEventListener("touchcancel", touchEnd, { passive: true });
 
   board.addEventListener("click", (ev) => {
+    if (isMouseDragging || Date.now() < suppressClickUntil) return;
     const card = ev.target.closest("[data-board-index]");
     if (!card) return;
     handlers.onBoardToBench(Number(card.dataset.boardIndex));
