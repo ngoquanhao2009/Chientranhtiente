@@ -10,6 +10,29 @@ function unitTagHtml(unit) {
   return `<span class="chip">${unit.traits.join(" • ")}</span>`;
 }
 
+function unitInitials(name = "?") {
+  const words = String(name).trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return `${words[0][0] ?? ""}${words[1][0] ?? ""}`.toUpperCase();
+}
+
+function cardPortraitHtml(unit) {
+  const initials = unitInitials(unit.name);
+  const imageUrl = unit.imageUrl ? String(unit.imageUrl).trim() : "";
+
+  if (!imageUrl) {
+    return `<div class="cardPortrait fallback"><span>${initials}</span></div>`;
+  }
+
+  return `
+    <div class="cardPortrait">
+      <img src="${imageUrl}" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />
+      <span>${initials}</span>
+    </div>
+  `;
+}
+
 function fxFloatText(container, text, type = "good") {
   if (!container) return;
   const node = document.createElement("div");
@@ -269,6 +292,7 @@ function renderBoard(game) {
       slot.dataset.boardIndex = String(i);
       slot.innerHTML = `
         <div class="card boardCard glow" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
+          ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
             <span class="cost c${unit.cost}">${unit.cost}</span>
@@ -300,6 +324,7 @@ function renderBench(game) {
       slot.dataset.benchIndex = String(i);
       slot.innerHTML = `
         <div class="card benchCard" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
+          ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
             <span class="cost c${unit.cost}">${unit.cost}</span>
@@ -329,6 +354,7 @@ function renderShop(game) {
       card.innerHTML = `<span class="slotHint">Da mua</span>`;
     } else {
       card.innerHTML = `
+        ${cardPortraitHtml(unit)}
         <div class="cardTop">
           <b>${unit.name}</b>
           <span class="cost c${unit.cost}">${unit.cost}</span>

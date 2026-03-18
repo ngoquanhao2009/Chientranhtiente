@@ -180,6 +180,7 @@ export class Game {
         name: base.name,
         cost: base.cost,
         traits: base.traits,
+        imageUrl: base.imageUrl ?? "",
       };
     });
 
@@ -198,6 +199,7 @@ export class Game {
       name: base.name,
       cost: base.cost,
       traits: [...base.traits],
+      imageUrl: base.imageUrl ?? "",
       star,
       stats: { ...base.stats },
     };
