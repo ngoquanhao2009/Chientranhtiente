@@ -19,7 +19,7 @@
   },
   {
     "id": "Erudition",
-    "name": "Uy Bac",
+    "name": "Tri Thuc",
     "desc": "Danh rong va don dep doi hinh.",
     "tiers": [
       { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
@@ -37,7 +37,7 @@
   },
   {
     "id": "Nihility",
-    "name": "Vo Niem",
+    "name": "Hu Vo",
     "desc": "Pha nhiet doi thu bang sat thuong dai hoi.",
     "tiers": [
       { "need": 2, "label": "+9% ATK, +6% SPD", "effects": { "atkPct": 0.09, "spdPct": 0.06 } },
@@ -55,7 +55,7 @@
   },
   {
     "id": "Abundance",
-    "name": "Phong Nhieu",
+    "name": "Tru Phu",
     "desc": "Giup doi hinh truoc ap luc trong tran dai.",
     "tiers": [
       { "need": 1, "label": "+4% HP, +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
@@ -69,6 +69,15 @@
     "tiers": [
       { "need": 2, "label": "+8% HP, +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
       { "need": 3, "label": "+16% HP, +12% ATK", "effects": { "hpPct": 0.16, "atkPct": 0.12 } }
+    ]
+  },
+  {
+    "id": "Elation",
+    "name": "Vui Ve",
+    "desc": "Danh nhanh, tao dot bien sat thuong theo nhip.",
+    "tiers": [
+      { "need": 2, "label": "+8% ATK, +8% SPD", "effects": { "atkPct": 0.08, "spdPct": 0.08 } },
+      { "need": 4, "label": "+16% ATK, +16% SPD", "effects": { "atkPct": 0.16, "spdPct": 0.16 } }
     ]
   }
 ]

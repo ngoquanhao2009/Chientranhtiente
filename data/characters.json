@@ -382,5 +382,39 @@
       "atk": 126,
       "spd": 1.16
     }
+  },
+  {
+    "id": "c025",
+    "name": "Sparkle",
+    "cost": 3,
+    "faction": "Masked Fools",
+    "archetypes": [
+      "Harmony",
+      "Elation"
+    ],
+    "bio": "Bo tro bien ao, day nhip tan cong va sat thuong dot bien.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sparkle_Splash_Art.png",
+    "stats": {
+      "hp": 850,
+      "atk": 84,
+      "spd": 1.14
+    }
+  },
+  {
+    "id": "c026",
+    "name": "Sampo",
+    "cost": 1,
+    "faction": "Masked Fools",
+    "archetypes": [
+      "Nihility",
+      "Elation"
+    ],
+    "bio": "Nhieu meo vat gay roi doi hinh doi thu va tao ap luc som.",
+    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sampo_Splash_Art.png",
+    "stats": {
+      "hp": 690,
+      "atk": 54,
+      "spd": 1.08
+    }
   }
 ]

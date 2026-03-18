@@ -70,5 +70,14 @@
       { "need": 1, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
       { "need": 2, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
     ]
+  },
+  {
+    "id": "Masked Fools",
+    "name": "Masked Fools",
+    "desc": "Nhip danh nhanh va nhieu pha bo no bat ngo.",
+    "tiers": [
+      { "need": 2, "label": "+8% SPD, +8% ATK", "effects": { "spdPct": 0.08, "atkPct": 0.08 } },
+      { "need": 3, "label": "+16% SPD, +14% ATK", "effects": { "spdPct": 0.16, "atkPct": 0.14 } }
+    ]
   }
 ]

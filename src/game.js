@@ -8,7 +8,7 @@ const BENCH_SIZE = 8;
 const BOARD_MAX = 9;
 const SHOP_SIZE = 5;
 const MAX_LEVEL = 9;
-const SNAPSHOT_VERSION = 5;
+const SNAPSHOT_VERSION = 6;
 
 const XP_TO_NEXT = {
   1: 2,
