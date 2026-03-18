@@ -47,6 +47,7 @@ export class Game {
     this.factions = factionsData;
     this.archetypes = archetypesData;
     this.bosses = bossesData;
+    this.archetypeNameById = new Map(this.archetypes.map((x) => [x.id, x.name]));
     this.charactersById = new Map(this.characters.map((u) => [u.id, u]));
     this.charactersByCost = new Map();
     for (const unit of this.characters) {
@@ -157,8 +158,17 @@ export class Game {
     };
   }
 
+  displayArchetype(id) {
+    return this.archetypeNameById.get(id) ?? id;
+  }
+
+  getUnitDisplayTags(unit) {
+    const archetypes = (unit.archetypes ?? []).map((id) => this.displayArchetype(id));
+    return [unit.faction, ...archetypes].filter(Boolean);
+  }
+
   unitInspectTags(unit) {
-    return [unit.faction, ...(unit.archetypes ?? [])]
+    return this.getUnitDisplayTags(unit)
       .filter(Boolean)
       .slice(0, 2);
   }

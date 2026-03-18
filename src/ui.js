@@ -6,8 +6,8 @@ function starText(star) {
   return "★".repeat(star);
 }
 
-function unitTagHtml(unit) {
-  const tags = [unit.faction, ...(unit.archetypes ?? [])].filter(Boolean);
+function unitTagHtml(game, unit) {
+  const tags = game.getUnitDisplayTags(unit);
   return `<span class="chip">${tags.join(" • ")}</span>`;
 }
 
@@ -402,7 +402,7 @@ function renderBoard(game) {
             <span class="cost c${unit.cost}">${unit.cost}</span>
           </div>
           <div class="cardMid">${starText(unit.star)}</div>
-          <div class="cardTags">${unitTagHtml(unit)}</div>
+          <div class="cardTags">${unitTagHtml(game, unit)}</div>
         </div>
       `;
     }
@@ -434,7 +434,7 @@ function renderBench(game) {
             <span class="cost c${unit.cost}">${unit.cost}</span>
           </div>
           <div class="cardMid">${starText(unit.star)}</div>
-          <div class="cardTags">${unitTagHtml(unit)}</div>
+          <div class="cardTags">${unitTagHtml(game, unit)}</div>
         </div>
       `;
     }
@@ -463,7 +463,7 @@ function renderShop(game) {
           <b>${unit.name}</b>
           <span class="cost c${unit.cost}">${unit.cost}</span>
         </div>
-        <div class="cardTags">${unitTagHtml(unit)}</div>
+        <div class="cardTags">${unitTagHtml(game, unit)}</div>
       `;
     }
 

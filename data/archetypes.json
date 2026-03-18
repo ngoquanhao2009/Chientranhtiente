@@ -1,7 +1,7 @@
 [
   {
     "id": "Destruction",
-    "name": "Destruction",
+    "name": "Huy Diet",
     "desc": "Sat thuong cao va kha nang tru san tot.",
     "tiers": [
       { "need": 2, "label": "+10% HP, +8% ATK", "effects": { "hpPct": 0.1, "atkPct": 0.08 } },
@@ -10,7 +10,7 @@
   },
   {
     "id": "Hunt",
-    "name": "Hunt",
+    "name": "San Duoi",
     "desc": "Danh don muc tieu nhanh va manh.",
     "tiers": [
       { "need": 2, "label": "+10% ATK, +8% SPD", "effects": { "atkPct": 0.1, "spdPct": 0.08 } },
@@ -19,7 +19,7 @@
   },
   {
     "id": "Erudition",
-    "name": "Erudition",
+    "name": "Uy Bac",
     "desc": "Danh rong va don dep doi hinh.",
     "tiers": [
       { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
@@ -28,7 +28,7 @@
   },
   {
     "id": "Harmony",
-    "name": "Harmony",
+    "name": "Hoa Hop",
     "desc": "Tang nhip tan cong va suc ben cho team.",
     "tiers": [
       { "need": 2, "label": "+8% SPD, +6% HP", "effects": { "spdPct": 0.08, "hpPct": 0.06 } },
@@ -37,7 +37,7 @@
   },
   {
     "id": "Nihility",
-    "name": "Nihility",
+    "name": "Vo Niem",
     "desc": "Pha nhiet doi thu bang sat thuong dai hoi.",
     "tiers": [
       { "need": 2, "label": "+9% ATK, +6% SPD", "effects": { "atkPct": 0.09, "spdPct": 0.06 } },
@@ -46,7 +46,7 @@
   },
   {
     "id": "Preservation",
-    "name": "Preservation",
+    "name": "Bao Ho",
     "desc": "Loi choi phong thu va can cau doi hinh.",
     "tiers": [
       { "need": 2, "label": "+12% HP", "effects": { "hpPct": 0.12 } },
@@ -55,7 +55,7 @@
   },
   {
     "id": "Abundance",
-    "name": "Abundance",
+    "name": "Phong Nhieu",
     "desc": "Giup doi hinh truoc ap luc trong tran dai.",
     "tiers": [
       { "need": 1, "label": "+4% HP, +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
@@ -64,7 +64,7 @@
   },
   {
     "id": "Remembrance",
-    "name": "Remembrance",
+    "name": "Ky Uc",
     "desc": "Kiem soat nhip tran va bo sung sat thuong.",
     "tiers": [
       { "need": 2, "label": "+8% HP, +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
