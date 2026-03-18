@@ -1,4 +1,4 @@
-const SAVE_KEY = "cttt_save_v3";
+const SAVE_KEY = "cttt_save_v4";
 
 export function saveGame(payload) {
   localStorage.setItem(

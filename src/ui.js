@@ -70,6 +70,16 @@ let activePlaybackId = null;
 let playbackToken = 0;
 let suppressClickUntil = 0;
 let isMouseDragging = false;
+const INSPECT_DELAY_MS = 3000;
+let inspectToastTimer = null;
+
+function closestFromTarget(target, selector) {
+  if (target instanceof Element) return target.closest(selector);
+  if (target && target.parentElement instanceof Element) {
+    return target.parentElement.closest(selector);
+  }
+  return null;
+}
 
 export function bindUI(game, handlers) {
   el("btnNew").addEventListener("click", handlers.onNew);
@@ -84,36 +94,100 @@ export function bindUI(game, handlers) {
   const bench = el("bench");
   const board = el("board");
 
+  let inspectTimer = null;
+  let inspectKey = "";
+  let lastShopBuyAt = 0;
+  let lastShopBuyIndex = -1;
+
+  function clearInspectTimer() {
+    if (!inspectTimer) return;
+    clearTimeout(inspectTimer);
+    inspectTimer = null;
+  }
+
+  function queueInspect(where, index) {
+    const key = `${where}:${index}`;
+    if (inspectKey === key && inspectTimer) return;
+    inspectKey = key;
+    clearInspectTimer();
+    inspectTimer = setTimeout(() => {
+      handlers.onInspect(where, index);
+      renderInspect(game);
+      inspectTimer = null;
+    }, INSPECT_DELAY_MS);
+  }
+
+  function cancelInspect() {
+    inspectKey = "";
+    clearInspectTimer();
+  }
+
+  function tryBuyFromShopEvent(target, now = Date.now()) {
+    const card = closestFromTarget(target, "[data-shop-index]");
+    if (!card) return false;
+    const index = Number(card.dataset.shopIndex);
+    if (Number.isNaN(index)) return false;
+    if (index === lastShopBuyIndex && now - lastShopBuyAt < 260) return true;
+    lastShopBuyIndex = index;
+    lastShopBuyAt = now;
+    handlers.onBuyShop(index);
+    return true;
+  }
+
   shop.addEventListener("click", (ev) => {
+    cancelInspect();
     if (Date.now() < suppressClickUntil) return;
-    const card = ev.target.closest("[data-shop-index]");
-    if (!card) return;
-    handlers.onBuyShop(Number(card.dataset.shopIndex));
+    tryBuyFromShopEvent(ev.target, Date.now());
+  });
+
+  shop.addEventListener("pointerup", (ev) => {
+    cancelInspect();
+    if (ev.button !== undefined && ev.button !== 0) return;
+    suppressClickUntil = Date.now() + 260;
+    tryBuyFromShopEvent(ev.target, Date.now());
   });
 
   shop.addEventListener("mouseover", (ev) => {
-    const card = ev.target.closest("[data-shop-index]");
+    const card = closestFromTarget(ev.target, "[data-shop-index]");
     if (!card) return;
-    handlers.onInspect("shop", Number(card.dataset.shopIndex));
+    queueInspect("shop", Number(card.dataset.shopIndex));
+  });
+
+  shop.addEventListener("mouseout", (ev) => {
+    const card = closestFromTarget(ev.target, "[data-shop-index]");
+    if (!card) return;
+    const related = ev.relatedTarget;
+    const stillInside = related instanceof Node && card.contains(related);
+    if (!stillInside) cancelInspect();
   });
 
   bench.addEventListener("click", (ev) => {
+    cancelInspect();
     if (Date.now() < suppressClickUntil) return;
-    const card = ev.target.closest("[data-bench-index]");
+    const card = closestFromTarget(ev.target, "[data-bench-index]");
     if (!card) return;
     handlers.onSellBench(Number(card.dataset.benchIndex));
   });
 
   bench.addEventListener("mouseover", (ev) => {
-    const card = ev.target.closest("[data-bench-index]");
+    const card = closestFromTarget(ev.target, "[data-bench-index]");
     if (!card) return;
-    handlers.onInspect("bench", Number(card.dataset.benchIndex));
+    queueInspect("bench", Number(card.dataset.benchIndex));
+  });
+
+  bench.addEventListener("mouseout", (ev) => {
+    const card = closestFromTarget(ev.target, "[data-bench-index]");
+    if (!card) return;
+    const related = ev.relatedTarget;
+    const stillInside = related instanceof Node && card.contains(related);
+    if (!stillInside) cancelInspect();
   });
 
   function dragStart(ev) {
     const target = ev.target;
-    const card = target instanceof Element ? target.closest("[data-drag-kind]") : null;
+    const card = closestFromTarget(target, "[data-drag-kind]");
     if (!card) return;
+    cancelInspect();
     isMouseDragging = true;
     suppressClickUntil = Date.now() + 300;
     const kind = card.dataset.dragKind;
@@ -128,7 +202,7 @@ export function bindUI(game, handlers) {
 
   function dragEnd(ev) {
     const target = ev.target;
-    const card = target instanceof Element ? target.closest("[data-drag-kind]") : null;
+    const card = closestFromTarget(target, "[data-drag-kind]");
     if (!card) return;
     card.classList.remove("dragging");
     isMouseDragging = false;
@@ -137,7 +211,7 @@ export function bindUI(game, handlers) {
 
   function onDragOver(ev) {
     const target = ev.target;
-    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
+    const drop = closestFromTarget(target, "[data-drop-kind]");
     if (!drop) return;
     ev.preventDefault();
     drop.classList.add("dropTarget");
@@ -145,18 +219,19 @@ export function bindUI(game, handlers) {
 
   function onDragLeave(ev) {
     const target = ev.target;
-    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
+    const drop = closestFromTarget(target, "[data-drop-kind]");
     if (!drop) return;
     drop.classList.remove("dropTarget");
   }
 
   function onDrop(ev) {
     const target = ev.target;
-    const drop = target instanceof Element ? target.closest("[data-drop-kind]") : null;
+    const drop = closestFromTarget(target, "[data-drop-kind]");
     if (!drop) return;
     ev.preventDefault();
     drop.classList.remove("dropTarget");
     suppressClickUntil = Date.now() + 260;
+    cancelInspect();
 
     const raw = ev.dataTransfer?.getData("text/plain") || ev.dataTransfer?.getData("text/cttt") || "";
     if (!raw || !raw.includes(":")) return;
@@ -176,9 +251,10 @@ export function bindUI(game, handlers) {
   }
 
   function touchStart(ev) {
-    const card = ev.target.closest("[data-drag-kind]");
+    const card = closestFromTarget(ev.target, "[data-drag-kind]");
     if (!card) return;
     if (!ev.touches || ev.touches.length === 0) return;
+    cancelInspect();
 
     const touch = ev.touches[0];
     const kind = card.dataset.dragKind;
@@ -262,16 +338,25 @@ export function bindUI(game, handlers) {
   bench.addEventListener("touchcancel", touchEnd, { passive: true });
 
   board.addEventListener("click", (ev) => {
+    cancelInspect();
     if (isMouseDragging || Date.now() < suppressClickUntil) return;
-    const card = ev.target.closest("[data-board-index]");
+    const card = closestFromTarget(ev.target, "[data-board-index]");
     if (!card) return;
     handlers.onBoardToBench(Number(card.dataset.boardIndex));
   });
 
   board.addEventListener("mouseover", (ev) => {
-    const card = ev.target.closest("[data-board-index]");
+    const card = closestFromTarget(ev.target, "[data-board-index]");
     if (!card) return;
-    handlers.onInspect("board", Number(card.dataset.boardIndex));
+    queueInspect("board", Number(card.dataset.boardIndex));
+  });
+
+  board.addEventListener("mouseout", (ev) => {
+    const card = closestFromTarget(ev.target, "[data-board-index]");
+    if (!card) return;
+    const related = ev.relatedTarget;
+    const stillInside = related instanceof Node && card.contains(related);
+    if (!stillInside) cancelInspect();
   });
 }
 
@@ -428,27 +513,32 @@ function renderTraits(game) {
 }
 
 function renderInspect(game) {
-  const panel = el("infoPanel");
-  if (!panel) return;
-
   const info = game.state.inspect ?? {
-    title: "Thong tin",
-    desc: "",
-    imageUrl: "",
-    tags: [],
+    title: "Chua chon",
+    tags: ["Toc he"],
   };
 
-  const tagHtml = (info.tags ?? []).map((x) => `<span class="chip">${x}</span>`).join(" ");
+  const meta = (info.tags ?? []).filter(Boolean).join(" • ") || "Toc he";
 
-  panel.innerHTML = `
-    <div class="infoThumb ${info.imageUrl ? "" : "fallback"}">
-      ${info.imageUrl ? `<img src="${info.imageUrl}" alt="${info.title}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
-      <span>${unitInitials(info.title)}</span>
-    </div>
-    <div class="infoTitle">${info.title}</div>
-    <div class="infoDesc">${info.desc ?? ""}</div>
-    <div class="infoTags">${tagHtml}</div>
+  let toast = el("inspectToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "inspectToast";
+    toast.className = "inspectToast";
+    document.body.appendChild(toast);
+  }
+
+  toast.innerHTML = `
+    <div class="inspectToastName">${info.title}</div>
+    <div class="inspectToastMeta">${meta}</div>
   `;
+  toast.classList.add("show");
+
+  if (inspectToastTimer) clearTimeout(inspectToastTimer);
+  inspectToastTimer = setTimeout(() => {
+    const node = el("inspectToast");
+    if (node) node.classList.remove("show");
+  }, 1600);
 }
 
 function fighterHtml(f) {
@@ -589,7 +679,6 @@ export function renderAll(game) {
   renderShop(game);
   renderTraits(game);
   renderCombat(game);
-  renderInspect(game);
 }
 
 export function feedback(result) {

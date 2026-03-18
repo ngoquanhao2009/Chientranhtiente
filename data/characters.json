@@ -1,182 +1,242 @@
 [
   {
     "id": "c001",
-    "name": "Sparxie",
-    "cost": 5,
-    "faction": "Masked Fools",
-    "archetypes": ["Showtime", "Striker"],
-    "bio": "Streamer gay nhieu sat thuong no va nhay nhip combat.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Sparxie",
-    "stats": { "hp": 1060, "atk": 132, "spd": 1.15 }
-  },
-  {
-    "id": "c002",
-    "name": "Evanescia",
-    "cost": 5,
-    "faction": "Chrysos Heirs",
-    "archetypes": ["Memory", "Support"],
-    "bio": "Chuyen gia bien doi nhip giao tranh bang buff va debuff.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Evanescia",
-    "stats": { "hp": 1120, "atk": 118, "spd": 1.08 }
-  },
-  {
-    "id": "c003",
     "name": "Trailblazer",
     "cost": 4,
     "faction": "Astral Express",
-    "archetypes": ["Frontline", "Striker"],
-    "bio": "Da nang vai tro, de ghep doi hinh va giu nhi nhip.",
+    "archetypes": ["Destruction"],
+    "bio": "Dan dau doi hinh va vao tran on dinh.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Trailblazer",
-    "stats": { "hp": 980, "atk": 102, "spd": 1.02 }
+    "stats": { "hp": 1000, "atk": 106, "spd": 1.02 }
   },
   {
-    "id": "c004",
-    "name": "Kafka",
-    "cost": 4,
-    "faction": "Stellaron Hunters",
-    "archetypes": ["DOT", "Striker"],
-    "bio": "Don sat thuong duy tri manh, can doi hinh ho tro.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Kafka",
-    "stats": { "hp": 920, "atk": 114, "spd": 1.06 }
-  },
-  {
-    "id": "c005",
-    "name": "Silver Wolf",
-    "cost": 4,
-    "faction": "Stellaron Hunters",
-    "archetypes": ["Hacker", "Support"],
-    "bio": "Phat huy toi da khi danh cung doi sat thuong lien tuc.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=SilverWolf",
-    "stats": { "hp": 860, "atk": 96, "spd": 1.12 }
-  },
-  {
-    "id": "c006",
+    "id": "c002",
     "name": "March 7th",
     "cost": 2,
     "faction": "Astral Express",
-    "archetypes": ["Frontline", "Support"],
-    "bio": "Do cung bo tro giu mau doi hinh rat tot.",
+    "archetypes": ["Preservation"],
+    "bio": "Lop khien giup doi hinh tru san tot.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=March7th",
-    "stats": { "hp": 760, "atk": 52, "spd": 1.04 }
+    "stats": { "hp": 780, "atk": 54, "spd": 1.04 }
   },
   {
-    "id": "c007",
+    "id": "c003",
     "name": "Dan Heng",
     "cost": 3,
     "faction": "Astral Express",
-    "archetypes": ["Showtime", "Striker"],
-    "bio": "Sat thuong muc tieu don on dinh, de xoay tua.",
+    "archetypes": ["Hunt"],
+    "bio": "Don sat thuong don muc tieu on dinh.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=DanHeng",
-    "stats": { "hp": 810, "atk": 84, "spd": 1.09 }
+    "stats": { "hp": 830, "atk": 88, "spd": 1.1 }
   },
   {
-    "id": "c008",
+    "id": "c004",
     "name": "Himeko",
     "cost": 4,
     "faction": "Astral Express",
-    "archetypes": ["Showtime", "Aoe"],
-    "bio": "Dame dien rong, don dep giao tranh nhanh.",
+    "archetypes": ["Erudition"],
+    "bio": "Don sat thuong rong de don dep doi thu.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Himeko",
-    "stats": { "hp": 900, "atk": 110, "spd": 1.0 }
+    "stats": { "hp": 910, "atk": 112, "spd": 1.0 }
   },
   {
-    "id": "c009",
+    "id": "c005",
     "name": "Welt",
     "cost": 4,
     "faction": "Astral Express",
-    "archetypes": ["Memory", "Support"],
-    "bio": "Lam cham doi thu giup doi hinh de control.",
+    "archetypes": ["Nihility"],
+    "bio": "Kiem soat nhip danh cua giao tranh.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Welt",
     "stats": { "hp": 940, "atk": 98, "spd": 0.98 }
   },
   {
-    "id": "c010",
-    "name": "Acheron",
-    "cost": 5,
-    "faction": "Galaxy Ranger",
-    "archetypes": ["Execution", "Striker"],
-    "bio": "Ket lieu cuc nhanh khi doi hinh da mo duong.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Acheron",
-    "stats": { "hp": 980, "atk": 136, "spd": 1.08 }
+    "id": "c006",
+    "name": "Kafka",
+    "cost": 4,
+    "faction": "Stellaron Hunters",
+    "archetypes": ["Nihility"],
+    "bio": "Duy tri sat thuong manh ve cuoi tran.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Kafka",
+    "stats": { "hp": 930, "atk": 116, "spd": 1.06 }
   },
   {
-    "id": "c011",
+    "id": "c007",
+    "name": "Silver Wolf",
+    "cost": 4,
+    "faction": "Stellaron Hunters",
+    "archetypes": ["Nihility"],
+    "bio": "Debuff va pha vo doi hinh doi thu.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=SilverWolf",
+    "stats": { "hp": 860, "atk": 98, "spd": 1.12 }
+  },
+  {
+    "id": "c008",
     "name": "Firefly",
     "cost": 5,
     "faction": "Stellaron Hunters",
-    "archetypes": ["Frontline", "Execution"],
-    "bio": "Tuong lao vao tien tuyen va gay ap luc cuc manh.",
+    "archetypes": ["Destruction"],
+    "bio": "Tien phong gay ap luc sat thuong lon.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Firefly",
-    "stats": { "hp": 1210, "atk": 122, "spd": 1.02 }
+    "stats": { "hp": 1240, "atk": 124, "spd": 1.02 }
   },
   {
-    "id": "c012",
-    "name": "Robin",
-    "cost": 3,
-    "faction": "Penacony",
-    "archetypes": ["Showtime", "Support"],
-    "bio": "Buff tong luc chien cho toan doi hinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Robin",
-    "stats": { "hp": 780, "atk": 60, "spd": 1.1 }
+    "id": "c009",
+    "name": "Blade",
+    "cost": 5,
+    "faction": "Stellaron Hunters",
+    "archetypes": ["Destruction"],
+    "bio": "Doi mau lay sat thuong, cang danh cang manh.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Blade",
+    "stats": { "hp": 1280, "atk": 120, "spd": 1.01 }
   },
   {
-    "id": "c013",
-    "name": "Sparkle",
-    "cost": 4,
-    "faction": "Masked Fools",
-    "archetypes": ["Hacker", "Support"],
-    "bio": "Xoay vong ky nang nhanh va toi uu sat thuong no.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Sparkle",
-    "stats": { "hp": 860, "atk": 88, "spd": 1.16 }
-  },
-  {
-    "id": "c014",
+    "id": "c010",
     "name": "Seele",
     "cost": 4,
     "faction": "Belobog",
-    "archetypes": ["Execution", "Striker"],
-    "bio": "Don sat thuong dan ket lieu voi nhieu turn lien tiep.",
+    "archetypes": ["Hunt"],
+    "bio": "Ket lieu muc tieu cuc nhanh.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Seele",
-    "stats": { "hp": 860, "atk": 120, "spd": 1.18 }
+    "stats": { "hp": 860, "atk": 122, "spd": 1.18 }
   },
   {
-    "id": "c015",
+    "id": "c011",
     "name": "Bronya",
     "cost": 3,
     "faction": "Belobog",
-    "archetypes": ["Memory", "Support"],
-    "bio": "Tang toc va sat thuong cho carry dung luc.",
+    "archetypes": ["Harmony"],
+    "bio": "Tang toc do va sat thuong cho doi hinh.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Bronya",
     "stats": { "hp": 800, "atk": 64, "spd": 1.12 }
   },
   {
-    "id": "c016",
-    "name": "Asta",
-    "cost": 1,
-    "faction": "Herta Station",
-    "archetypes": ["Hacker", "Support"],
-    "bio": "Dau game de su dung, giup doi hinh vao form nhanh.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Asta",
-    "stats": { "hp": 580, "atk": 42, "spd": 1.08 }
+    "id": "c012",
+    "name": "Gepard",
+    "cost": 3,
+    "faction": "Belobog",
+    "archetypes": ["Preservation"],
+    "bio": "Chan truoc giu nhiet cho doi hinh.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Gepard",
+    "stats": { "hp": 920, "atk": 66, "spd": 0.95 }
   },
   {
-    "id": "c017",
-    "name": "Herta",
-    "cost": 2,
-    "faction": "Herta Station",
-    "archetypes": ["Aoe", "Showtime"],
-    "bio": "Vung no sat thuong rong de don dep don vi mau thap.",
-    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Herta",
-    "stats": { "hp": 690, "atk": 72, "spd": 1.0 }
-  },
-  {
-    "id": "c018",
+    "id": "c013",
     "name": "Natasha",
     "cost": 1,
     "faction": "Belobog",
-    "archetypes": ["Frontline", "Support"],
-    "bio": "Hoi phuc va giu nhip cho team thoi gian dau.",
+    "archetypes": ["Abundance"],
+    "bio": "Hau can de van hanh doi hinh dau game.",
     "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Natasha",
-    "stats": { "hp": 640, "atk": 38, "spd": 0.98 }
+    "stats": { "hp": 650, "atk": 38, "spd": 0.98 }
+  },
+  {
+    "id": "c014",
+    "name": "Jing Yuan",
+    "cost": 5,
+    "faction": "Xianzhou Luofu",
+    "archetypes": ["Erudition"],
+    "bio": "Sat thuong dien rong rat manh o giua tran.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=JingYuan",
+    "stats": { "hp": 1020, "atk": 132, "spd": 1.01 }
+  },
+  {
+    "id": "c015",
+    "name": "Fu Xuan",
+    "cost": 5,
+    "faction": "Xianzhou Luofu",
+    "archetypes": ["Preservation"],
+    "bio": "Giam sat thuong toan doi va giu form giao tranh.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=FuXuan",
+    "stats": { "hp": 1260, "atk": 90, "spd": 1.03 }
+  },
+  {
+    "id": "c016",
+    "name": "Jingliu",
+    "cost": 5,
+    "faction": "Xianzhou Luofu",
+    "archetypes": ["Destruction"],
+    "bio": "Burst sat thuong cao, ket lieu nhanh.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Jingliu",
+    "stats": { "hp": 1080, "atk": 136, "spd": 1.06 }
+  },
+  {
+    "id": "c017",
+    "name": "Luocha",
+    "cost": 4,
+    "faction": "Xianzhou Luofu",
+    "archetypes": ["Abundance"],
+    "bio": "Giu nhiet doi hinh khi tran keo dai.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Luocha",
+    "stats": { "hp": 860, "atk": 70, "spd": 1.05 }
+  },
+  {
+    "id": "c018",
+    "name": "Topaz",
+    "cost": 4,
+    "faction": "IPC",
+    "archetypes": ["Hunt"],
+    "bio": "Truy sat muc tieu uu tien rat hieu qua.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Topaz",
+    "stats": { "hp": 870, "atk": 118, "spd": 1.12 }
+  },
+  {
+    "id": "c019",
+    "name": "Aventurine",
+    "cost": 5,
+    "faction": "IPC",
+    "archetypes": ["Preservation"],
+    "bio": "Chan dau va giu doi hinh cuc ky ben bi.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Aventurine",
+    "stats": { "hp": 1300, "atk": 92, "spd": 0.96 }
+  },
+  {
+    "id": "c020",
+    "name": "Dr. Ratio",
+    "cost": 4,
+    "faction": "IPC",
+    "archetypes": ["Hunt"],
+    "bio": "Don sat thuong don vi tri cao, de ket hop buff.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=DrRatio",
+    "stats": { "hp": 900, "atk": 120, "spd": 1.09 }
+  },
+  {
+    "id": "c021",
+    "name": "Ruan Mei",
+    "cost": 5,
+    "faction": "Genius Society",
+    "archetypes": ["Harmony"],
+    "bio": "Buff tong the, giup team tang toc do trien khai.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=RuanMei",
+    "stats": { "hp": 920, "atk": 78, "spd": 1.1 }
+  },
+  {
+    "id": "c022",
+    "name": "Herta",
+    "cost": 2,
+    "faction": "Genius Society",
+    "archetypes": ["Erudition"],
+    "bio": "Quet giao tranh bang sat thuong rong.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Herta",
+    "stats": { "hp": 700, "atk": 74, "spd": 1.0 }
+  },
+  {
+    "id": "c023",
+    "name": "Robin",
+    "cost": 3,
+    "faction": "Penacony",
+    "archetypes": ["Harmony"],
+    "bio": "Ho tro doi hinh toan dien trong combat.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Robin",
+    "stats": { "hp": 790, "atk": 62, "spd": 1.1 }
+  },
+  {
+    "id": "c024",
+    "name": "Boothill",
+    "cost": 4,
+    "faction": "Galaxy Rangers",
+    "archetypes": ["Hunt"],
+    "bio": "Tieu diet muc tieu don voi sat thuong cao.",
+    "imageUrl": "https://api.dicebear.com/9.x/adventurer/svg?seed=Boothill",
+    "stats": { "hp": 860, "atk": 124, "spd": 1.16 }
   }
 ]

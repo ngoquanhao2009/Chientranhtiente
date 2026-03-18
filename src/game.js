@@ -8,6 +8,7 @@ const BENCH_SIZE = 8;
 const BOARD_MAX = 9;
 const SHOP_SIZE = 5;
 const MAX_LEVEL = 9;
+const SNAPSHOT_VERSION = 4;
 
 const XP_TO_NEXT = {
   1: 2,
@@ -85,9 +86,7 @@ export class Game {
       },
       inspect: {
         title: "Huong dan nhanh",
-        desc: "Keo-tha de xep doi hinh. Cung phe va cung he se kich hoat bonus.",
-        imageUrl: "",
-        tags: ["De choi", "Keo-tha", "Synergy"],
+        tags: ["Keo-tha de sap doi hinh"],
       },
     };
 
@@ -96,6 +95,7 @@ export class Game {
 
   hydrate(snapshot) {
     if (!snapshot || typeof snapshot !== "object") return false;
+    if ((snapshot.version ?? 0) !== SNAPSHOT_VERSION) return false;
     if (!snapshot.state || !Array.isArray(snapshot.state.bench) || !Array.isArray(snapshot.state.board)) {
       return false;
     }
@@ -119,9 +119,7 @@ export class Game {
     if (!this.state.inspect) {
       this.state.inspect = {
         title: "Thong tin",
-        desc: "Di chuot vao nhan vat de xem chi tiet.",
-        imageUrl: "",
-        tags: [],
+        tags: ["Di chuot vao tuong de xem"],
       };
     }
 
@@ -129,7 +127,10 @@ export class Game {
   }
 
   serialize() {
-    return { state: this.state };
+    return {
+      version: SNAPSHOT_VERSION,
+      state: this.state,
+    };
   }
 
   get boardSlots() {
@@ -152,24 +153,22 @@ export class Game {
     if (!payload) return;
     this.state.inspect = {
       title: payload.title ?? payload.name ?? "Thong tin",
-      desc: payload.desc ?? payload.bio ?? "",
-      imageUrl: payload.imageUrl ?? "",
       tags: payload.tags ?? [],
     };
+  }
+
+  unitInspectTags(unit) {
+    return [unit.faction, ...(unit.archetypes ?? [])]
+      .filter(Boolean)
+      .slice(0, 2);
   }
 
   getInfoFromShop(index) {
     const x = this.state.shop[index];
     if (!x) return;
     this.setInspect({
-      title: `${x.name} (Shop)`,
-      desc: x.bio,
-      imageUrl: x.imageUrl,
-      tags: [
-        `Gia ${x.cost}`,
-        x.faction,
-        ...(x.archetypes ?? []),
-      ],
+      title: x.name,
+      tags: this.unitInspectTags(x),
     });
   }
 
@@ -177,10 +176,8 @@ export class Game {
     const x = this.state.bench[index];
     if (!x) return;
     this.setInspect({
-      title: `${x.name} ${"★".repeat(x.star)}`,
-      desc: x.bio,
-      imageUrl: x.imageUrl,
-      tags: [x.faction, ...(x.archetypes ?? [])],
+      title: x.name,
+      tags: this.unitInspectTags(x),
     });
   }
 
@@ -188,10 +185,8 @@ export class Game {
     const x = this.state.board[index];
     if (!x) return;
     this.setInspect({
-      title: `${x.name} ${"★".repeat(x.star)}`,
-      desc: x.bio,
-      imageUrl: x.imageUrl,
-      tags: [x.faction, ...(x.archetypes ?? [])],
+      title: x.name,
+      tags: this.unitInspectTags(x),
     });
   }
 
@@ -332,7 +327,6 @@ export class Game {
     const base = this.charactersById.get(offer.id);
     this.state.bench[benchIndex] = this.createOwnedUnit(base, 1);
     this.state.shop[index] = null;
-    this.getInfoFromBench(benchIndex);
 
     const merged = this.autoMerge(base.id);
     return { ok: true, goldDelta: -offer.cost, merged };
@@ -608,8 +602,7 @@ export class Game {
     let bossInfo = null;
 
     if (boss) {
-      const index = Math.floor(round / 5 - 1) % this.bosses.length;
-      const picked = this.bosses[(index + this.bosses.length) % this.bosses.length];
+      const picked = pickRandom(this.bosses);
       const bossUnit = this.createBossUnit(picked, round);
       list.push(bossUnit);
       bossInfo = {

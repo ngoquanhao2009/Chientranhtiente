@@ -1,12 +1,12 @@
 [
   {
     "id": "b001",
-    "name": "Deus Ex Machina",
-    "bio": "Co may tu dong sat thuong dien rong theo chu ky.",
-    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=DeusExMachina",
-    "base": { "hp": 1850, "atk": 128, "spd": 0.92 },
+    "name": "Doomsday Beast",
+    "bio": "Quet no rong theo chu ky, rat nguy hiem o giua tran.",
+    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=DoomsdayBeast",
+    "base": { "hp": 1920, "atk": 130, "spd": 0.92 },
     "skill": {
-      "name": "Core Burst",
+      "name": "Annihilation Beam",
       "type": "aoe",
       "interval": 3,
       "multiplier": 0.62
@@ -14,25 +14,25 @@
   },
   {
     "id": "b002",
-    "name": "Silver Wolf LV.999",
-    "bio": "Boss hacker gay no sat thuong va cat nhip doi hinh.",
-    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=SilverWolf999",
-    "base": { "hp": 1720, "atk": 136, "spd": 1.02 },
+    "name": "Cocolia, Mother of Deception",
+    "bio": "Tung no lan vao doi hinh va ket hop danh don.",
+    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=Cocolia",
+    "base": { "hp": 1840, "atk": 136, "spd": 0.99 },
     "skill": {
-      "name": "Glitch Detonation",
+      "name": "Frozen Collapse",
       "type": "blast",
       "interval": 2,
-      "multiplier": 0.88
+      "multiplier": 0.9
     }
   },
   {
     "id": "b003",
-    "name": "Nether Realm Butterfly",
-    "bio": "Lien tuc quet no rong, rat nguy hiem o cuoi tran.",
-    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=NetherButterfly",
-    "base": { "hp": 1950, "atk": 124, "spd": 0.98 },
+    "name": "Phantylia the Undying",
+    "bio": "Ap dao bang sat thuong dien rong va toc do cao.",
+    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=Phantylia",
+    "base": { "hp": 2040, "atk": 124, "spd": 1.02 },
     "skill": {
-      "name": "Dark Bloom",
+      "name": "Ambrosial Bloom",
       "type": "aoe",
       "interval": 3,
       "multiplier": 0.58
@@ -40,15 +40,15 @@
   },
   {
     "id": "b004",
-    "name": "Titan Warden",
-    "bio": "Truoc mat rat trau, sat thuong don muc tieu cao.",
-    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=TitanWarden",
-    "base": { "hp": 2200, "atk": 118, "spd": 0.82 },
+    "name": "Svarog",
+    "bio": "Cuc ky ben bi, sat thuong no vao muc tieu chinh.",
+    "imageUrl": "https://api.dicebear.com/9.x/bottts/svg?seed=Svarog",
+    "base": { "hp": 2250, "atk": 118, "spd": 0.84 },
     "skill": {
-      "name": "Crush Wave",
+      "name": "Suppressive Barrage",
       "type": "blast",
       "interval": 2,
-      "multiplier": 0.92
+      "multiplier": 0.94
     }
   }
 ]

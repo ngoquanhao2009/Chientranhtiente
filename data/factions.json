@@ -2,7 +2,7 @@
   {
     "id": "Astral Express",
     "name": "Astral Express",
-    "desc": "Doi hinh can bang, cang dong doi cang manh.",
+    "desc": "Doi hinh can bang, de xoay bai theo round.",
     "tiers": [
       { "need": 2, "label": "+8% HP, +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
       { "need": 4, "label": "+16% HP, +12% ATK", "effects": { "hpPct": 0.16, "atkPct": 0.12 } }
@@ -11,61 +11,61 @@
   {
     "id": "Stellaron Hunters",
     "name": "Stellaron Hunters",
-    "desc": "Sat thuong no manh, de ket hop doi hinh carry.",
+    "desc": "Sat thuong bung no vao giua va cuoi tran.",
     "tiers": [
       { "need": 2, "label": "+10% ATK", "effects": { "atkPct": 0.1 } },
-      { "need": 3, "label": "+20% ATK", "effects": { "atkPct": 0.2 } }
+      { "need": 4, "label": "+20% ATK", "effects": { "atkPct": 0.2 } }
     ]
   },
   {
     "id": "Belobog",
     "name": "Belobog",
-    "desc": "Phe thu manh, nhieu khang sat thuong.",
+    "desc": "Phong thu ben bi va tru san manh.",
     "tiers": [
       { "need": 2, "label": "+12% HP", "effects": { "hpPct": 0.12 } },
-      { "need": 4, "label": "+26% HP", "effects": { "hpPct": 0.26 } }
+      { "need": 4, "label": "+25% HP", "effects": { "hpPct": 0.25 } }
     ]
   },
   {
-    "id": "Masked Fools",
-    "name": "Masked Fools",
-    "desc": "Danh nhanh, nhieu tinh huong dot bien.",
+    "id": "Xianzhou Luofu",
+    "name": "Xianzhou Luofu",
+    "desc": "Can bang sat thuong va kha nang song sot.",
     "tiers": [
-      { "need": 2, "label": "+10% SPD", "effects": { "spdPct": 0.1 } },
-      { "need": 3, "label": "+18% SPD", "effects": { "spdPct": 0.18 } }
+      { "need": 2, "label": "+8% ATK, +8% HP", "effects": { "atkPct": 0.08, "hpPct": 0.08 } },
+      { "need": 4, "label": "+16% ATK, +16% HP", "effects": { "atkPct": 0.16, "hpPct": 0.16 } }
+    ]
+  },
+  {
+    "id": "IPC",
+    "name": "IPC",
+    "desc": "Danh nhanh va chot ha muc tieu uu tien.",
+    "tiers": [
+      { "need": 2, "label": "+8% SPD, +8% ATK", "effects": { "spdPct": 0.08, "atkPct": 0.08 } },
+      { "need": 3, "label": "+16% SPD, +16% ATK", "effects": { "spdPct": 0.16, "atkPct": 0.16 } }
+    ]
+  },
+  {
+    "id": "Genius Society",
+    "name": "Genius Society",
+    "desc": "Giao tranh tinh toan, dan sat thuong on dinh.",
+    "tiers": [
+      { "need": 2, "label": "+7% ATK, +7% SPD", "effects": { "atkPct": 0.07, "spdPct": 0.07 } },
+      { "need": 3, "label": "+14% ATK, +14% SPD", "effects": { "atkPct": 0.14, "spdPct": 0.14 } }
     ]
   },
   {
     "id": "Penacony",
     "name": "Penacony",
-    "desc": "Hau can toi uu, giup doi hinh duoc buff on dinh.",
+    "desc": "Hau can xuat sac cho doi hinh carry.",
     "tiers": [
-      { "need": 1, "label": "+4% HP +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
-      { "need": 2, "label": "+9% HP +8% SPD", "effects": { "hpPct": 0.09, "spdPct": 0.08 } }
+      { "need": 1, "label": "+4% HP, +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
+      { "need": 2, "label": "+9% HP, +9% SPD", "effects": { "hpPct": 0.09, "spdPct": 0.09 } }
     ]
   },
   {
-    "id": "Chrysos Heirs",
-    "name": "Chrysos Heirs",
-    "desc": "Danh ve cuoi tran cang luc cang manh.",
-    "tiers": [
-      { "need": 1, "label": "+6% ATK", "effects": { "atkPct": 0.06 } },
-      { "need": 2, "label": "+14% ATK", "effects": { "atkPct": 0.14 } }
-    ]
-  },
-  {
-    "id": "Herta Station",
-    "name": "Herta Station",
-    "desc": "Khoi dau de, de snowball round som.",
-    "tiers": [
-      { "need": 2, "label": "+6% SPD", "effects": { "spdPct": 0.06 } },
-      { "need": 3, "label": "+12% SPD", "effects": { "spdPct": 0.12 } }
-    ]
-  },
-  {
-    "id": "Galaxy Ranger",
-    "name": "Galaxy Ranger",
-    "desc": "Danh don ket lieu manh vao muc tieu uu tien.",
+    "id": "Galaxy Rangers",
+    "name": "Galaxy Rangers",
+    "desc": "Sat thuong don muc tieu cuc cao.",
     "tiers": [
       { "need": 1, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
       { "need": 2, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
