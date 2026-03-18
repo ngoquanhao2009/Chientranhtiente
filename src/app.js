@@ -40,9 +40,9 @@ bindUI(game, {
   onDrop: (fromKind, fromIndex, toKind, toIndex) => run(() => {
     if (fromKind === toKind) {
       if (fromKind === "bench") {
-        return { ok: false, reason: "Khong keo-tha de doi cho trong Bench." };
+        return game.swapBench(fromIndex, toIndex);
       }
-      return { ok: false, reason: "Khong keo-tha de doi cho trong Board." };
+      return game.swapBoard(fromIndex, toIndex);
     }
 
     if (fromKind === "bench" && toKind === "board") {

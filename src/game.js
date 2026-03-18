@@ -231,27 +231,76 @@ export class Game {
     return { ok: true, goldDelta: -offer.cost, merged };
   }
 
-  autoMerge(unitId) {
+  getUnitAt(zone, index) {
+    if (zone === "board") return this.state.board[index] ?? null;
+    return this.state.bench[index] ?? null;
+  }
+
+  setUnitAt(zone, index, unit) {
+    if (zone === "board") {
+      this.state.board[index] = unit;
+      return;
+    }
+    this.state.bench[index] = unit;
+  }
+
+  getMergeCandidates(unitId = null, star = 1) {
+    const out = [];
+
+    for (let i = 0; i < this.boardSlots; i += 1) {
+      const unit = this.state.board[i];
+      if (!unit) continue;
+      if (unit.star !== star) continue;
+      if (unitId && unit.id !== unitId) continue;
+      out.push({ zone: "board", index: i, unit });
+    }
+
+    for (let i = 0; i < this.state.bench.length; i += 1) {
+      const unit = this.state.bench[i];
+      if (!unit) continue;
+      if (unit.star !== star) continue;
+      if (unitId && unit.id !== unitId) continue;
+      out.push({ zone: "bench", index: i, unit });
+    }
+
+    return out;
+  }
+
+  autoMerge(unitId = null) {
     let merged = false;
     let keepChecking = true;
 
     while (keepChecking) {
       keepChecking = false;
       for (let star = 1; star <= 2; star += 1) {
-        const spots = [];
-        for (let i = 0; i < this.state.bench.length; i += 1) {
-          const unit = this.state.bench[i];
-          if (unit && unit.id === unitId && unit.star === star) spots.push(i);
+        const candidates = this.getMergeCandidates(unitId, star);
+        const byId = new Map();
+
+        for (const slot of candidates) {
+          const list = byId.get(slot.unit.id) ?? [];
+          list.push(slot);
+          byId.set(slot.unit.id, list);
         }
-        if (spots.length >= 3) {
-          const base = this.unitsById.get(unitId);
-          this.state.bench[spots[0]] = this.createOwnedUnit(base, star + 1);
-          this.state.bench[spots[1]] = null;
-          this.state.bench[spots[2]] = null;
+
+        for (const [id, slots] of byId.entries()) {
+          if (slots.length < 3) continue;
+
+          const selected = slots.slice(0, 3);
+          const keeper = selected.find((x) => x.zone === "board") ?? selected[0];
+          const consume = selected.filter((x) => !(x.zone === keeper.zone && x.index === keeper.index));
+          const base = this.unitsById.get(id);
+
+          this.setUnitAt(keeper.zone, keeper.index, this.createOwnedUnit(base, star + 1));
+          for (const c of consume) {
+            this.setUnitAt(c.zone, c.index, null);
+          }
+
           merged = true;
           keepChecking = true;
           break;
         }
+
+        if (keepChecking) break;
       }
     }
 
@@ -283,7 +332,8 @@ export class Game {
       this.state.bench[benchIndex] = occupying;
     }
 
-    return { ok: true };
+    const merged = this.autoMerge();
+    return { ok: true, merged };
   }
 
   moveBoardToBench(boardIndex) {
@@ -315,7 +365,38 @@ export class Game {
       this.state.board[boardIndex] = occupying;
     }
 
-    return { ok: true };
+    const merged = this.autoMerge();
+    return { ok: true, merged };
+  }
+
+  swapBench(indexA, indexB) {
+    if (indexA < 0 || indexA >= this.state.bench.length || indexB < 0 || indexB >= this.state.bench.length) {
+      return { ok: false, reason: "O du bi khong hop le." };
+    }
+
+    if (indexA === indexB) return { ok: true };
+
+    const tmp = this.state.bench[indexA];
+    this.state.bench[indexA] = this.state.bench[indexB];
+    this.state.bench[indexB] = tmp;
+
+    const merged = this.autoMerge();
+    return { ok: true, merged };
+  }
+
+  swapBoard(indexA, indexB) {
+    if (indexA < 0 || indexA >= this.boardSlots || indexB < 0 || indexB >= this.boardSlots) {
+      return { ok: false, reason: "O san khong hop le." };
+    }
+
+    if (indexA === indexB) return { ok: true };
+
+    const tmp = this.state.board[indexA];
+    this.state.board[indexA] = this.state.board[indexB];
+    this.state.board[indexB] = tmp;
+
+    const merged = this.autoMerge();
+    return { ok: true, merged };
   }
 
   sellBench(index) {
