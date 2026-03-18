@@ -9,7 +9,7 @@ Simulator web cho mode chien thuat kinh te theo phong cach auto-battler.
 - Mua/ban tuong, dua tuong len san, bench/board slot.
 - Keo-tha Bench/Board de xep doi hinh nhanh.
 - Tu dong gop 3 tuong trung de len sao.
-- Trait synergy tinh theo doi hinh tren san.
+- Synergy 2 lop: Phe phai + Toc he, moi lop co moc kich rieng.
 - Combat basic theo tick voi HP bar, combat log, boss moi 5 round.
 - Save/Load bang localStorage.
 
@@ -21,8 +21,10 @@ Simulator web cho mode chien thuat kinh te theo phong cach auto-battler.
 - src/game.js
 - src/ui.js
 - src/storage.js
-- data/units.json
-- data/traits.json
+- data/characters.json
+- data/factions.json
+- data/archetypes.json
+- data/bosses.json
 - data/shopOdds.json
 
 ## Chay local

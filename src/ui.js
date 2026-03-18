@@ -7,7 +7,8 @@ function starText(star) {
 }
 
 function unitTagHtml(unit) {
-  return `<span class="chip">${unit.traits.join(" • ")}</span>`;
+  const tags = [unit.faction, ...(unit.archetypes ?? [])].filter(Boolean);
+  return `<span class="chip">${tags.join(" • ")}</span>`;
 }
 
 function unitInitials(name = "?") {
@@ -90,11 +91,23 @@ export function bindUI(game, handlers) {
     handlers.onBuyShop(Number(card.dataset.shopIndex));
   });
 
+  shop.addEventListener("mouseover", (ev) => {
+    const card = ev.target.closest("[data-shop-index]");
+    if (!card) return;
+    handlers.onInspect("shop", Number(card.dataset.shopIndex));
+  });
+
   bench.addEventListener("click", (ev) => {
     if (Date.now() < suppressClickUntil) return;
     const card = ev.target.closest("[data-bench-index]");
     if (!card) return;
     handlers.onSellBench(Number(card.dataset.benchIndex));
+  });
+
+  bench.addEventListener("mouseover", (ev) => {
+    const card = ev.target.closest("[data-bench-index]");
+    if (!card) return;
+    handlers.onInspect("bench", Number(card.dataset.benchIndex));
   });
 
   function dragStart(ev) {
@@ -254,6 +267,12 @@ export function bindUI(game, handlers) {
     if (!card) return;
     handlers.onBoardToBench(Number(card.dataset.boardIndex));
   });
+
+  board.addEventListener("mouseover", (ev) => {
+    const card = ev.target.closest("[data-board-index]");
+    if (!card) return;
+    handlers.onInspect("board", Number(card.dataset.boardIndex));
+  });
 }
 
 function renderHud(game) {
@@ -375,25 +394,61 @@ function renderTraits(game) {
   const root = el("traits");
   root.innerHTML = "";
 
-  const summary = game.getTraitSummary();
-  for (const row of summary) {
-    const node = document.createElement("div");
-    node.className = `trait ${row.activeTier ? "active" : ""}`;
+  const groups = game.getSynergyOverview();
+  const entries = [
+    { title: "Phe phai", rows: groups.factions },
+    { title: "Toc he", rows: groups.archetypes },
+  ];
 
-    const tiers = row.tiers
-      .map((t) => `${t.need}: ${t.label}`)
-      .join(" | ");
+  for (const g of entries) {
+    const title = document.createElement("div");
+    title.className = "traitGroupTitle";
+    title.textContent = g.title;
+    root.appendChild(title);
 
-    node.innerHTML = `
-      <div class="traitTop">
-        <b>${row.name}</b>
-        <span>${row.count}</span>
-      </div>
-      <div class="traitDesc">${row.desc}</div>
-      <div class="traitTier">${tiers}</div>
-    `;
-    root.appendChild(node);
+    for (const row of g.rows) {
+      const node = document.createElement("div");
+      node.className = `trait ${row.activeTier ? "active" : ""}`;
+
+      const tiers = row.tiers
+        .map((t) => `${t.need}: ${t.label}`)
+        .join(" | ");
+
+      node.innerHTML = `
+        <div class="traitTop">
+          <b>${row.name}</b>
+          <span>${row.count}</span>
+        </div>
+        <div class="traitDesc">${row.desc}</div>
+        <div class="traitTier">${tiers}</div>
+      `;
+      root.appendChild(node);
+    }
   }
+}
+
+function renderInspect(game) {
+  const panel = el("infoPanel");
+  if (!panel) return;
+
+  const info = game.state.inspect ?? {
+    title: "Thong tin",
+    desc: "",
+    imageUrl: "",
+    tags: [],
+  };
+
+  const tagHtml = (info.tags ?? []).map((x) => `<span class="chip">${x}</span>`).join(" ");
+
+  panel.innerHTML = `
+    <div class="infoThumb ${info.imageUrl ? "" : "fallback"}">
+      ${info.imageUrl ? `<img src="${info.imageUrl}" alt="${info.title}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
+      <span>${unitInitials(info.title)}</span>
+    </div>
+    <div class="infoTitle">${info.title}</div>
+    <div class="infoDesc">${info.desc ?? ""}</div>
+    <div class="infoTags">${tagHtml}</div>
+  `;
 }
 
 function fighterHtml(f) {
@@ -444,6 +499,11 @@ function renderPlaybackFrame(view, flashActorKey = "", flashTargetKey = "") {
 
 function applyCombatEvent(view, event) {
   if (!event) return;
+
+  if (event.type === "skill") {
+    view.logs.push(event.text);
+    return;
+  }
 
   if (event.type === "hit" || event.type === "aoe-hit") {
     const findTarget = (list) => list.find((x) => x.key === event.targetKey);
@@ -529,6 +589,7 @@ export function renderAll(game) {
   renderShop(game);
   renderTraits(game);
   renderCombat(game);
+  renderInspect(game);
 }
 
 export function feedback(result) {

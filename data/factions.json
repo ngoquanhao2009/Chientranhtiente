@@ -1,0 +1,74 @@
+[
+  {
+    "id": "Astral Express",
+    "name": "Astral Express",
+    "desc": "Doi hinh can bang, cang dong doi cang manh.",
+    "tiers": [
+      { "need": 2, "label": "+8% HP, +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
+      { "need": 4, "label": "+16% HP, +12% ATK", "effects": { "hpPct": 0.16, "atkPct": 0.12 } }
+    ]
+  },
+  {
+    "id": "Stellaron Hunters",
+    "name": "Stellaron Hunters",
+    "desc": "Sat thuong no manh, de ket hop doi hinh carry.",
+    "tiers": [
+      { "need": 2, "label": "+10% ATK", "effects": { "atkPct": 0.1 } },
+      { "need": 3, "label": "+20% ATK", "effects": { "atkPct": 0.2 } }
+    ]
+  },
+  {
+    "id": "Belobog",
+    "name": "Belobog",
+    "desc": "Phe thu manh, nhieu khang sat thuong.",
+    "tiers": [
+      { "need": 2, "label": "+12% HP", "effects": { "hpPct": 0.12 } },
+      { "need": 4, "label": "+26% HP", "effects": { "hpPct": 0.26 } }
+    ]
+  },
+  {
+    "id": "Masked Fools",
+    "name": "Masked Fools",
+    "desc": "Danh nhanh, nhieu tinh huong dot bien.",
+    "tiers": [
+      { "need": 2, "label": "+10% SPD", "effects": { "spdPct": 0.1 } },
+      { "need": 3, "label": "+18% SPD", "effects": { "spdPct": 0.18 } }
+    ]
+  },
+  {
+    "id": "Penacony",
+    "name": "Penacony",
+    "desc": "Hau can toi uu, giup doi hinh duoc buff on dinh.",
+    "tiers": [
+      { "need": 1, "label": "+4% HP +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
+      { "need": 2, "label": "+9% HP +8% SPD", "effects": { "hpPct": 0.09, "spdPct": 0.08 } }
+    ]
+  },
+  {
+    "id": "Chrysos Heirs",
+    "name": "Chrysos Heirs",
+    "desc": "Danh ve cuoi tran cang luc cang manh.",
+    "tiers": [
+      { "need": 1, "label": "+6% ATK", "effects": { "atkPct": 0.06 } },
+      { "need": 2, "label": "+14% ATK", "effects": { "atkPct": 0.14 } }
+    ]
+  },
+  {
+    "id": "Herta Station",
+    "name": "Herta Station",
+    "desc": "Khoi dau de, de snowball round som.",
+    "tiers": [
+      { "need": 2, "label": "+6% SPD", "effects": { "spdPct": 0.06 } },
+      { "need": 3, "label": "+12% SPD", "effects": { "spdPct": 0.12 } }
+    ]
+  },
+  {
+    "id": "Galaxy Ranger",
+    "name": "Galaxy Ranger",
+    "desc": "Danh don ket lieu manh vao muc tieu uu tien.",
+    "tiers": [
+      { "need": 1, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
+      { "need": 2, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
+    ]
+  }
+]

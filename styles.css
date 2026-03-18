@@ -299,6 +299,15 @@ p {
   background: rgba(20, 34, 59, 0.55);
 }
 
+.traitGroupTitle {
+  margin-top: 4px;
+  margin-bottom: 2px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #9dc2ef;
+}
+
 .trait.active {
   border-color: #38d39f;
   box-shadow: 0 0 16px #38d39f44;
@@ -470,6 +479,58 @@ p {
 
 .roundBanner.boss {
   background: linear-gradient(140deg, rgba(50, 27, 16, 0.96), rgba(22, 14, 32, 0.95));
+}
+
+.infoPanel {
+  display: grid;
+  gap: 8px;
+}
+
+.infoThumb {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #43618f;
+  background: linear-gradient(160deg, #1a3b66, #14243f);
+}
+
+.infoThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.infoThumb span {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #d8e9ff;
+}
+
+.infoThumb.fallback span {
+  display: grid;
+}
+
+.infoTitle {
+  font-weight: 800;
+}
+
+.infoDesc {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.infoTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .touchGhost {

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "Frontline",
+    "name": "Frontline",
+    "desc": "Tang do trau va kha nang tru san.",
+    "tiers": [
+      { "need": 2, "label": "+10% HP", "effects": { "hpPct": 0.1 } },
+      { "need": 4, "label": "+22% HP", "effects": { "hpPct": 0.22 } }
+    ]
+  },
+  {
+    "id": "Striker",
+    "name": "Striker",
+    "desc": "Tang sat thuong mot muc tieu.",
+    "tiers": [
+      { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
+      { "need": 4, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
+    ]
+  },
+  {
+    "id": "Support",
+    "name": "Support",
+    "desc": "Can bang toc danh va do ben.",
+    "tiers": [
+      { "need": 2, "label": "+6% HP +6% SPD", "effects": { "hpPct": 0.06, "spdPct": 0.06 } },
+      { "need": 4, "label": "+12% HP +10% SPD", "effects": { "hpPct": 0.12, "spdPct": 0.1 } }
+    ]
+  },
+  {
+    "id": "Aoe",
+    "name": "Aoe",
+    "desc": "Danh rong va dọn san nhanh.",
+    "tiers": [
+      { "need": 2, "label": "+8% ATK", "effects": { "atkPct": 0.08 } },
+      { "need": 3, "label": "+16% ATK", "effects": { "atkPct": 0.16 } }
+    ]
+  },
+  {
+    "id": "Execution",
+    "name": "Execution",
+    "desc": "Ket lieu muc tieu mau thap cuc nhanh.",
+    "tiers": [
+      { "need": 2, "label": "+10% ATK", "effects": { "atkPct": 0.1 } },
+      { "need": 3, "label": "+20% ATK", "effects": { "atkPct": 0.2 } }
+    ]
+  },
+  {
+    "id": "Hacker",
+    "name": "Hacker",
+    "desc": "Toi uu nhip ra don, danh lien tuc.",
+    "tiers": [
+      { "need": 2, "label": "+8% SPD", "effects": { "spdPct": 0.08 } },
+      { "need": 3, "label": "+16% SPD", "effects": { "spdPct": 0.16 } }
+    ]
+  },
+  {
+    "id": "Memory",
+    "name": "Memory",
+    "desc": "Kiem soat va bao ke dong doi.",
+    "tiers": [
+      { "need": 2, "label": "+8% HP +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
+      { "need": 3, "label": "+16% HP +12% ATK", "effects": { "hpPct": 0.16, "atkPct": 0.12 } }
+    ]
+  },
+  {
+    "id": "Showtime",
+    "name": "Showtime",
+    "desc": "Bung no sat thuong trong giao tranh dai.",
+    "tiers": [
+      { "need": 2, "label": "+7% ATK +6% SPD", "effects": { "atkPct": 0.07, "spdPct": 0.06 } },
+      { "need": 4, "label": "+15% ATK +10% SPD", "effects": { "atkPct": 0.15, "spdPct": 0.1 } }
+    ]
+  },
+  {
+    "id": "DOT",
+    "name": "DOT",
+    "desc": "Giam mau ben bi theo thoi gian.",
+    "tiers": [
+      { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
+      { "need": 3, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
+    ]
+  }
+]

@@ -1,5 +1,7 @@
-import unitsData from "../data/units.json" with { type: "json" };
-import traitsData from "../data/traits.json" with { type: "json" };
+import charactersData from "../data/characters.json" with { type: "json" };
+import factionsData from "../data/factions.json" with { type: "json" };
+import archetypesData from "../data/archetypes.json" with { type: "json" };
+import bossesData from "../data/bosses.json" with { type: "json" };
 import shopOddsData from "../data/shopOdds.json" with { type: "json" };
 
 const BENCH_SIZE = 8;
@@ -40,13 +42,15 @@ function isBossRound(round) {
 
 export class Game {
   constructor() {
-    this.units = unitsData;
-    this.traits = traitsData;
-    this.unitsById = new Map(this.units.map((u) => [u.id, u]));
-    this.unitsByCost = new Map();
-    for (const unit of this.units) {
-      if (!this.unitsByCost.has(unit.cost)) this.unitsByCost.set(unit.cost, []);
-      this.unitsByCost.get(unit.cost).push(unit);
+    this.characters = charactersData;
+    this.factions = factionsData;
+    this.archetypes = archetypesData;
+    this.bosses = bossesData;
+    this.charactersById = new Map(this.characters.map((u) => [u.id, u]));
+    this.charactersByCost = new Map();
+    for (const unit of this.characters) {
+      if (!this.charactersByCost.has(unit.cost)) this.charactersByCost.set(unit.cost, []);
+      this.charactersByCost.get(unit.cost).push(unit);
     }
     this.oddsByLevel = new Map(shopOddsData.map((x) => [x.level, x.odds]));
 
@@ -74,9 +78,16 @@ export class Game {
         enemies: [],
         startAllies: [],
         startEnemies: [],
+        bossInfo: null,
         events: [],
         playbackId: 0,
         log: ["Bat dau van dau. Chon doi hinh va bam Qua vong."],
+      },
+      inspect: {
+        title: "Huong dan nhanh",
+        desc: "Keo-tha de xep doi hinh. Cung phe va cung he se kich hoat bonus.",
+        imageUrl: "",
+        tags: ["De choi", "Keo-tha", "Synergy"],
       },
     };
 
@@ -89,6 +100,31 @@ export class Game {
       return false;
     }
     this.state = snapshot.state;
+
+    if (!this.state.combat) {
+      this.state.combat = {
+        result: "",
+        title: "",
+        allies: [],
+        enemies: [],
+        startAllies: [],
+        startEnemies: [],
+        bossInfo: null,
+        events: [],
+        playbackId: 0,
+        log: ["Ban da tai save cu."],
+      };
+    }
+
+    if (!this.state.inspect) {
+      this.state.inspect = {
+        title: "Thong tin",
+        desc: "Di chuot vao nhan vat de xem chi tiet.",
+        imageUrl: "",
+        tags: [],
+      };
+    }
+
     return true;
   }
 
@@ -112,33 +148,97 @@ export class Game {
     return this.state.board.slice(0, this.boardSlots).filter(Boolean);
   }
 
-  getTraitSummary() {
-    const counts = new Map();
-    for (const unit of this.boardUnits) {
-      for (const trait of unit.traits) {
-        counts.set(trait, (counts.get(trait) ?? 0) + 1);
-      }
-    }
+  setInspect(payload) {
+    if (!payload) return;
+    this.state.inspect = {
+      title: payload.title ?? payload.name ?? "Thong tin",
+      desc: payload.desc ?? payload.bio ?? "",
+      imageUrl: payload.imageUrl ?? "",
+      tags: payload.tags ?? [],
+    };
+  }
 
-    return this.traits.map((trait) => {
-      const count = counts.get(trait.id) ?? 0;
+  getInfoFromShop(index) {
+    const x = this.state.shop[index];
+    if (!x) return;
+    this.setInspect({
+      title: `${x.name} (Shop)`,
+      desc: x.bio,
+      imageUrl: x.imageUrl,
+      tags: [
+        `Gia ${x.cost}`,
+        x.faction,
+        ...(x.archetypes ?? []),
+      ],
+    });
+  }
+
+  getInfoFromBench(index) {
+    const x = this.state.bench[index];
+    if (!x) return;
+    this.setInspect({
+      title: `${x.name} ${"★".repeat(x.star)}`,
+      desc: x.bio,
+      imageUrl: x.imageUrl,
+      tags: [x.faction, ...(x.archetypes ?? [])],
+    });
+  }
+
+  getInfoFromBoard(index) {
+    const x = this.state.board[index];
+    if (!x) return;
+    this.setInspect({
+      title: `${x.name} ${"★".repeat(x.star)}`,
+      desc: x.bio,
+      imageUrl: x.imageUrl,
+      tags: [x.faction, ...(x.archetypes ?? [])],
+    });
+  }
+
+  getSynergyRows(configList, countMap, group) {
+    return configList.map((item) => {
+      const count = countMap.get(item.id) ?? 0;
       let activeTier = null;
-      for (const tier of trait.tiers) {
+      for (const tier of item.tiers) {
         if (count >= tier.need) activeTier = tier;
       }
       return {
-        id: trait.id,
-        name: trait.name,
-        desc: trait.desc,
+        group,
+        id: item.id,
+        name: item.name,
+        desc: item.desc,
         count,
-        tiers: trait.tiers,
+        tiers: item.tiers,
         activeTier,
       };
     });
   }
 
+  getSynergyOverview() {
+    const factionCounts = new Map();
+    const archetypeCounts = new Map();
+
+    for (const unit of this.boardUnits) {
+      factionCounts.set(unit.faction, (factionCounts.get(unit.faction) ?? 0) + 1);
+      for (const type of unit.archetypes ?? []) {
+        archetypeCounts.set(type, (archetypeCounts.get(type) ?? 0) + 1);
+      }
+    }
+
+    return {
+      factions: this.getSynergyRows(this.factions, factionCounts, "Phe phai"),
+      archetypes: this.getSynergyRows(this.archetypes, archetypeCounts, "Toc he"),
+    };
+  }
+
+  getTraitSummary() {
+    const overview = this.getSynergyOverview();
+    return [...overview.factions, ...overview.archetypes];
+  }
+
   getCombatBuffs() {
-    const summary = this.getTraitSummary();
+    const overview = this.getSynergyOverview();
+    const summary = [...overview.factions, ...overview.archetypes];
     const buffs = { hpPct: 0, atkPct: 0, spdPct: 0 };
     for (const row of summary) {
       if (!row.activeTier) continue;
@@ -162,7 +262,7 @@ export class Game {
   }
 
   randomUnitByCost(cost) {
-    const pool = this.unitsByCost.get(cost) ?? this.unitsByCost.get(1) ?? [];
+    const pool = this.charactersByCost.get(cost) ?? this.charactersByCost.get(1) ?? [];
     return pickRandom(pool);
   }
 
@@ -179,7 +279,9 @@ export class Game {
         id: base.id,
         name: base.name,
         cost: base.cost,
-        traits: base.traits,
+        faction: base.faction,
+        archetypes: base.archetypes,
+        bio: base.bio,
         imageUrl: base.imageUrl ?? "",
       };
     });
@@ -198,7 +300,9 @@ export class Game {
       id: base.id,
       name: base.name,
       cost: base.cost,
-      traits: [...base.traits],
+      faction: base.faction,
+      archetypes: [...(base.archetypes ?? [])],
+      bio: base.bio,
       imageUrl: base.imageUrl ?? "",
       star,
       stats: { ...base.stats },
@@ -225,9 +329,10 @@ export class Game {
     if (benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
 
     this.state.gold -= offer.cost;
-    const base = this.unitsById.get(offer.id);
+    const base = this.charactersById.get(offer.id);
     this.state.bench[benchIndex] = this.createOwnedUnit(base, 1);
     this.state.shop[index] = null;
+    this.getInfoFromBench(benchIndex);
 
     const merged = this.autoMerge(base.id);
     return { ok: true, goldDelta: -offer.cost, merged };
@@ -290,7 +395,7 @@ export class Game {
           const selected = slots.slice(0, 3);
           const keeper = selected.find((x) => x.zone === "board") ?? selected[0];
           const consume = selected.filter((x) => !(x.zone === keeper.zone && x.index === keeper.index));
-          const base = this.unitsById.get(id);
+          const base = this.charactersById.get(id);
 
           this.setUnitAt(keeper.zone, keeper.index, this.createOwnedUnit(base, star + 1));
           for (const c of consume) {
@@ -440,6 +545,11 @@ export class Game {
       side,
       index,
       name: `${unit.name} ${"★".repeat(unit.star)}`,
+      imageUrl: unit.imageUrl ?? "",
+      bio: unit.bio ?? "",
+      faction: unit.faction ?? "",
+      archetypes: [...(unit.archetypes ?? [])],
+      bossSkill: unit.bossSkill ?? null,
       hp,
       maxHp: hp,
       atk,
@@ -459,6 +569,34 @@ export class Game {
       atk: f.atk,
       spd: f.spd,
       alive: f.alive,
+      imageUrl: f.imageUrl,
+      bio: f.bio,
+      faction: f.faction,
+      archetypes: [...(f.archetypes ?? [])],
+      bossSkill: f.bossSkill,
+    };
+  }
+
+  createBossUnit(boss, round) {
+    const hpScale = 1 + round * 0.06;
+    const atkScale = 1 + round * 0.03;
+    const spdScale = 1 + round * 0.006;
+    return {
+      uid: uid(),
+      id: boss.id,
+      name: boss.name,
+      cost: 6,
+      faction: "Boss",
+      archetypes: ["Boss"],
+      bio: boss.bio,
+      imageUrl: boss.imageUrl,
+      star: 1,
+      stats: {
+        hp: Math.round(boss.base.hp * hpScale),
+        atk: Math.round(boss.base.atk * atkScale),
+        spd: Number((boss.base.spd * spdScale).toFixed(2)),
+      },
+      bossSkill: boss.skill,
     };
   }
 
@@ -467,12 +605,20 @@ export class Game {
     const enemyLevel = clamp(Math.ceil(round / 3), 1, MAX_LEVEL);
     const boss = isBossRound(round);
     const list = [];
+    let bossInfo = null;
 
     if (boss) {
-      const bossPool = this.units.filter((u) => u.cost >= 4);
-      const picked = pickRandom(bossPool.length > 0 ? bossPool : this.units);
-      const bossUnit = this.createOwnedUnit(picked, round >= 15 ? 3 : 2);
+      const index = Math.floor(round / 5 - 1) % this.bosses.length;
+      const picked = this.bosses[(index + this.bosses.length) % this.bosses.length];
+      const bossUnit = this.createBossUnit(picked, round);
       list.push(bossUnit);
+      bossInfo = {
+        id: picked.id,
+        name: picked.name,
+        skill: picked.skill?.name ?? "",
+        bio: picked.bio,
+        imageUrl: picked.imageUrl,
+      };
     }
 
     const startIndex = boss ? 1 : 0;
@@ -488,6 +634,7 @@ export class Game {
       list,
       boss,
       bossName: boss ? list[0].name : "",
+      bossInfo,
     };
   }
 
@@ -530,7 +677,7 @@ export class Game {
     const startAllies = allies.map((f) => this.cloneFighter(f));
     const startEnemies = enemies.map((f) => this.cloneFighter(f));
     const events = [];
-    let bossSkillTick = 3;
+    const bossCooldown = new Map();
 
     const log = [];
     let turns = 0;
@@ -545,40 +692,89 @@ export class Game {
         const opp = actor.side === "ally" ? enemies : allies;
         if (this.pickAlive(opp).length === 0) break;
 
-        if (enemyBuild.boss && actor.side === "enemy" && actor.key === enemies[0].key) {
-          bossSkillTick -= 1;
-          if (bossSkillTick <= 0) {
-            bossSkillTick = 3;
-            const targets = this.pickAlive(allies);
-            if (targets.length > 0) {
-              log.push(`${actor.name} kich hoat ky nang NO SAT THUONG!`);
-              for (const target of targets) {
-                const aoeDamage = Math.max(1, Math.round(actor.atk * (0.55 + Math.random() * 0.2)));
-                target.hp = Math.max(0, target.hp - aoeDamage);
-                target.alive = target.hp > 0;
-                log.push(`${target.name} trung no -${aoeDamage}HP`);
+        if (actor.side === "enemy" && actor.bossSkill) {
+          const interval = actor.bossSkill.interval ?? 3;
+          if (!bossCooldown.has(actor.key)) {
+            bossCooldown.set(actor.key, interval);
+          }
+          const tick = (bossCooldown.get(actor.key) ?? interval) - 1;
+          bossCooldown.set(actor.key, tick);
+
+          if (tick <= 0) {
+            bossCooldown.set(actor.key, interval);
+            log.push(`${actor.name} tung chieu ${actor.bossSkill.name}!`);
+            events.push({
+              type: "skill",
+              actorKey: actor.key,
+              text: `${actor.name} tung chieu ${actor.bossSkill.name}!`,
+            });
+
+            const aliveTargets = this.pickAlive(allies);
+            if (aliveTargets.length > 0) {
+              if (actor.bossSkill.type === "blast") {
+                const primary = pickRandom(aliveTargets);
+                const direct = Math.max(1, Math.round(actor.atk * actor.bossSkill.multiplier));
+                primary.hp = Math.max(0, primary.hp - direct);
+                primary.alive = primary.hp > 0;
+                log.push(`${primary.name} trung no chinh -${direct}HP`);
                 events.push({
                   type: "aoe-hit",
                   actorKey: actor.key,
-                  actorName: actor.name,
-                  targetKey: target.key,
-                  targetName: target.name,
-                  damage: aoeDamage,
-                  hpAfter: target.hp,
-                  dead: !target.alive,
-                  text: `${target.name} trung no -${aoeDamage}HP`,
+                  targetKey: primary.key,
+                  damage: direct,
+                  hpAfter: primary.hp,
+                  dead: !primary.alive,
+                  text: `${primary.name} trung no chinh -${direct}HP`,
                 });
+
+                const splashTargets = aliveTargets.filter((x) => x.key !== primary.key).slice(0, 2);
+                for (const target of splashTargets) {
+                  const splash = Math.max(1, Math.round(direct * 0.45));
+                  target.hp = Math.max(0, target.hp - splash);
+                  target.alive = target.hp > 0;
+                  log.push(`${target.name} trung sat thuong lan -${splash}HP`);
+                  events.push({
+                    type: "aoe-hit",
+                    actorKey: actor.key,
+                    targetKey: target.key,
+                    damage: splash,
+                    hpAfter: target.hp,
+                    dead: !target.alive,
+                    text: `${target.name} trung sat thuong lan -${splash}HP`,
+                  });
+                }
+              } else {
+                for (const target of aliveTargets) {
+                  const aoeDamage = Math.max(1, Math.round(actor.atk * actor.bossSkill.multiplier));
+                  target.hp = Math.max(0, target.hp - aoeDamage);
+                  target.alive = target.hp > 0;
+                  log.push(`${target.name} trung no rong -${aoeDamage}HP`);
+                  events.push({
+                    type: "aoe-hit",
+                    actorKey: actor.key,
+                    targetKey: target.key,
+                    damage: aoeDamage,
+                    hpAfter: target.hp,
+                    dead: !target.alive,
+                    text: `${target.name} trung no rong -${aoeDamage}HP`,
+                  });
+                }
+              }
+
+              for (const target of aliveTargets) {
                 if (!target.alive) {
-                  log.push(`${target.name} bi ha guc boi no sat thuong.`);
+                  log.push(`${target.name} bi ha guc boi ky nang boss.`);
                   events.push({
                     type: "defeat",
                     actorKey: actor.key,
                     targetKey: target.key,
-                    text: `${target.name} bi ha guc boi no sat thuong.`,
+                    text: `${target.name} bi ha guc boi ky nang boss.`,
                   });
                 }
               }
+
               if (this.pickAlive(allies).length === 0) break;
+              continue;
             }
           }
         }
@@ -649,6 +845,7 @@ export class Game {
       enemies,
       startAllies,
       startEnemies,
+      bossInfo: enemyBuild.bossInfo,
       events,
       playbackId: Date.now() + randomInt(0, 1000),
       log: log.slice(0, 50),
@@ -706,6 +903,7 @@ export class Game {
       round: currentRound,
       boss: combatResult.boss,
       bossName: combatResult.bossName,
+      bossInfo: this.state.combat.bossInfo,
     };
   }
 }

@@ -55,6 +55,12 @@ bindUI(game, {
 
     return { ok: false, reason: "Thao tac keo-tha khong hop le." };
   }),
+  onInspect: (where, index) => {
+    if (where === "shop") game.getInfoFromShop(index);
+    if (where === "bench") game.getInfoFromBench(index);
+    if (where === "board") game.getInfoFromBoard(index);
+    renderAll(game);
+  },
 });
 
 renderAll(game);
