@@ -47,6 +47,8 @@ bindUI(game, {
   onBuyXp: () => run(() => game.buyXp()),
   onNextRound: () => run(() => game.nextRound()),
   onLockShop: () => run(() => game.lockShop()),
+  onFuseToggle: () => run(() => game.toggleFusionMode()),
+  onFusePick: (zone, index) => run(() => game.fusePick(zone, index)),
   onBuyShop: (index) => run(() => game.buyFromShop(index)),
   onSellBench: (index) => run(() => game.sellBench(index)),
   onBenchToBoard: (index) => run(() => game.moveBenchToBoard(index)),

@@ -46,6 +46,19 @@ function unitInitials(name = "?") {
 function cardPortraitHtml(unit) {
   const initials = unitInitials(unit.name);
   const imageUrl = unit.imageUrl ? String(unit.imageUrl).trim() : "";
+  const fusionImageUrl2 = unit.fusionImageUrl2 ? String(unit.fusionImageUrl2).trim() : "";
+
+  if (fusionImageUrl2) {
+    const left = imageUrl || fusionImageUrl2;
+    const right = fusionImageUrl2 || imageUrl;
+    return `
+      <div class="cardPortrait fusion ${left || right ? "" : "fallback"}">
+        ${left ? `<img class="split left" src="${left}" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove(); this.parentElement.classList.add('fallback');" />` : ""}
+        ${right ? `<img class="split right" src="${right}" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove(); this.parentElement.classList.add('fallback');" />` : ""}
+        <span>${initials}</span>
+      </div>
+    `;
+  }
 
   if (!imageUrl) {
     return `<div class="cardPortrait fallback"><span>${initials}</span></div>`;
@@ -123,6 +136,7 @@ export function bindUI(game, handlers) {
   el("btnBuyXp").addEventListener("click", handlers.onBuyXp);
   el("btnNextRound").addEventListener("click", handlers.onNextRound);
   el("btnLockShop").addEventListener("click", handlers.onLockShop);
+  el("btnFuse")?.addEventListener("click", handlers.onFuseToggle);
   const emojiToggle = el("settingEmoji");
   if (emojiToggle) {
     emojiToggle.checked = game.state.settings?.showEmoji !== false;
@@ -207,6 +221,10 @@ export function bindUI(game, handlers) {
     if (Date.now() < suppressClickUntil) return;
     const card = closestFromTarget(ev.target, "[data-bench-index]");
     if (!card) return;
+    if (game.state.fusion?.mode) {
+      handlers.onFusePick?.("bench", Number(card.dataset.benchIndex));
+      return;
+    }
     handlers.onSellBench(Number(card.dataset.benchIndex));
   });
 
@@ -383,9 +401,19 @@ export function bindUI(game, handlers) {
     if (isMouseDragging || Date.now() < suppressClickUntil) return;
     const card = closestFromTarget(ev.target, "[data-board-index]");
     if (!card) return;
+    if (game.state.fusion?.mode) {
+      handlers.onFusePick?.("board", Number(card.dataset.boardIndex));
+      return;
+    }
     handlers.onBoardToBench(Number(card.dataset.boardIndex));
   });
 
+
+function isFusionSelected(game, unit) {
+  if (!unit?.uid) return false;
+  const picks = game.state.fusion?.picks ?? [];
+  return picks.some((x) => x.uid === unit.uid);
+}
   board.addEventListener("mouseover", (ev) => {
     const card = closestFromTarget(ev.target, "[data-board-index]");
     if (!card) return;
@@ -435,8 +463,9 @@ function renderBoard(game) {
       slot.innerHTML = `<span class="slotHint">Trong</span>`;
     } else {
       slot.dataset.boardIndex = String(i);
+      const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
       slot.innerHTML = `
-        <div class="card boardCard glow" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
+        <div class="card boardCard glow${selectedClass}" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
@@ -469,8 +498,9 @@ function renderBench(game) {
       slot.innerHTML = `<span class="slotHint">Trong</span>`;
     } else {
       slot.dataset.benchIndex = String(i);
+      const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
       slot.innerHTML = `
-        <div class="card benchCard" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
+        <div class="card benchCard${selectedClass}" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
@@ -518,6 +548,7 @@ function renderShop(game) {
   }
 
   const lockBtn = el("btnLockShop");
+  const fuseBtn = el("btnFuse");
   const lockHint = el("lockHint");
   const targetRound = game.getShopLockTargetRound?.() ?? game.state.round + 1;
   lockBtn.classList.toggle("active", game.state.lockedShop);
@@ -530,6 +561,15 @@ function renderShop(game) {
       ? `Shop dang duoc khoa va giu nguyen den het Round ${targetRound}.`
       : `Shop se duoc lam moi khi qua round. Co the khoa truoc de giu lai doi hinh shop den Round ${targetRound}.`;
     lockHint.classList.toggle("active", game.state.lockedShop);
+  }
+
+  if (fuseBtn) {
+    const picks = game.state.fusion?.picks ?? [];
+    const count = picks.length;
+    fuseBtn.classList.toggle("active", Boolean(game.state.fusion?.mode));
+    fuseBtn.textContent = game.state.fusion?.mode
+      ? `Dang hop the (${count}/2)`
+      : "Hop the";
   }
 }
 
@@ -617,17 +657,29 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
   const effectiveAlive = alive ?? f.alive;
   const effectivePct = f.maxHp === 0 ? 0 : Math.round((currentHp / f.maxHp) * 100);
   const imageUrl = f.imageUrl ? String(f.imageUrl).trim() : "";
+  const fusionImageUrl2 = f.fusionImageUrl2 ? String(f.fusionImageUrl2).trim() : "";
   const initials = unitInitials(f.name);
   const counterHtml = counter
     ? `<div class="procCounter ${counter.kind ?? "mixed"}">${displayText(counter.text ?? "PROC")}</div>`
     : "";
+  const portraitHtml = fusionImageUrl2
+    ? `
+      <div class="fighterPortrait fusion ${imageUrl || fusionImageUrl2 ? "" : "fallback"}">
+        ${imageUrl ? `<img class="split left" src="${imageUrl}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove(); this.parentElement.classList.add('fallback');" />` : ""}
+        ${fusionImageUrl2 ? `<img class="split right" src="${fusionImageUrl2}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove(); this.parentElement.classList.add('fallback');" />` : ""}
+        <span>${initials}</span>
+      </div>
+    `
+    : `
+      <div class="fighterPortrait ${imageUrl ? "" : "fallback"}">
+        ${imageUrl ? `<img src="${imageUrl}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
+        <span>${initials}</span>
+      </div>
+    `;
   return `
     <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}${actorFx}${targetFx}">
       <div class="fighterBody">
-        <div class="fighterPortrait ${imageUrl ? "" : "fallback"}">
-          ${imageUrl ? `<img src="${imageUrl}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
-          <span>${initials}</span>
-        </div>
+        ${portraitHtml}
         <div class="fighterInfo">
           <div class="fighterTop">
             <span>${f.name}</span>
@@ -646,6 +698,7 @@ function cloneLineup(list) {
     key: f.key,
     name: f.name,
     imageUrl: f.imageUrl ?? "",
+    fusionImageUrl2: f.fusionImageUrl2 ?? "",
     maxHp: f.maxHp,
     hp: f.hp,
     alive: f.alive,
@@ -819,6 +872,10 @@ export function feedback(result) {
 
   if (result.merged) {
     fxFloatText(stage, "Len sao thanh cong", "good");
+  }
+
+  if (result.fused) {
+    fxFloatText(stage, "Hop the thanh cong", "good");
   }
 
   if (result.income) {

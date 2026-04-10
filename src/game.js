@@ -93,6 +93,24 @@ function asNumber(value, fallback = 0) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function blendHexColor(colorA = "#7aa2ff", colorB = "#f472b6") {
+  const a = colorA.replace("#", "");
+  const b = colorB.replace("#", "");
+  if (a.length !== 6 || b.length !== 6) return colorA;
+
+  const ar = Number.parseInt(a.slice(0, 2), 16);
+  const ag = Number.parseInt(a.slice(2, 4), 16);
+  const ab = Number.parseInt(a.slice(4, 6), 16);
+  const br = Number.parseInt(b.slice(0, 2), 16);
+  const bg = Number.parseInt(b.slice(2, 4), 16);
+  const bb = Number.parseInt(b.slice(4, 6), 16);
+
+  const r = Math.round((ar + br) / 2).toString(16).padStart(2, "0");
+  const g = Math.round((ag + bg) / 2).toString(16).padStart(2, "0");
+  const c = Math.round((ab + bb) / 2).toString(16).padStart(2, "0");
+  return `#${r}${g}${c}`;
+}
+
 export class Game {
   constructor() {
     const validated = this.validateDataIntegrity();
@@ -261,6 +279,10 @@ export class Game {
       settings: {
         showEmoji: true,
       },
+      fusion: {
+        mode: false,
+        picks: [],
+      },
       board: Array(BOARD_MAX).fill(null),
       shop: Array(SHOP_SIZE).fill(null),
       combat: {
@@ -320,7 +342,14 @@ export class Game {
       settings: {
         showEmoji: source.settings?.showEmoji !== false,
       },
+      fusion: {
+        mode: Boolean(source.fusion?.mode),
+        picks: Array.isArray(source.fusion?.picks) ? source.fusion.picks.slice(0, 2) : [],
+      },
     };
+
+    this.state.fusion.mode = false;
+    this.state.fusion.picks = [];
 
     if (!this.state.combat) {
       this.state.combat = {
@@ -382,7 +411,40 @@ export class Game {
   normalizeOwnedUnit(raw) {
     if (!raw || typeof raw !== "object") return null;
     const base = this.charactersById.get(raw.id);
-    if (!base) return null;
+    if (!base) {
+      if (!raw.fusionMeta || typeof raw.fusionMeta !== "object") return null;
+      const passive = raw.passive && typeof raw.passive === "object"
+        ? {
+          ...raw.passive,
+          effects: { ...(raw.passive.effects ?? {}) },
+          triggerKinds: Array.isArray(raw.passive.triggerKinds) ? raw.passive.triggerKinds.slice(0, 4) : [],
+          themeColor: raw.passive.themeColor ?? "#7aa2ff",
+        }
+        : null;
+
+      return {
+        uid: typeof raw.uid === "string" && raw.uid.trim() ? raw.uid : uid(),
+        id: typeof raw.id === "string" ? raw.id : `fusion:${uid()}`,
+        name: String(raw.name ?? "Fusion Unit"),
+        cost: clamp(Math.floor(asNumber(raw.cost, 3)), 1, 5),
+        faction: String(raw.faction ?? "Fusion"),
+        archetypes: Array.isArray(raw.archetypes) ? raw.archetypes.filter(Boolean).slice(0, 6) : [],
+        bio: String(raw.bio ?? "Don vi hop the."),
+        imageUrl: String(raw.imageUrl ?? ""),
+        fusionImageUrl2: String(raw.fusionImageUrl2 ?? ""),
+        star: clamp(Math.floor(asNumber(raw.star, 1)), 1, 3),
+        stats: {
+          hp: Math.max(1, Math.floor(asNumber(raw.stats?.hp, 800))),
+          atk: Math.max(1, Math.floor(asNumber(raw.stats?.atk, 70))),
+          spd: Math.max(0.1, asNumber(raw.stats?.spd, 1)),
+        },
+        passive,
+        fusionMeta: {
+          from: Array.isArray(raw.fusionMeta.from) ? raw.fusionMeta.from.slice(0, 2) : [],
+          atRound: Math.max(1, Math.floor(asNumber(raw.fusionMeta.atRound, this.state?.round ?? 1))),
+        },
+      };
+    }
 
     const star = clamp(Math.floor(asNumber(raw.star, 1)), 1, 3);
     const rawStats = raw.stats && typeof raw.stats === "object" ? raw.stats : {};
@@ -402,10 +464,12 @@ export class Game {
       archetypes: [...(base.archetypes ?? [])],
       bio: base.bio,
       imageUrl: raw.imageUrl ?? base.imageUrl ?? "",
+      fusionImageUrl2: "",
       star,
       stats,
       bossSkill: raw.bossSkill ?? null,
       passive,
+      fusionMeta: null,
     };
   }
 
@@ -656,15 +720,156 @@ export class Game {
       archetypes: [...(base.archetypes ?? [])],
       bio: base.bio,
       imageUrl: base.imageUrl ?? "",
+      fusionImageUrl2: "",
       star,
       stats: { ...base.stats },
       passive,
+      fusionMeta: null,
     };
   }
 
   setEmojiEnabled(enabled) {
     this.state.settings.showEmoji = Boolean(enabled);
     return { ok: true };
+  }
+
+  toggleFusionMode() {
+    this.state.fusion.mode = !this.state.fusion.mode;
+    this.state.fusion.picks = [];
+    return {
+      ok: true,
+      reason: this.state.fusion.mode
+        ? "Che do Hop the da bat. Chon 2 the tren Board/Bench."
+        : "Da tat che do Hop the.",
+    };
+  }
+
+  getFusionPickUnit(zone, index) {
+    if (zone !== "board" && zone !== "bench") return null;
+    const unit = this.getUnitAt(zone, index);
+    if (!unit) return null;
+    return { zone, index, unit };
+  }
+
+  mergePassiveEffects(effectsA = {}, effectsB = {}) {
+    const keys = new Set([...Object.keys(effectsA), ...Object.keys(effectsB)]);
+    const out = {};
+    for (const key of keys) {
+      const a = asNumber(effectsA[key], 0);
+      const b = asNumber(effectsB[key], 0);
+      if (!Number.isFinite(a) && !Number.isFinite(b)) continue;
+      const merged = a + b;
+      if (key.toLowerCase().includes("chance")) {
+        out[key] = clamp(merged * 0.9, 0, 0.62);
+      } else if (key.toLowerCase().includes("interval")) {
+        out[key] = Math.max(1, Math.floor(Math.min(a || 99, b || 99)));
+      } else {
+        out[key] = clamp(merged * 0.92, 0, 1.1);
+      }
+    }
+    return out;
+  }
+
+  mergePassiveTone(toneA = "mixed", toneB = "mixed") {
+    if (toneA === toneB) return toneA;
+    if (toneA === "mixed" || toneB === "mixed") return "mixed";
+    return "mixed";
+  }
+
+  createFusionUnit(slotA, slotB) {
+    const a = slotA.unit;
+    const b = slotB.unit;
+    const aAtk = asNumber(a.stats?.atk, 1);
+    const bAtk = asNumber(b.stats?.atk, 1);
+    const primary = aAtk >= bAtk ? a : b;
+    const secondary = primary === a ? b : a;
+
+    const star = a.star === b.star ? clamp(a.star + 1, 1, 3) : Math.max(a.star, b.star);
+    const hp = Math.max(1, Math.round((asNumber(a.stats?.hp, 500) + asNumber(b.stats?.hp, 500)) * 0.72));
+    const atk = Math.max(1, Math.round((aAtk + bAtk) * 0.74));
+    const spd = Number((Math.max(asNumber(a.stats?.spd, 1), asNumber(b.stats?.spd, 1)) + Math.min(asNumber(a.stats?.spd, 1), asNumber(b.stats?.spd, 1)) * 0.35).toFixed(2));
+    const passiveA = a.passive ?? null;
+    const passiveB = b.passive ?? null;
+    const mergedEffects = this.mergePassiveEffects(passiveA?.effects ?? {}, passiveB?.effects ?? {});
+    const mergedTone = this.mergePassiveTone(passiveA?.effectTone ?? "mixed", passiveB?.effectTone ?? "mixed");
+    const colorA = passiveA?.themeColor ?? this.getCharacterThemeColor(a);
+    const colorB = passiveB?.themeColor ?? this.getCharacterThemeColor(b);
+
+    const passive = {
+      id: `fusion-${a.id}-${b.id}`,
+      name: `Fusion ${a.name} + ${b.name}`,
+      effectTone: mergedTone,
+      desc: "Ky nang hop the: ket hop toan bo nang luc cua hai the.",
+      effects: mergedEffects,
+      themeColor: blendHexColor(colorA, colorB),
+      triggerKinds: this.getPassiveTriggerKinds(mergedEffects),
+    };
+
+    const archetypes = [...new Set([...(a.archetypes ?? []), ...(b.archetypes ?? [])])].slice(0, 6);
+    const name = `${primary.name} × ${secondary.name}`;
+
+    return {
+      uid: uid(),
+      id: `fusion:${a.id}+${b.id}`,
+      name,
+      cost: clamp(Math.max(asNumber(a.cost, 1), asNumber(b.cost, 1)), 1, 5),
+      faction: primary.faction ?? a.faction ?? "Fusion",
+      archetypes,
+      bio: `Don vi hop the cua ${a.name} va ${b.name}.`,
+      imageUrl: primary.imageUrl ?? "",
+      fusionImageUrl2: secondary.imageUrl ?? "",
+      star,
+      stats: { hp, atk, spd },
+      passive,
+      fusionMeta: {
+        from: [a.id, b.id],
+        atRound: this.state.round,
+      },
+    };
+  }
+
+  fusePick(zone, index) {
+    if (!this.state.fusion.mode) {
+      return { ok: false, reason: "Hay bat che do Hop the truoc." };
+    }
+
+    const slot = this.getFusionPickUnit(zone, index);
+    if (!slot) return { ok: false, reason: "Chi co the hop the tuong tren Board/Bench." };
+
+    const existing = this.state.fusion.picks.findIndex((x) => x.uid === slot.unit.uid);
+    if (existing !== -1) {
+      this.state.fusion.picks.splice(existing, 1);
+      return { ok: true, reason: "Da bo chon 1 the hop the." };
+    }
+
+    this.state.fusion.picks.push({ zone: slot.zone, index: slot.index, uid: slot.unit.uid });
+    if (this.state.fusion.picks.length < 2) {
+      return { ok: true, reason: "Da chon the thu nhat. Chon tiep the thu hai." };
+    }
+
+    const [pickA, pickB] = this.state.fusion.picks;
+    const slotA = this.getFusionPickUnit(pickA.zone, pickA.index);
+    const slotB = this.getFusionPickUnit(pickB.zone, pickB.index);
+    this.state.fusion.picks = [];
+
+    if (!slotA || !slotB) {
+      return { ok: false, reason: "The hop the da thay doi, hay chon lai." };
+    }
+    if (slotA.unit.uid === slotB.unit.uid) {
+      return { ok: false, reason: "Khong the hop the cung mot the." };
+    }
+
+    const fused = this.createFusionUnit(slotA, slotB);
+    this.setUnitAt(slotA.zone, slotA.index, fused);
+    this.setUnitAt(slotB.zone, slotB.index, null);
+
+    const merged = this.autoMerge();
+    return {
+      ok: true,
+      fused: true,
+      merged,
+      reason: `Hop the thanh cong: ${fused.name}`,
+    };
   }
 
   findEmptyBenchIndex() {
@@ -909,6 +1114,7 @@ export class Game {
       cost: unit.cost ?? 1,
       star: unit.star ?? 1,
       imageUrl: unit.imageUrl ?? "",
+      fusionImageUrl2: unit.fusionImageUrl2 ?? "",
       bio: unit.bio ?? "",
       faction: unit.faction ?? "",
       archetypes: [...(unit.archetypes ?? [])],
@@ -936,6 +1142,7 @@ export class Game {
       spd: f.spd,
       alive: f.alive,
       imageUrl: f.imageUrl,
+      fusionImageUrl2: f.fusionImageUrl2 ?? "",
       bio: f.bio,
       faction: f.faction,
       archetypes: [...(f.archetypes ?? [])],

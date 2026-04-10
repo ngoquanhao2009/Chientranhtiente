@@ -103,8 +103,10 @@ p {
 
 .headerActions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .settingChip {
@@ -210,6 +212,25 @@ p {
   display: block;
 }
 
+.cardPortrait.fusion {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cardPortrait.fusion .split {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardPortrait.fusion .split.left {
+  border-right: 1px solid #5e7faf;
+}
+
+.cardPortrait.fusion .split.right {
+  border-left: 1px solid #283f64;
+}
+
 .cardPortrait span {
   position: absolute;
   inset: 0;
@@ -227,6 +248,11 @@ p {
 .card.dragging {
   opacity: 0.55;
   transform: scale(0.98);
+}
+
+.card.fusionSelected {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px #f59e0b66 inset, 0 0 14px #f59e0b55;
 }
 
 .cardTop {
@@ -447,6 +473,25 @@ p {
   overflow: hidden;
   border: 1px solid #4a678f;
   background: linear-gradient(160deg, #1a3b66, #14243f);
+}
+
+.fighterPortrait.fusion {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.fighterPortrait.fusion .split {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fighterPortrait.fusion .split.left {
+  border-right: 1px solid #5c7ca9;
+}
+
+.fighterPortrait.fusion .split.right {
+  border-left: 1px solid #2a3f62;
 }
 
 .fighterPortrait img {
