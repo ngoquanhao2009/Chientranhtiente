@@ -67,7 +67,6 @@ const FACTION_THEME_BY_NAME = {
   "Masked Fools": "#f43f5e",
   "Chrysos Heirs": "#22d3ee",
 };
-};
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
