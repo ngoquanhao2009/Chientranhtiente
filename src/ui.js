@@ -67,31 +67,9 @@ function onPortraitImgError(img) {
   img.remove();
 }
 
-function bindPortraitImageGuards() {
-  if (typeof window === "undefined" || window.__ctttPortraitGuardsBound) return;
-  window.__ctttPortraitGuardsBound = true;
-
-  window.addEventListener("error", (ev) => {
-    const target = ev.target;
-    if (!(target instanceof HTMLImageElement)) return;
-    if (!target.dataset.baseSrc) return;
-    onPortraitImgError(target);
-  }, true);
-
-  window.addEventListener("load", (ev) => {
-    const target = ev.target;
-    if (!(target instanceof HTMLImageElement)) return;
-    if (!target.dataset.baseSrc) return;
-    const parent = target.parentElement;
-    if (parent) parent.classList.remove("fallback");
-  }, true);
-}
-
 if (typeof window !== "undefined" && !window.__ctttPortraitImgError) {
   window.__ctttPortraitImgError = onPortraitImgError;
 }
-
-bindPortraitImageGuards();
 
 function cardPortraitHtml(unit) {
   const initials = unitInitials(unit.name);
@@ -103,8 +81,8 @@ function cardPortraitHtml(unit) {
     const right = fusionImageUrl2 || imageUrl;
     return `
       <div class="cardPortrait fusion ${left || right ? "" : "fallback"}">
-        ${left ? `<img class="split left" src="${left}" data-base-src="${left}" data-retries="0" alt="${unit.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
-        ${right ? `<img class="split right" src="${right}" data-base-src="${right}" data-retries="0" alt="${unit.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
+        ${left ? `<img class="split left" src="${left}" data-base-src="${left}" data-retries="0" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
+        ${right ? `<img class="split right" src="${right}" data-base-src="${right}" data-retries="0" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
         <span>${initials}</span>
       </div>
     `;
@@ -116,7 +94,7 @@ function cardPortraitHtml(unit) {
 
   return `
     <div class="cardPortrait">
-      <img src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${unit.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />
+      <img src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${unit.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />
       <span>${initials}</span>
     </div>
   `;
@@ -719,14 +697,14 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
   const portraitHtml = fusionImageUrl2
     ? `
       <div class="fighterPortrait fusion ${imageUrl || fusionImageUrl2 ? "" : "fallback"}">
-        ${imageUrl ? `<img class="split left" src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${f.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
-        ${fusionImageUrl2 ? `<img class="split right" src="${fusionImageUrl2}" data-base-src="${fusionImageUrl2}" data-retries="0" alt="${f.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
+        ${imageUrl ? `<img class="split left" src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
+        ${fusionImageUrl2 ? `<img class="split right" src="${fusionImageUrl2}" data-base-src="${fusionImageUrl2}" data-retries="0" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
         <span>${initials}</span>
       </div>
     `
     : `
       <div class="fighterPortrait ${imageUrl ? "" : "fallback"}">
-        ${imageUrl ? `<img src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${f.name}" loading="lazy" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
+        ${imageUrl ? `<img src="${imageUrl}" data-base-src="${imageUrl}" data-retries="0" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="window.__ctttPortraitImgError && window.__ctttPortraitImgError(this)" />` : ""}
         <span>${initials}</span>
       </div>
     `;
