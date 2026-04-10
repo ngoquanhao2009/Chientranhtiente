@@ -124,6 +124,12 @@ function displayText(text) {
   return emojiEnabled ? text : stripEmoji(text);
 }
 
+function isFusionSelected(game, unit) {
+  if (!unit?.uid) return false;
+  const picks = game.state.fusion?.picks ?? [];
+  return picks.some((x) => x.uid === unit.uid);
+}
+
 function closestFromTarget(target, selector) {
   if (target instanceof Element) return target.closest(selector);
   if (target && target.parentElement instanceof Element) {
@@ -412,12 +418,6 @@ export function bindUI(game, handlers) {
     handlers.onBoardToBench(Number(card.dataset.boardIndex));
   });
 
-
-function isFusionSelected(game, unit) {
-  if (!unit?.uid) return false;
-  const picks = game.state.fusion?.picks ?? [];
-  return picks.some((x) => x.uid === unit.uid);
-}
   board.addEventListener("mouseover", (ev) => {
     const card = closestFromTarget(ev.target, "[data-board-index]");
     if (!card) return;
@@ -724,13 +724,14 @@ function renderPlaybackFrame(view, flashActorKey = "", flashTargetKey = "", flas
   log.innerHTML = view.logs
     .map((line, idx) => {
       const latest = idx === view.logs.length - 1 && idx > 0 ? " logLatest" : "";
-      const shown = displayText(line);
+      const raw = typeof line === "string" ? line : String(line ?? "");
+      const shown = displayText(raw);
       if (idx === 0) return `<div class="combatTitle">${shown}</div>`;
-      if (line.startsWith("[BUFF]")) return `<div class="logBuff${latest}">${shown}</div>`;
-      if (line.startsWith("[DEBUFF]")) return `<div class="logDebuff${latest}">${shown}</div>`;
-      if (line.startsWith("[MIXED]")) return `<div class="logMixed${latest}">${shown}</div>`;
-      if (line.startsWith("[ATK]")) return `<div class="logAttack${latest}">${shown}</div>`;
-      if (line.startsWith("[SKILL]")) return `<div class="logSkill${latest}">${shown}</div>`;
+      if (raw.startsWith("[BUFF]")) return `<div class="logBuff${latest}">${shown}</div>`;
+      if (raw.startsWith("[DEBUFF]")) return `<div class="logDebuff${latest}">${shown}</div>`;
+      if (raw.startsWith("[MIXED]")) return `<div class="logMixed${latest}">${shown}</div>`;
+      if (raw.startsWith("[ATK]")) return `<div class="logAttack${latest}">${shown}</div>`;
+      if (raw.startsWith("[SKILL]")) return `<div class="logSkill${latest}">${shown}</div>`;
       return `<div class="${latest.trim()}">${shown}</div>`;
     })
     .join("");

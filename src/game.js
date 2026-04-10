@@ -672,7 +672,24 @@ export class Game {
     return pickRandom(pool);
   }
 
+  blockIfFusionMode(actionName = "thao tac") {
+    if (!this.state.fusion?.mode) return null;
+    this.state.fusion.mode = false;
+    this.clearFusionPicks();
+    return null;
+  }
+
+  clearFusionPicks() {
+    if (!this.state.fusion) return;
+    this.state.fusion.picks = [];
+  }
+
   rollShop(free = false) {
+    if (!free) {
+      const blocked = this.blockIfFusionMode("lam moi shop");
+      if (blocked) return blocked;
+    }
+
     if (!free) {
       if (this.state.gold < 2) return { ok: false, reason: "Khong du vang de lam moi." };
       this.state.gold -= 2;
@@ -855,6 +872,9 @@ export class Game {
     if (!slotA || !slotB) {
       return { ok: false, reason: "The hop the da thay doi, hay chon lai." };
     }
+    if (slotA.unit.uid !== pickA.uid || slotB.unit.uid !== pickB.uid) {
+      return { ok: false, reason: "The da thay doi do thao tac khac. Hay chon lai 2 the hop the." };
+    }
     if (slotA.unit.uid === slotB.unit.uid) {
       return { ok: false, reason: "Khong the hop the cung mot the." };
     }
@@ -884,6 +904,9 @@ export class Game {
   }
 
   buyFromShop(index) {
+    const blocked = this.blockIfFusionMode("mua tuong");
+    if (blocked) return blocked;
+
     const offer = this.state.shop[index];
     if (!offer) return { ok: false, reason: "O shop trong." };
     if (this.state.gold < offer.cost) return { ok: false, reason: "Khong du vang." };
@@ -985,6 +1008,9 @@ export class Game {
   }
 
   moveBenchToBoardAt(benchIndex, targetBoardIndex = null) {
+    const blocked = this.blockIfFusionMode("doi vi tri tuong");
+    if (blocked) return blocked;
+
     const unit = this.state.bench[benchIndex];
     if (!unit) return { ok: false, reason: "Khong co tuong o o nay." };
 
@@ -1014,6 +1040,9 @@ export class Game {
   }
 
   moveBoardToBenchAt(boardIndex, targetBenchIndex = null) {
+    const blocked = this.blockIfFusionMode("doi vi tri tuong");
+    if (blocked) return blocked;
+
     if (boardIndex < 0 || boardIndex >= this.boardSlots) {
       return { ok: false, reason: "O san khong hop le." };
     }
@@ -1043,6 +1072,9 @@ export class Game {
   }
 
   swapBench(indexA, indexB) {
+    const blocked = this.blockIfFusionMode("doi vi tri du bi");
+    if (blocked) return blocked;
+
     if (indexA < 0 || indexA >= this.state.bench.length || indexB < 0 || indexB >= this.state.bench.length) {
       return { ok: false, reason: "O du bi khong hop le." };
     }
@@ -1058,6 +1090,9 @@ export class Game {
   }
 
   swapBoard(indexA, indexB) {
+    const blocked = this.blockIfFusionMode("doi vi tri tren san");
+    if (blocked) return blocked;
+
     if (indexA < 0 || indexA >= this.boardSlots || indexB < 0 || indexB >= this.boardSlots) {
       return { ok: false, reason: "O san khong hop le." };
     }
@@ -1073,6 +1108,9 @@ export class Game {
   }
 
   sellBench(index) {
+    const blocked = this.blockIfFusionMode("ban tuong");
+    if (blocked) return blocked;
+
     const unit = this.state.bench[index];
     if (!unit) return { ok: false, reason: "Khong co tuong de ban." };
     const gain = unit.cost * unit.star;
@@ -1082,6 +1120,9 @@ export class Game {
   }
 
   buyXp() {
+    const blocked = this.blockIfFusionMode("mua EXP");
+    if (blocked) return blocked;
+
     if (!this.canLevel) return { ok: false, reason: "Da dat cap toi da." };
     if (this.state.gold < 4) return { ok: false, reason: "Khong du vang." };
 
@@ -1845,6 +1886,9 @@ export class Game {
   }
 
   nextRound() {
+    const blocked = this.blockIfFusionMode("qua vong");
+    if (blocked) return blocked;
+
     const currentRound = this.state.round;
     const combatResult = this.runCombat(currentRound);
     const income = this.computeIncome(combatResult.win);

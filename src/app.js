@@ -12,6 +12,17 @@ if (Array.isArray(game.integrityIssues) && game.integrityIssues.length > 0) {
   console.warn("Data integrity issues:", game.integrityIssues);
 }
 
+function safeRender() {
+  try {
+    renderAll(game);
+    return true;
+  } catch (err) {
+    console.error("Render failure:", err);
+    feedback({ ok: false, reason: "Co loi hien thi. Thu Tai lai, hoac Van moi neu save cu bi loi." });
+    return false;
+  }
+}
+
 function run(action) {
   let result;
   try {
@@ -24,7 +35,7 @@ function run(action) {
     saveGame(game.serialize());
   }
 
-  renderAll(game);
+  safeRender();
   feedback(result);
 }
 
@@ -80,7 +91,7 @@ bindUI(game, {
   onToggleEmoji: (enabled) => run(() => game.setEmojiEnabled(enabled)),
 });
 
-renderAll(game);
+safeRender();
 
 if (Array.isArray(game.integrityIssues) && game.integrityIssues.length > 0) {
   feedback({
