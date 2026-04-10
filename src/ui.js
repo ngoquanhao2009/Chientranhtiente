@@ -113,7 +113,11 @@ let inspectToastTimer = null;
 let emojiEnabled = true;
 
 function stripEmoji(text) {
-  return String(text).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s{2,}/g, " ").trim();
+  return String(text)
+    .replace(/[\u2600-\u27BF]/g, "")
+    .replace(/[\uD83C-\uDBFF][\uDC00-\uDFFF]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 function displayText(text) {
