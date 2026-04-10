@@ -111,6 +111,13 @@ function blendHexColor(colorA = "#7aa2ff", colorB = "#f472b6") {
   return `#${r}${g}${c}`;
 }
 
+function compactNamePart(name) {
+  const clean = String(name ?? "")
+    .replace(/[^A-Za-z0-9]/g, "")
+    .trim();
+  return clean || "X";
+}
+
 export class Game {
   constructor() {
     const validated = this.validateDataIntegrity();
@@ -440,7 +447,14 @@ export class Game {
         },
         passive,
         fusionMeta: {
-          from: Array.isArray(raw.fusionMeta.from) ? raw.fusionMeta.from.slice(0, 2) : [],
+          from: Array.isArray(raw.fusionMeta.from) ? raw.fusionMeta.from.slice(0, 64) : [],
+          names: Array.isArray(raw.fusionMeta.names)
+            ? raw.fusionMeta.names
+              .map((x) => String(x ?? "").trim())
+              .filter(Boolean)
+              .slice(0, 64)
+            : [],
+          sourceCount: Math.max(2, Math.floor(asNumber(raw.fusionMeta.sourceCount, 2))),
           atRound: Math.max(1, Math.floor(asNumber(raw.fusionMeta.atRound, this.state?.round ?? 1))),
         },
       };
@@ -793,6 +807,64 @@ export class Game {
     return "mixed";
   }
 
+  getFusionSourceNames(unit) {
+    if (!unit || typeof unit !== "object") return [];
+    const metaNames = Array.isArray(unit.fusionMeta?.names)
+      ? unit.fusionMeta.names.map((x) => String(x ?? "").trim()).filter(Boolean)
+      : [];
+    if (metaNames.length > 0) return metaNames;
+    if (typeof unit.name === "string" && unit.name.trim()) return [unit.name.trim()];
+    return ["X"];
+  }
+
+  buildFusionDisplayName(sourceNames) {
+    const names = sourceNames
+      .map((x) => compactNamePart(x))
+      .filter(Boolean)
+      .slice(0, 64);
+
+    if (names.length === 0) return "Fusion";
+
+    const maxLen = 12;
+    if (names.length === 1) return names[0].slice(0, maxLen);
+
+    if (names.length === 2) {
+      const buildHeadTail = (raw) => {
+        if (raw.length <= 6) return raw;
+        return `${raw.slice(0, 3)}${raw.slice(-3)}`;
+      };
+      const merged = `${buildHeadTail(names[0])}${buildHeadTail(names[1])}`;
+      return merged.slice(0, maxLen) || "Fusion";
+    }
+
+    const perPart = names.length <= 3
+      ? 4
+      : names.length <= 4
+        ? 3
+        : names.length <= 6
+          ? 2
+          : 1;
+
+    const tokens = names.map((x) => x.slice(0, perPart)).filter(Boolean);
+    let out = "";
+    let round = 0;
+
+    while (out.length < maxLen && round < perPart) {
+      for (const token of tokens) {
+        if (out.length >= maxLen) break;
+        const ch = token[round];
+        if (ch) out += ch;
+      }
+      round += 1;
+    }
+
+    if (out.length < maxLen) {
+      out += tokens.join("");
+    }
+
+    return out.slice(0, maxLen) || "Fusion";
+  }
+
   createFusionUnit(slotA, slotB) {
     const a = slotA.unit;
     const b = slotB.unit;
@@ -807,14 +879,22 @@ export class Game {
     const spd = Number((Math.max(asNumber(a.stats?.spd, 1), asNumber(b.stats?.spd, 1)) + Math.min(asNumber(a.stats?.spd, 1), asNumber(b.stats?.spd, 1)) * 0.35).toFixed(2));
     const passiveA = a.passive ?? null;
     const passiveB = b.passive ?? null;
+    const fromA = Array.isArray(a.fusionMeta?.from) ? a.fusionMeta.from : [a.id];
+    const fromB = Array.isArray(b.fusionMeta?.from) ? b.fusionMeta.from : [b.id];
+    const namesA = this.getFusionSourceNames(a);
+    const namesB = this.getFusionSourceNames(b);
+    const mergedSourceNames = [...namesA, ...namesB].slice(0, 64);
+    const sourceCount = mergedSourceNames.length;
     const mergedEffects = this.mergePassiveEffects(passiveA?.effects ?? {}, passiveB?.effects ?? {});
     const mergedTone = this.mergePassiveTone(passiveA?.effectTone ?? "mixed", passiveB?.effectTone ?? "mixed");
     const colorA = passiveA?.themeColor ?? this.getCharacterThemeColor(a);
     const colorB = passiveB?.themeColor ?? this.getCharacterThemeColor(b);
+    const fusionName = this.buildFusionDisplayName(mergedSourceNames);
+    const fusionId = `fusion:${uid()}`;
 
     const passive = {
-      id: `fusion-${a.id}-${b.id}`,
-      name: `Fusion ${a.name} + ${b.name}`,
+      id: `fusion-passive:${uid()}`,
+      name: `Fusion ${fusionName}`,
       effectTone: mergedTone,
       desc: "Ky nang hop the: ket hop toan bo nang luc cua hai the.",
       effects: mergedEffects,
@@ -823,23 +903,24 @@ export class Game {
     };
 
     const archetypes = [...new Set([...(a.archetypes ?? []), ...(b.archetypes ?? [])])].slice(0, 6);
-    const name = `${primary.name} × ${secondary.name}`;
 
     return {
       uid: uid(),
-      id: `fusion:${a.id}+${b.id}`,
-      name,
+      id: fusionId,
+      name: fusionName,
       cost: clamp(Math.max(asNumber(a.cost, 1), asNumber(b.cost, 1)), 1, 5),
       faction: primary.faction ?? a.faction ?? "Fusion",
       archetypes,
-      bio: `Don vi hop the cua ${a.name} va ${b.name}.`,
+      bio: `Don vi hop the gom ${sourceCount} the goc.`,
       imageUrl: primary.imageUrl ?? "",
       fusionImageUrl2: secondary.imageUrl ?? "",
       star,
       stats: { hp, atk, spd },
       passive,
       fusionMeta: {
-        from: [a.id, b.id],
+        from: [...fromA, ...fromB].slice(0, 64),
+        names: mergedSourceNames,
+        sourceCount,
         atRound: this.state.round,
       },
     };
