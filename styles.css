@@ -596,6 +596,7 @@ p {
   margin-top: 10px;
   max-height: 170px;
   overflow: auto;
+  scroll-behavior: smooth;
   border: 1px solid #3d567d;
   border-radius: 10px;
   padding: 8px;
@@ -628,6 +629,10 @@ p {
 
 .logSkill {
   color: #ffb3dc;
+}
+
+.logLatest {
+  animation: logPulse 0.34s ease;
 }
 
 .btn {
@@ -839,6 +844,19 @@ p {
   0% { transform: scale(1); filter: brightness(1); }
   50% { transform: scale(1.02); filter: brightness(1.45); }
   100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes logPulse {
+  0% {
+    transform: translateX(-4px);
+    filter: brightness(1.25);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateX(0);
+    filter: brightness(1);
+    opacity: 1;
+  }
 }
 
 @keyframes critFlash {

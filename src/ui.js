@@ -666,16 +666,22 @@ function renderPlaybackFrame(view, flashActorKey = "", flashTargetKey = "", flas
     .join("");
   log.innerHTML = view.logs
     .map((line, idx) => {
+      const latest = idx === view.logs.length - 1 && idx > 0 ? " logLatest" : "";
       const shown = displayText(line);
       if (idx === 0) return `<div class="combatTitle">${shown}</div>`;
-      if (line.startsWith("[BUFF]")) return `<div class="logBuff">${shown}</div>`;
-      if (line.startsWith("[DEBUFF]")) return `<div class="logDebuff">${shown}</div>`;
-      if (line.startsWith("[MIXED]")) return `<div class="logMixed">${shown}</div>`;
-      if (line.startsWith("[ATK]")) return `<div class="logAttack">${shown}</div>`;
-      if (line.startsWith("[SKILL]")) return `<div class="logSkill">${shown}</div>`;
-      return `<div>${shown}</div>`;
+      if (line.startsWith("[BUFF]")) return `<div class="logBuff${latest}">${shown}</div>`;
+      if (line.startsWith("[DEBUFF]")) return `<div class="logDebuff${latest}">${shown}</div>`;
+      if (line.startsWith("[MIXED]")) return `<div class="logMixed${latest}">${shown}</div>`;
+      if (line.startsWith("[ATK]")) return `<div class="logAttack${latest}">${shown}</div>`;
+      if (line.startsWith("[SKILL]")) return `<div class="logSkill${latest}">${shown}</div>`;
+      return `<div class="${latest.trim()}">${shown}</div>`;
     })
     .join("");
+
+  // Keep log in live-follow mode during playback so users don't need manual scrolling.
+  requestAnimationFrame(() => {
+    log.scrollTop = log.scrollHeight;
+  });
 }
 
 function applyCombatEvent(view, event) {
