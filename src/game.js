@@ -3,6 +3,7 @@ import factionsData from "../data/factions.json" with { type: "json" };
 import archetypesData from "../data/archetypes.json" with { type: "json" };
 import bossesData from "../data/bosses.json" with { type: "json" };
 import shopOddsData from "../data/shopOdds.json" with { type: "json" };
+import passivesData from "../data/passives.json" with { type: "json" };
 
 const BENCH_SIZE = 8;
 const BOARD_MAX = 9;
@@ -19,6 +20,53 @@ const XP_TO_NEXT = {
   6: 56,
   7: 80,
   8: 110,
+};
+
+const CHARACTER_THEME_BY_ID = {
+  c001: "#f59e0b",
+  c002: "#7dd3fc",
+  c003: "#93c5fd",
+  c004: "#fb7185",
+  c005: "#a78bfa",
+  c006: "#f97316",
+  c007: "#60a5fa",
+  c008: "#ef4444",
+  c009: "#f43f5e",
+  c010: "#7c3aed",
+  c011: "#c4b5fd",
+  c012: "#38bdf8",
+  c013: "#22c55e",
+  c014: "#fbbf24",
+  c015: "#34d399",
+  c016: "#e879f9",
+  c017: "#f8fafc",
+  c018: "#f59e0b",
+  c019: "#fcd34d",
+  c020: "#818cf8",
+  c021: "#6ee7b7",
+  c022: "#93c5fd",
+  c023: "#f9a8d4",
+  c024: "#f97316",
+  c025: "#f472b6",
+  c026: "#84cc16",
+  c027: "#22d3ee",
+  c028: "#fb7185",
+  c029: "#fde047",
+  c030: "#9ca3af",
+};
+
+const FACTION_THEME_BY_NAME = {
+  "Astral Express": "#60a5fa",
+  "Stellaron Hunters": "#f97316",
+  Belobog: "#38bdf8",
+  "Xianzhou Luofu": "#f59e0b",
+  IPC: "#fbbf24",
+  "Genius Society": "#a78bfa",
+  Penacony: "#f472b6",
+  "Galaxy Rangers": "#fb7185",
+  "Masked Fools": "#f43f5e",
+  "Chrysos Heirs": "#22d3ee",
+};
 };
 
 function randomInt(min, max) {
@@ -41,22 +89,161 @@ function isBossRound(round) {
   return round > 0 && round % 5 === 0;
 }
 
+function asNumber(value, fallback = 0) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 export class Game {
   constructor() {
-    this.characters = charactersData;
-    this.factions = factionsData;
-    this.archetypes = archetypesData;
-    this.bosses = bossesData;
+    const validated = this.validateDataIntegrity();
+    this.integrityIssues = validated.issues;
+    this.characters = validated.characters;
+    this.factions = validated.factions;
+    this.archetypes = validated.archetypes;
+    this.bosses = validated.bosses;
+    this.passives = validated.passives;
+    this.shopOdds = validated.shopOdds;
     this.archetypeNameById = new Map(this.archetypes.map((x) => [x.id, x.name]));
     this.charactersById = new Map(this.characters.map((u) => [u.id, u]));
+    this.passiveById = new Map(this.passives.map((x) => [x.id, x]));
     this.charactersByCost = new Map();
     for (const unit of this.characters) {
       if (!this.charactersByCost.has(unit.cost)) this.charactersByCost.set(unit.cost, []);
       this.charactersByCost.get(unit.cost).push(unit);
     }
-    this.oddsByLevel = new Map(shopOddsData.map((x) => [x.level, x.odds]));
+    this.oddsByLevel = new Map(this.shopOdds.map((x) => [x.level, x.odds]));
 
     this.newRun();
+  }
+
+  validateDataIntegrity() {
+    const issues = [];
+    const characters = [];
+    const factions = Array.isArray(factionsData) ? factionsData : [];
+    const archetypes = Array.isArray(archetypesData) ? archetypesData : [];
+    const bosses = [];
+    const passives = [];
+    const shopOdds = [];
+
+    const seenCharacterIds = new Set();
+    for (const raw of Array.isArray(charactersData) ? charactersData : []) {
+      if (!raw || typeof raw !== "object") {
+        issues.push("characters: co phan tu khong hop le.");
+        continue;
+      }
+
+      const id = typeof raw.id === "string" ? raw.id.trim() : "";
+      const name = typeof raw.name === "string" ? raw.name.trim() : "";
+      const cost = Math.floor(asNumber(raw.cost, -1));
+      const hp = Math.floor(asNumber(raw.stats?.hp, -1));
+      const atk = Math.floor(asNumber(raw.stats?.atk, -1));
+      const spd = asNumber(raw.stats?.spd, -1);
+
+      if (!id || seenCharacterIds.has(id)) {
+        issues.push(`characters: id loi hoac trung (${id || "missing"}).`);
+        continue;
+      }
+      if (!name || cost < 1 || cost > 5) {
+        issues.push(`characters: ${id} thieu name/cost hop le.`);
+        continue;
+      }
+      if (hp <= 0 || atk <= 0 || spd <= 0) {
+        issues.push(`characters: ${id} thieu stats hp/atk/spd hop le.`);
+        continue;
+      }
+
+      seenCharacterIds.add(id);
+      characters.push(raw);
+    }
+
+    const seenPassiveIds = new Set();
+    for (const raw of Array.isArray(passivesData) ? passivesData : []) {
+      if (!raw || typeof raw !== "object") {
+        issues.push("passives: co phan tu khong hop le.");
+        continue;
+      }
+      const id = typeof raw.id === "string" ? raw.id.trim() : "";
+      const name = typeof raw.name === "string" ? raw.name.trim() : "";
+      if (!id || !name || seenPassiveIds.has(id)) {
+        issues.push(`passives: id/name loi (${id || "missing"}).`);
+        continue;
+      }
+      if (!characters.some((x) => x.id === id)) {
+        issues.push(`passives: ${id} khong co character tuong ung.`);
+        continue;
+      }
+      seenPassiveIds.add(id);
+      passives.push(raw);
+    }
+
+    for (const raw of Array.isArray(shopOddsData) ? shopOddsData : []) {
+      if (!raw || typeof raw !== "object") {
+        issues.push("shopOdds: co phan tu khong hop le.");
+        continue;
+      }
+      const level = Math.floor(asNumber(raw.level, -1));
+      const odds = Array.isArray(raw.odds) ? raw.odds : [];
+      const sum = odds.reduce((acc, item) => acc + asNumber(item?.pct, 0), 0);
+      if (level < 1 || level > MAX_LEVEL || odds.length === 0 || sum <= 0) {
+        issues.push(`shopOdds: level ${raw.level ?? "missing"} loi.`);
+        continue;
+      }
+      shopOdds.push(raw);
+    }
+
+    for (const raw of Array.isArray(bossesData) ? bossesData : []) {
+      if (!raw || typeof raw !== "object") {
+        issues.push("bosses: co phan tu khong hop le.");
+        continue;
+      }
+      const id = typeof raw.id === "string" ? raw.id.trim() : "";
+      const hp = Math.floor(asNumber(raw.base?.hp, -1));
+      const atk = Math.floor(asNumber(raw.base?.atk, -1));
+      const spd = asNumber(raw.base?.spd, -1);
+      if (!id || hp <= 0 || atk <= 0 || spd <= 0) {
+        issues.push(`bosses: ${id || "missing"} loi du lieu base.`);
+        continue;
+      }
+      bosses.push(raw);
+    }
+
+    if (characters.length === 0) {
+      throw new Error("Khong co du lieu character hop le.");
+    }
+
+    if (shopOdds.length === 0) {
+      throw new Error("Khong co du lieu shopOdds hop le.");
+    }
+
+    return {
+      issues,
+      characters,
+      factions,
+      archetypes,
+      bosses: bosses.length > 0 ? bosses : bossesData,
+      passives,
+      shopOdds,
+    };
+  }
+
+  passivePowerScale(cost, star, round) {
+    const costFactor = ({ 1: 0.84, 2: 0.9, 3: 1, 4: 1.08, 5: 1.15 })[cost] ?? 1;
+    const starFactor = 1 + Math.max(0, star - 1) * 0.08;
+    const roundFactor = round >= 16 ? 0.82 : round >= 11 ? 0.9 : 1;
+    return costFactor * starFactor * roundFactor;
+  }
+
+  scalePassivePct(value, scale, cap = 0.55) {
+    if (!value) return 0;
+    return clamp(value * scale, 0, cap);
+  }
+
+  scalePassiveChance(value, cost, round, cap = 0.42) {
+    if (!value) return 0;
+    const costFactor = ({ 1: 0.82, 2: 0.88, 3: 0.95, 4: 1.02, 5: 1.1 })[cost] ?? 1;
+    const roundFactor = round >= 16 ? 0.78 : round >= 11 ? 0.86 : 0.95;
+    return clamp(value * costFactor * roundFactor, 0, cap);
   }
 
   newRun() {
@@ -70,7 +257,11 @@ export class Game {
       losses: 0,
       streak: 0,
       lockedShop: false,
+      shopLockTargetRound: null,
       bench: Array(BENCH_SIZE).fill(null),
+      settings: {
+        showEmoji: true,
+      },
       board: Array(BOARD_MAX).fill(null),
       shop: Array(SHOP_SIZE).fill(null),
       combat: {
@@ -88,6 +279,7 @@ export class Game {
       inspect: {
         title: "Huong dan nhanh",
         tags: ["Keo-tha de sap doi hinh"],
+        passive: null,
       },
     };
 
@@ -100,7 +292,36 @@ export class Game {
     if (!snapshot.state || !Array.isArray(snapshot.state.bench) || !Array.isArray(snapshot.state.board)) {
       return false;
     }
-    this.state = snapshot.state;
+    const source = snapshot.state;
+
+    const level = clamp(Math.floor(asNumber(source.level, 1)), 1, MAX_LEVEL);
+    const xpCap = XP_TO_NEXT[level] ?? 0;
+    const board = Array.from({ length: BOARD_MAX }, (_, i) => this.normalizeOwnedUnit(source.board[i]));
+    const bench = Array.from({ length: BENCH_SIZE }, (_, i) => this.normalizeOwnedUnit(source.bench[i]));
+    const shop = Array.from({ length: SHOP_SIZE }, (_, i) => this.normalizeShopOffer(source.shop?.[i]));
+
+    this.state = {
+      round: Math.max(1, Math.floor(asNumber(source.round, 1))),
+      gold: Math.max(0, Math.floor(asNumber(source.gold, 0))),
+      level,
+      xp: clamp(Math.floor(asNumber(source.xp, 0)), 0, xpCap),
+      playerHp: clamp(Math.floor(asNumber(source.playerHp, 100)), 0, 999),
+      wins: Math.max(0, Math.floor(asNumber(source.wins, 0))),
+      losses: Math.max(0, Math.floor(asNumber(source.losses, 0))),
+      streak: Math.floor(asNumber(source.streak, 0)),
+      lockedShop: Boolean(source.lockedShop),
+      shopLockTargetRound: source.lockedShop
+        ? Math.max(1, Math.floor(asNumber(source.shopLockTargetRound, asNumber(source.round, 1) + 1)))
+        : null,
+      bench,
+      board,
+      shop,
+      combat: source.combat && typeof source.combat === "object" ? source.combat : null,
+      inspect: source.inspect && typeof source.inspect === "object" ? source.inspect : null,
+      settings: {
+        showEmoji: source.settings?.showEmoji !== false,
+      },
+    };
 
     if (!this.state.combat) {
       this.state.combat = {
@@ -115,16 +336,96 @@ export class Game {
         playbackId: 0,
         log: ["Ban da tai save cu."],
       };
+    } else {
+      this.state.combat.events = Array.isArray(this.state.combat.events) ? this.state.combat.events : [];
+      this.state.combat.log = Array.isArray(this.state.combat.log)
+        ? this.state.combat.log.slice(0, 80)
+        : ["Ban da tai ban luu."];
+      this.state.combat.playbackId = Math.floor(asNumber(this.state.combat.playbackId, Date.now()));
+      this.state.combat.startAllies = Array.isArray(this.state.combat.startAllies)
+        ? this.state.combat.startAllies
+        : [];
+      this.state.combat.startEnemies = Array.isArray(this.state.combat.startEnemies)
+        ? this.state.combat.startEnemies
+        : [];
+      this.state.combat.allies = Array.isArray(this.state.combat.allies) ? this.state.combat.allies : [];
+      this.state.combat.enemies = Array.isArray(this.state.combat.enemies) ? this.state.combat.enemies : [];
     }
 
     if (!this.state.inspect) {
       this.state.inspect = {
         title: "Thong tin",
         tags: ["Di chuot vao tuong de xem"],
+        passive: null,
+      };
+    } else {
+      const passive = this.state.inspect.passive;
+      this.state.inspect = {
+        title: this.state.inspect.title ?? this.state.inspect.name ?? "Thong tin",
+        tags: Array.isArray(this.state.inspect.tags) ? this.state.inspect.tags.filter(Boolean).slice(0, 4) : [],
+        passive: passive && typeof passive === "object"
+          ? {
+            name: passive.name ?? "Passive",
+            effectTone: passive.effectTone ?? "mixed",
+            desc: passive.desc ?? "",
+          }
+          : null,
       };
     }
 
+    if (!this.state.lockedShop && this.state.shop.every((x) => !x)) {
+      this.rollShop(true);
+    }
+
     return true;
+  }
+
+  normalizeOwnedUnit(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    const base = this.charactersById.get(raw.id);
+    if (!base) return null;
+
+    const star = clamp(Math.floor(asNumber(raw.star, 1)), 1, 3);
+    const rawStats = raw.stats && typeof raw.stats === "object" ? raw.stats : {};
+    const stats = {
+      hp: Math.max(1, Math.floor(asNumber(rawStats.hp, base.stats.hp))),
+      atk: Math.max(1, Math.floor(asNumber(rawStats.atk, base.stats.atk))),
+      spd: Math.max(0.1, asNumber(rawStats.spd, base.stats.spd)),
+    };
+    const passive = this.buildPassiveForUnit(base);
+
+    return {
+      uid: typeof raw.uid === "string" && raw.uid.trim() ? raw.uid : uid(),
+      id: base.id,
+      name: base.name,
+      cost: base.cost,
+      faction: base.faction,
+      archetypes: [...(base.archetypes ?? [])],
+      bio: base.bio,
+      imageUrl: raw.imageUrl ?? base.imageUrl ?? "",
+      star,
+      stats,
+      bossSkill: raw.bossSkill ?? null,
+      passive,
+    };
+  }
+
+  normalizeShopOffer(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    const base = this.charactersById.get(raw.id);
+    if (!base) return null;
+    const passive = this.buildPassiveForUnit(base);
+
+    return {
+      id: base.id,
+      name: base.name,
+      cost: base.cost,
+      faction: base.faction,
+      archetypes: [...(base.archetypes ?? [])],
+      bio: base.bio,
+      imageUrl: raw.imageUrl ?? base.imageUrl ?? "",
+      passive,
+    };
   }
 
   serialize() {
@@ -155,6 +456,7 @@ export class Game {
     this.state.inspect = {
       title: payload.title ?? payload.name ?? "Thong tin",
       tags: payload.tags ?? [],
+      passive: payload.passive ?? null,
     };
   }
 
@@ -179,6 +481,7 @@ export class Game {
     this.setInspect({
       title: x.name,
       tags: this.unitInspectTags(x),
+      passive: x.passive ?? null,
     });
   }
 
@@ -188,6 +491,7 @@ export class Game {
     this.setInspect({
       title: x.name,
       tags: this.unitInspectTags(x),
+      passive: x.passive ?? null,
     });
   }
 
@@ -197,7 +501,41 @@ export class Game {
     this.setInspect({
       title: x.name,
       tags: this.unitInspectTags(x),
+      passive: x.passive ?? null,
     });
+  }
+
+  getPassiveById(unitId) {
+    return this.passiveById.get(unitId) ?? null;
+  }
+
+  getCharacterThemeColor(base) {
+    if (!base) return "#7aa2ff";
+    return CHARACTER_THEME_BY_ID[base.id]
+      ?? FACTION_THEME_BY_NAME[base.faction]
+      ?? "#7aa2ff";
+  }
+
+  getPassiveTriggerKinds(effects = {}) {
+    const out = [];
+    const keys = Object.keys(effects);
+    if (keys.some((x) => x.startsWith("onAttack"))) out.push("ATK");
+    if (keys.some((x) => x.startsWith("onHit"))) out.push("HIT");
+    if (keys.some((x) => x.startsWith("periodic"))) out.push("AURA");
+    return out;
+  }
+
+  buildPassiveForUnit(base) {
+    if (!base) return null;
+    const passive = this.getPassiveById(base.id);
+    if (!passive) return null;
+    const effects = { ...(passive.effects ?? {}) };
+    return {
+      ...passive,
+      effects,
+      themeColor: this.getCharacterThemeColor(base),
+      triggerKinds: this.getPassiveTriggerKinds(effects),
+    };
   }
 
   getSynergyRows(configList, countMap, group) {
@@ -280,6 +618,8 @@ export class Game {
     this.state.shop = Array.from({ length: SHOP_SIZE }, () => {
       const cost = this.rollCost(this.state.level);
       const base = this.randomUnitByCost(cost);
+      if (!base) return null;
+      const passive = this.buildPassiveForUnit(base);
       return {
         id: base.id,
         name: base.name,
@@ -288,6 +628,7 @@ export class Game {
         archetypes: base.archetypes,
         bio: base.bio,
         imageUrl: base.imageUrl ?? "",
+        passive,
       };
     });
 
@@ -296,10 +637,17 @@ export class Game {
 
   lockShop() {
     this.state.lockedShop = !this.state.lockedShop;
+    this.state.shopLockTargetRound = this.state.lockedShop ? this.state.round + 1 : null;
     return { ok: true };
   }
 
+  getShopLockTargetRound() {
+    if (!this.state.lockedShop) return null;
+    return Math.max(this.state.round + 1, asNumber(this.state.shopLockTargetRound, this.state.round + 1));
+  }
+
   createOwnedUnit(base, star = 1) {
+    const passive = this.buildPassiveForUnit(base);
     return {
       uid: uid(),
       id: base.id,
@@ -311,7 +659,13 @@ export class Game {
       imageUrl: base.imageUrl ?? "",
       star,
       stats: { ...base.stats },
+      passive,
     };
+  }
+
+  setEmojiEnabled(enabled) {
+    this.state.settings.showEmoji = Boolean(enabled);
+    return { ok: true };
   }
 
   findEmptyBenchIndex() {
@@ -335,6 +689,10 @@ export class Game {
 
     this.state.gold -= offer.cost;
     const base = this.charactersById.get(offer.id);
+    if (!base) {
+      this.state.shop[index] = null;
+      return { ok: false, reason: "Du lieu tuong loi, hay lam moi shop." };
+    }
     this.state.bench[benchIndex] = this.createOwnedUnit(base, 1);
     this.state.shop[index] = null;
 
@@ -549,11 +907,14 @@ export class Game {
       side,
       index,
       name: `${unit.name} ${"★".repeat(unit.star)}`,
+      cost: unit.cost ?? 1,
+      star: unit.star ?? 1,
       imageUrl: unit.imageUrl ?? "",
       bio: unit.bio ?? "",
       faction: unit.faction ?? "",
       archetypes: [...(unit.archetypes ?? [])],
       bossSkill: unit.bossSkill ?? null,
+      passive: unit.passive ?? null,
       hp,
       maxHp: hp,
       atk,
@@ -568,6 +929,8 @@ export class Game {
       side: f.side,
       index: f.index,
       name: f.name,
+      cost: f.cost,
+      star: f.star,
       hp: f.hp,
       maxHp: f.maxHp,
       atk: f.atk,
@@ -578,7 +941,210 @@ export class Game {
       faction: f.faction,
       archetypes: [...(f.archetypes ?? [])],
       bossSkill: f.bossSkill,
+      passive: f.passive ?? null,
     };
+  }
+
+  createPassiveRuntime(fighter) {
+    return {
+      key: fighter.key,
+      damageReductionPct: 0,
+      damageOutPct: 0,
+      damageTakenPctUp: 0,
+      lifestealPct: 0,
+      executeThresholdPct: 0,
+      executeBonusPct: 0,
+      onKillAtkPct: 0,
+      onKillSpdPct: 0,
+      onAttackWeakenPctDown: 0,
+      onAttackMarkPctUp: 0,
+      onHitThornsPct: 0,
+      onHitGuardPct: 0,
+      onHitHealPct: 0,
+      extraHitChance: 0,
+      extraHitPct: 0,
+      periodicHealPct: 0,
+      periodicHealInterval: 0,
+    };
+  }
+
+  pushPassiveEvent(events, log, actor, passive, text) {
+    const tone = passive?.effectTone ?? "mixed";
+    const prefix = tone === "beneficial"
+      ? "[BUFF] ✨"
+      : tone === "harmful"
+        ? "[DEBUFF] ☠️"
+        : "[MIXED] 🌀";
+    const line = `${prefix} ${text}`;
+    log.push(line);
+    events.push({
+      type: "passive",
+      actorKey: actor.key,
+      text: line,
+      tone,
+    });
+  }
+
+  applyPassiveStartEffects(actor, ownTeam, enemyTeam, runtimeState, events, log, round) {
+    const passive = actor.passive;
+    if (!passive) return;
+    const effects = passive.effects ?? {};
+    const state = runtimeState.get(actor.key) ?? this.createPassiveRuntime(actor);
+    const powerScale = this.passivePowerScale(actor.cost ?? 3, actor.star ?? 1, round);
+
+    if (effects.selfAtkPct) {
+      const pct = this.scalePassivePct(effects.selfAtkPct, powerScale, 0.32);
+      actor.atk = Math.max(1, Math.round(actor.atk * (1 + pct)));
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} kich hoat ${passive.name}: +${Math.round(effects.selfAtkPct * 100)}% ATK.`);
+    }
+
+    if (effects.selfSpdPct) {
+      const pct = this.scalePassivePct(effects.selfSpdPct, powerScale, 0.26);
+      actor.spd = Number((actor.spd * (1 + pct)).toFixed(2));
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} co nhip tan cong nhanh hon.`);
+    }
+
+    if (effects.selfDmgReductionPct) {
+      state.damageReductionPct += this.scalePassivePct(effects.selfDmgReductionPct, powerScale, 0.24);
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} giam sat thuong nhan vao.`);
+    }
+
+    if (effects.selfLifestealPct) {
+      state.lifestealPct += this.scalePassivePct(effects.selfLifestealPct, powerScale, 0.3);
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} nhan hut mau tu don danh.`);
+    }
+
+    if (effects.selfShieldPct) {
+      const pct = this.scalePassivePct(effects.selfShieldPct, powerScale, 0.24);
+      const extra = Math.max(1, Math.round(actor.maxHp * pct));
+      actor.maxHp += extra;
+      actor.hp += extra;
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} tao mau ao +${extra}.`);
+    }
+
+    if (effects.teamAtkPct) {
+      const pct = this.scalePassivePct(effects.teamAtkPct, powerScale * 0.85, 0.22);
+      for (const unit of ownTeam) {
+        unit.atk = Math.max(1, Math.round(unit.atk * (1 + pct)));
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} tang ATK toan doi.`);
+    }
+
+    if (effects.teamSpdPct) {
+      const pct = this.scalePassivePct(effects.teamSpdPct, powerScale * 0.85, 0.2);
+      for (const unit of ownTeam) {
+        unit.spd = Number((unit.spd * (1 + pct)).toFixed(2));
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} tang SPD toan doi.`);
+    }
+
+    if (effects.teamShieldPct) {
+      const pct = this.scalePassivePct(effects.teamShieldPct, powerScale * 0.85, 0.22);
+      for (const unit of ownTeam) {
+        const extra = Math.max(1, Math.round(unit.maxHp * pct));
+        unit.maxHp += extra;
+        unit.hp += extra;
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} dat khien dau tran cho dong doi.`);
+    }
+
+    if (effects.teamDmgReductionPct) {
+      const pct = this.scalePassivePct(effects.teamDmgReductionPct, powerScale * 0.85, 0.2);
+      for (const unit of ownTeam) {
+        const ownState = runtimeState.get(unit.key) ?? this.createPassiveRuntime(unit);
+        ownState.damageReductionPct += pct;
+        runtimeState.set(unit.key, ownState);
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} giam sat thuong toan doi.`);
+    }
+
+    if (effects.enemyAtkPctDown) {
+      const pct = this.scalePassivePct(effects.enemyAtkPctDown, powerScale, 0.24);
+      for (const unit of enemyTeam) {
+        unit.atk = Math.max(1, Math.round(unit.atk * (1 - pct)));
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} lam giam sat thuong doi thu.`);
+    }
+
+    if (effects.enemySpdPctDown) {
+      const pct = this.scalePassivePct(effects.enemySpdPctDown, powerScale, 0.24);
+      for (const unit of enemyTeam) {
+        unit.spd = Number((unit.spd * (1 - pct)).toFixed(2));
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} lam cham doi hinh doi thu.`);
+    }
+
+    if (effects.enemyDmgTakenPctUp) {
+      const pct = this.scalePassivePct(effects.enemyDmgTakenPctUp, powerScale, 0.22);
+      for (const unit of enemyTeam) {
+        const enemyState = runtimeState.get(unit.key) ?? this.createPassiveRuntime(unit);
+        enemyState.damageTakenPctUp += pct;
+        runtimeState.set(unit.key, enemyState);
+      }
+      this.pushPassiveEvent(events, log, actor, passive, `${actor.name} khien doi thu de bi sat thuong hon.`);
+    }
+
+    if (effects.executeThresholdPct) {
+      const threshold = this.scalePassivePct(effects.executeThresholdPct, powerScale, 0.62);
+      state.executeThresholdPct = Math.max(state.executeThresholdPct, threshold);
+    }
+    if (effects.executeBonusPct) {
+      const bonus = this.scalePassivePct(effects.executeBonusPct, powerScale, 0.36);
+      state.executeBonusPct = Math.max(state.executeBonusPct, bonus);
+    }
+    if (effects.onKillAtkPct) state.onKillAtkPct += this.scalePassivePct(effects.onKillAtkPct, powerScale, 0.18);
+    if (effects.onKillSpdPct) state.onKillSpdPct += this.scalePassivePct(effects.onKillSpdPct, powerScale, 0.16);
+    if (effects.onAttackWeakenPctDown) {
+      state.onAttackWeakenPctDown += this.scalePassivePct(effects.onAttackWeakenPctDown, powerScale, 0.2);
+    }
+    if (effects.onAttackMarkPctUp) {
+      state.onAttackMarkPctUp += this.scalePassivePct(effects.onAttackMarkPctUp, powerScale, 0.2);
+    }
+    if (effects.onHitThornsPct) {
+      state.onHitThornsPct += this.scalePassivePct(effects.onHitThornsPct, powerScale, 0.3);
+    }
+    if (effects.onHitGuardPct) {
+      state.onHitGuardPct += this.scalePassivePct(effects.onHitGuardPct, powerScale, 0.14);
+    }
+    if (effects.onHitHealPct) {
+      state.onHitHealPct += this.scalePassivePct(effects.onHitHealPct, powerScale, 0.16);
+    }
+    if (effects.extraHitChance) {
+      state.extraHitChance += this.scalePassiveChance(effects.extraHitChance, actor.cost ?? 3, round, 0.42);
+    }
+    if (effects.extraHitPct) state.extraHitPct += this.scalePassivePct(effects.extraHitPct, powerScale, 0.52);
+    if (effects.periodicHealPct) {
+      state.periodicHealPct = Math.max(state.periodicHealPct, this.scalePassivePct(effects.periodicHealPct, powerScale, 0.2));
+    }
+    if (effects.periodicHealInterval) {
+      const interval = Math.max(1, Math.floor(asNumber(effects.periodicHealInterval, 0)));
+      state.periodicHealInterval = state.periodicHealInterval > 0
+        ? Math.min(state.periodicHealInterval, interval)
+        : interval;
+    }
+
+    runtimeState.set(actor.key, state);
+  }
+
+  applyPeriodicHeal(actor, ownTeam, state, turn, events, log) {
+    if (!state?.periodicHealPct || !state.periodicHealInterval) return;
+    if (turn % state.periodicHealInterval !== 0) return;
+
+    for (const ally of ownTeam) {
+      if (!ally.alive) continue;
+      const heal = Math.max(1, Math.round(ally.maxHp * state.periodicHealPct));
+      ally.hp = Math.min(ally.maxHp, ally.hp + heal);
+    }
+
+    const passiveName = actor.passive?.name ?? "Healing Pulse";
+    const text = `[BUFF] ✨ ${actor.name} kich hoat ${passiveName}: hoi phuc dong doi.`;
+    log.push(text);
+    events.push({
+      type: "passive",
+      actorKey: actor.key,
+      text,
+      tone: "beneficial",
+    });
   }
 
   createBossUnit(boss, round) {
@@ -677,12 +1243,25 @@ export class Game {
 
     const allies = allyUnits.map((u, i) => this.makeFighter(u, "ally", i, allyBuffs, 1));
     const enemies = enemyUnits.map((u, i) => this.makeFighter(u, "enemy", i, enemyBuffs, 1));
-    const startAllies = allies.map((f) => this.cloneFighter(f));
-    const startEnemies = enemies.map((f) => this.cloneFighter(f));
     const events = [];
     const bossCooldown = new Map();
+    const passiveRuntime = new Map();
 
     const log = [];
+    for (const fighter of [...allies, ...enemies]) {
+      passiveRuntime.set(fighter.key, this.createPassiveRuntime(fighter));
+    }
+
+    for (const ally of allies) {
+      this.applyPassiveStartEffects(ally, allies, enemies, passiveRuntime, events, log, round);
+    }
+    for (const enemy of enemies) {
+      this.applyPassiveStartEffects(enemy, enemies, allies, passiveRuntime, events, log, round);
+    }
+
+    const startAllies = allies.map((f) => this.cloneFighter(f));
+    const startEnemies = enemies.map((f) => this.cloneFighter(f));
+
     let turns = 0;
 
     while (this.pickAlive(allies).length > 0 && this.pickAlive(enemies).length > 0 && turns < 60) {
@@ -693,6 +1272,10 @@ export class Game {
         if (!actor.alive) continue;
         const own = actor.side === "ally" ? allies : enemies;
         const opp = actor.side === "ally" ? enemies : allies;
+        const actorState = passiveRuntime.get(actor.key) ?? this.createPassiveRuntime(actor);
+
+        this.applyPeriodicHeal(actor, own, actorState, turns, events, log);
+
         if (this.pickAlive(opp).length === 0) break;
 
         if (actor.side === "enemy" && actor.bossSkill) {
@@ -705,11 +1288,11 @@ export class Game {
 
           if (tick <= 0) {
             bossCooldown.set(actor.key, interval);
-            log.push(`${actor.name} tung chieu ${actor.bossSkill.name}!`);
+            log.push(`[SKILL] 🔥 ${actor.name} tung chieu ${actor.bossSkill.name}!`);
             events.push({
               type: "skill",
               actorKey: actor.key,
-              text: `${actor.name} tung chieu ${actor.bossSkill.name}!`,
+              text: `[SKILL] 🔥 ${actor.name} tung chieu ${actor.bossSkill.name}!`,
             });
 
             const aliveTargets = this.pickAlive(allies);
@@ -783,13 +1366,22 @@ export class Game {
         }
 
         const target = pickRandom(this.pickAlive(opp));
+        const targetState = passiveRuntime.get(target.key) ?? this.createPassiveRuntime(target);
         const rng = 0.88 + Math.random() * 0.24;
-        const damage = Math.max(1, Math.round(actor.atk * rng));
+        const hpRatio = target.maxHp > 0 ? target.hp / target.maxHp : 1;
+        const executeBonus = hpRatio <= actorState.executeThresholdPct ? actorState.executeBonusPct : 0;
+        const damageScale = 1 + actorState.damageOutPct + executeBonus + targetState.damageTakenPctUp;
+        const damageReduction = clamp(targetState.damageReductionPct, 0, 0.8);
+        const isCrit = Math.random() < 0.18;
+        const critMult = isCrit ? 1.55 : 1;
+        const damage = Math.max(1, Math.round(actor.atk * rng * damageScale * critMult * (1 - damageReduction)));
+        const hitKind = isCrit ? "crit" : damageReduction >= 0.18 ? "shielded" : "normal";
 
         target.hp = Math.max(0, target.hp - damage);
         target.alive = target.hp > 0;
 
-        log.push(`${actor.name} danh ${target.name} -${damage}HP`);
+        const attackIcon = isCrit ? "💥" : "⚔️";
+        log.push(`[ATK] ${attackIcon} ${actor.name} danh ${target.name} -${damage}HP`);
         events.push({
           type: "hit",
           actorKey: actor.key,
@@ -799,8 +1391,153 @@ export class Game {
           damage,
           hpAfter: target.hp,
           dead: !target.alive,
-          text: `${actor.name} danh ${target.name} -${damage}HP`,
+          hitKind,
+          text: `[ATK] ${attackIcon} ${actor.name} danh ${target.name} -${damage}HP`,
         });
+
+        if (actorState.onAttackWeakenPctDown > 0 && target.alive) {
+          const weakenPct = clamp(actorState.onAttackWeakenPctDown, 0, 0.3);
+          target.atk = Math.max(1, Math.round(target.atk * (1 - weakenPct)));
+          const weakenLine = `[DEBUFF] ☠️ ${target.name} bi suy yeu luc danh.`;
+          log.push(weakenLine);
+          events.push({
+            type: "passive",
+            actorKey: actor.key,
+            text: weakenLine,
+            tone: "harmful",
+            badgeTargetKey: target.key,
+            badgeText: "SUY YEU",
+            badgeKind: "debuff",
+          });
+        }
+
+        if (actorState.onAttackMarkPctUp > 0 && target.alive) {
+          const markPct = clamp(actorState.onAttackMarkPctUp, 0, 0.3);
+          targetState.damageTakenPctUp = clamp(targetState.damageTakenPctUp + markPct, 0, 0.8);
+          const markLine = `[DEBUFF] ☠️ ${target.name} bi danh dau, de nhan them sat thuong.`;
+          log.push(markLine);
+          events.push({
+            type: "passive",
+            actorKey: actor.key,
+            text: markLine,
+            tone: "harmful",
+            badgeTargetKey: target.key,
+            badgeText: "DANH DAU",
+            badgeKind: "debuff",
+          });
+        }
+
+        if (targetState.onHitGuardPct > 0 && target.alive) {
+          targetState.damageReductionPct = clamp(targetState.damageReductionPct + targetState.onHitGuardPct, 0, 0.8);
+          const guardLine = `[BUFF] ✨ ${target.name} kich hoat thu the phong thu.`;
+          log.push(guardLine);
+          events.push({
+            type: "passive",
+            actorKey: target.key,
+            text: guardLine,
+            tone: "beneficial",
+            badgeTargetKey: target.key,
+            badgeText: "CHONG DO",
+            badgeKind: "buff",
+          });
+        }
+
+        if (targetState.onHitHealPct > 0 && target.alive) {
+          const healBack = Math.max(1, Math.round(target.maxHp * targetState.onHitHealPct));
+          target.hp = Math.min(target.maxHp, target.hp + healBack);
+          const healLine = `[BUFF] ✨ ${target.name} phan ung hoi phuc +${healBack}HP`;
+          log.push(healLine);
+          events.push({
+            type: "passive",
+            actorKey: target.key,
+            text: healLine,
+            tone: "beneficial",
+            badgeTargetKey: target.key,
+            badgeText: "HOI PHUC",
+            badgeKind: "buff",
+          });
+        }
+
+        if (targetState.onHitThornsPct > 0 && target.alive && actor.alive) {
+          const thornsDamage = Math.max(1, Math.round(damage * clamp(targetState.onHitThornsPct, 0, 0.35)));
+          actor.hp = Math.max(0, actor.hp - thornsDamage);
+          actor.alive = actor.hp > 0;
+          const thornsText = `[ATK] 🛡️ ${target.name} phan don ${actor.name} -${thornsDamage}HP`;
+          log.push(thornsText);
+          events.push({
+            type: "hit",
+            actorKey: target.key,
+            actorName: target.name,
+            targetKey: actor.key,
+            targetName: actor.name,
+            damage: thornsDamage,
+            hpAfter: actor.hp,
+            dead: !actor.alive,
+            hitKind: "reflect",
+            text: thornsText,
+          });
+
+          events.push({
+            type: "passive",
+            actorKey: target.key,
+            text: `[BUFF] ✨ ${target.name} kich hoat phan don manh.`,
+            tone: "mixed",
+            badgeTargetKey: target.key,
+            badgeText: "PHAN DON",
+            badgeKind: "mixed",
+          });
+
+          if (!actor.alive) {
+            const reflectDefeat = `${actor.name} bi ha guc boi phan don.`;
+            log.push(reflectDefeat);
+            events.push({
+              type: "defeat",
+              actorKey: target.key,
+              targetKey: actor.key,
+              text: reflectDefeat,
+            });
+          }
+        }
+
+        passiveRuntime.set(target.key, targetState);
+        passiveRuntime.set(actor.key, actorState);
+
+        if (actorState.lifestealPct > 0) {
+          const heal = Math.max(1, Math.round(damage * actorState.lifestealPct));
+          actor.hp = Math.min(actor.maxHp, actor.hp + heal);
+          const lifestealLine = `[BUFF] ✨ ${actor.name} hut mau +${heal}HP`;
+          log.push(lifestealLine);
+          events.push({
+            type: "passive",
+            actorKey: actor.key,
+            text: lifestealLine,
+            tone: "beneficial",
+            badgeTargetKey: actor.key,
+            badgeText: "HUT MAU",
+            badgeKind: "buff",
+          });
+        }
+
+        if (actorState.extraHitChance > 0 && actorState.extraHitPct > 0 && target.alive) {
+          if (Math.random() < actorState.extraHitChance) {
+            const extraDamage = Math.max(1, Math.round(damage * actorState.extraHitPct));
+            target.hp = Math.max(0, target.hp - extraDamage);
+            target.alive = target.hp > 0;
+            log.push(`[ATK] ⚔️ ${actor.name} kich noi don -${extraDamage}HP vao ${target.name}`);
+            events.push({
+              type: "hit",
+              actorKey: actor.key,
+              actorName: actor.name,
+              targetKey: target.key,
+              targetName: target.name,
+              damage: extraDamage,
+              hpAfter: target.hp,
+              dead: !target.alive,
+              hitKind: "normal",
+              text: `[ATK] ⚔️ ${actor.name} kich noi don -${extraDamage}HP vao ${target.name}`,
+            });
+          }
+        }
 
         if (!target.alive) {
           log.push(`${target.name} bi ha guc.`);
@@ -810,6 +1547,24 @@ export class Game {
             targetKey: target.key,
             text: `${target.name} bi ha guc.`,
           });
+
+          if (actorState.onKillAtkPct > 0 || actorState.onKillSpdPct > 0) {
+            if (actorState.onKillAtkPct > 0) {
+              actor.atk = Math.max(1, Math.round(actor.atk * (1 + actorState.onKillAtkPct)));
+            }
+            if (actorState.onKillSpdPct > 0) {
+              actor.spd = Number((actor.spd * (1 + actorState.onKillSpdPct)).toFixed(2));
+            }
+
+            const frenzyLine = `[BUFF] ✨ ${actor.name} duoc cuong hoa sau khi ket lieu.`;
+            log.push(frenzyLine);
+            events.push({
+              type: "passive",
+              actorKey: actor.key,
+              text: frenzyLine,
+              tone: "beneficial",
+            });
+          }
         }
 
         if (this.pickAlive(opp).length === 0) break;
@@ -897,6 +1652,9 @@ export class Game {
 
     if (!this.state.lockedShop) {
       this.rollShop(true);
+      this.state.shopLockTargetRound = null;
+    } else {
+      this.state.shopLockTargetRound = this.state.round + 1;
     }
 
     return {

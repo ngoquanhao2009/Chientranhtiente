@@ -12,6 +12,16 @@ Simulator web cho mode chien thuat kinh te theo phong cach auto-battler.
 - Synergy 2 lop: Phe phai + Toc he, moi lop co moc kich rieng.
 - Combat basic theo tick voi HP bar, combat log, boss moi 5 round.
 - Save/Load bang localStorage.
+- Tu dong autosave sau moi thao tac hop le (van giu nut Luu/Tai thu cong).
+- Passive skill theo tung tuong (wiki-inferred), co tac dong truc tiep vao combat.
+- Mau skill theo tac dong: xanh la co loi, do la gay bat loi, vang la hon hop.
+- Them trigger ky nang: khi tung don danh (on-attack) va khi bi dinh don (on-hit).
+- Combat log co emoji hieu ung de nhan biet buff/debuff/skill/attack nhanh hon.
+- Card tuong co icon trigger rieng cho ATK/HIT/AURA.
+- Combat co hieu ung hit theo loai (crit, reflect, shielded) va counter text noi khi proc.
+- Co setting bat/tat Emoji FX phu hop tung nguoi choi.
+- Integrity check JSON khi khoi dong: canh bao som neu thieu id/cost/stats.
+- Lock shop hien ro dang giu toi round nao de de canh economy.
 
 ## Cau truc
 
@@ -26,6 +36,12 @@ Simulator web cho mode chien thuat kinh te theo phong cach auto-battler.
 - data/archetypes.json
 - data/bosses.json
 - data/shopOdds.json
+- data/passives.json
+- docs/BALANCE_GUIDE.md
+
+## Tai lieu can bang
+
+- Xem huong dan chinh meta tai `docs/BALANCE_GUIDE.md`.
 
 ## Chay local
 

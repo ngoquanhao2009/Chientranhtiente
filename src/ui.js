@@ -11,6 +11,31 @@ function unitTagHtml(game, unit) {
   return `<span class="chip">${tags.join(" • ")}</span>`;
 }
 
+function passiveToneClass(tone) {
+  if (tone === "beneficial") return "beneficial";
+  if (tone === "harmful") return "harmful";
+  return "mixed";
+}
+
+function passiveBadgeHtml(unit) {
+  const passive = unit?.passive;
+  if (!passive) return "";
+  const tone = passiveToneClass(passive.effectTone);
+  const style = passive.themeColor ? `style="--skill-theme:${passive.themeColor}"` : "";
+  return `<span class="skillBadge ${tone}" ${style} title="${passive.desc ?? ""}">${passive.name}</span>`;
+}
+
+function passiveTriggerIconsHtml(unit) {
+  const kinds = unit?.passive?.triggerKinds ?? [];
+  if (kinds.length === 0) return "";
+  return `<span class="triggerRow">${kinds
+    .map((kind) => {
+      const icon = kind === "ATK" ? "⚔️" : kind === "HIT" ? "🛡️" : "✨";
+      return `<span class="triggerIcon" title="${kind}">${displayText(icon)} ${kind}</span>`;
+    })
+    .join("")}</span>`;
+}
+
 function unitInitials(name = "?") {
   const words = String(name).trim().split(/\s+/).filter(Boolean);
   if (words.length === 0) return "?";
@@ -72,6 +97,15 @@ let suppressClickUntil = 0;
 let isMouseDragging = false;
 const INSPECT_DELAY_MS = 3000;
 let inspectToastTimer = null;
+let emojiEnabled = true;
+
+function stripEmoji(text) {
+  return String(text).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s{2,}/g, " ").trim();
+}
+
+function displayText(text) {
+  return emojiEnabled ? text : stripEmoji(text);
+}
 
 function closestFromTarget(target, selector) {
   if (target instanceof Element) return target.closest(selector);
@@ -89,6 +123,13 @@ export function bindUI(game, handlers) {
   el("btnBuyXp").addEventListener("click", handlers.onBuyXp);
   el("btnNextRound").addEventListener("click", handlers.onNextRound);
   el("btnLockShop").addEventListener("click", handlers.onLockShop);
+  const emojiToggle = el("settingEmoji");
+  if (emojiToggle) {
+    emojiToggle.checked = game.state.settings?.showEmoji !== false;
+    emojiToggle.addEventListener("change", () => {
+      handlers.onToggleEmoji?.(emojiToggle.checked);
+    });
+  }
 
   const shop = el("shop");
   const bench = el("bench");
@@ -403,6 +444,8 @@ function renderBoard(game) {
           </div>
           <div class="cardMid">${starText(unit.star)}</div>
           <div class="cardTags">${unitTagHtml(game, unit)}</div>
+          <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
+          <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
         </div>
       `;
     }
@@ -435,6 +478,8 @@ function renderBench(game) {
           </div>
           <div class="cardMid">${starText(unit.star)}</div>
           <div class="cardTags">${unitTagHtml(game, unit)}</div>
+          <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
+          <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
         </div>
       `;
     }
@@ -464,6 +509,8 @@ function renderShop(game) {
           <span class="cost c${unit.cost}">${unit.cost}</span>
         </div>
         <div class="cardTags">${unitTagHtml(game, unit)}</div>
+        <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
+        <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
       `;
     }
 
@@ -471,8 +518,19 @@ function renderShop(game) {
   }
 
   const lockBtn = el("btnLockShop");
+  const lockHint = el("lockHint");
+  const targetRound = game.getShopLockTargetRound?.() ?? game.state.round + 1;
   lockBtn.classList.toggle("active", game.state.lockedShop);
-  lockBtn.textContent = game.state.lockedShop ? "Dang khoa" : "Khoa Shop";
+  lockBtn.textContent = game.state.lockedShop
+    ? `Mo khoa (giu den R${targetRound})`
+    : `Khoa Shop (giu den R${targetRound})`;
+
+  if (lockHint) {
+    lockHint.textContent = game.state.lockedShop
+      ? `Shop dang duoc khoa va giu nguyen den het Round ${targetRound}.`
+      : `Shop se duoc lam moi khi qua round. Co the khoa truoc de giu lai doi hinh shop den Round ${targetRound}.`;
+    lockHint.classList.toggle("active", game.state.lockedShop);
+  }
 }
 
 function renderTraits(game) {
@@ -519,6 +577,7 @@ function renderInspect(game) {
   const info = game.state.inspect ?? {
     title: "Chua chon",
     tags: ["Toc he"],
+    passive: null,
   };
 
   const meta = (info.tags ?? []).filter(Boolean).join(" • ") || "Toc he";
@@ -534,6 +593,7 @@ function renderInspect(game) {
   toast.innerHTML = `
     <div class="inspectToastName">${info.title}</div>
     <div class="inspectToastMeta">${meta}</div>
+    ${info.passive ? `<div class="inspectPassive ${passiveToneClass(info.passive.effectTone)}"><b>${info.passive.name}</b> - ${info.passive.desc ?? ""}</div>` : ""}
   `;
   toast.classList.add("show");
 
@@ -548,16 +608,21 @@ function fighterHtml(f) {
   return fighterHtmlWithState(f, f.hp, f.alive, "", "");
 }
 
-function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey) {
+function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flashActorKind = "", flashTargetKind = "", counter = null) {
   const actorFlash = f.key === flashActorKey ? " actorFlash" : "";
   const targetFlash = f.key === flashTargetKey ? " targetFlash" : "";
+  const actorFx = f.key === flashActorKey && flashActorKind ? ` hit-${flashActorKind}` : "";
+  const targetFx = f.key === flashTargetKey && flashTargetKind ? ` hit-${flashTargetKind}` : "";
   const currentHp = hp ?? f.hp;
   const effectiveAlive = alive ?? f.alive;
   const effectivePct = f.maxHp === 0 ? 0 : Math.round((currentHp / f.maxHp) * 100);
   const imageUrl = f.imageUrl ? String(f.imageUrl).trim() : "";
   const initials = unitInitials(f.name);
+  const counterHtml = counter
+    ? `<div class="procCounter ${counter.kind ?? "mixed"}">${displayText(counter.text ?? "PROC")}</div>`
+    : "";
   return `
-    <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}">
+    <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}${actorFx}${targetFx}">
       <div class="fighterBody">
         <div class="fighterPortrait ${imageUrl ? "" : "fallback"}">
           ${imageUrl ? `<img src="${imageUrl}" alt="${f.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('fallback'); this.remove();" />` : ""}
@@ -571,6 +636,7 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey) {
         </div>
       </div>
       <div class="hpTrack"><div class="hpFill" style="width:${effectivePct}%"></div></div>
+      ${counterHtml}
     </div>
   `;
 }
@@ -586,24 +652,48 @@ function cloneLineup(list) {
   }));
 }
 
-function renderPlaybackFrame(view, flashActorKey = "", flashTargetKey = "") {
+function renderPlaybackFrame(view, flashActorKey = "", flashTargetKey = "", flashActorKind = "", flashTargetKind = "") {
   const allies = el("combatAllies");
   const enemies = el("combatEnemies");
   const log = el("combatLog");
 
+  const badges = view.badges ?? new Map();
   allies.innerHTML = view.allies
-    .map((f) => fighterHtmlWithState(f, f.hp, f.alive, flashActorKey, flashTargetKey))
+    .map((f) => fighterHtmlWithState(f, f.hp, f.alive, flashActorKey, flashTargetKey, flashActorKind, flashTargetKind, badges.get(f.key)))
     .join("");
   enemies.innerHTML = view.enemies
-    .map((f) => fighterHtmlWithState(f, f.hp, f.alive, flashActorKey, flashTargetKey))
+    .map((f) => fighterHtmlWithState(f, f.hp, f.alive, flashActorKey, flashTargetKey, flashActorKind, flashTargetKind, badges.get(f.key)))
     .join("");
-  log.innerHTML = view.logs.map((line, idx) => `<div class="${idx === 0 ? "combatTitle" : ""}">${line}</div>`).join("");
+  log.innerHTML = view.logs
+    .map((line, idx) => {
+      const shown = displayText(line);
+      if (idx === 0) return `<div class="combatTitle">${shown}</div>`;
+      if (line.startsWith("[BUFF]")) return `<div class="logBuff">${shown}</div>`;
+      if (line.startsWith("[DEBUFF]")) return `<div class="logDebuff">${shown}</div>`;
+      if (line.startsWith("[MIXED]")) return `<div class="logMixed">${shown}</div>`;
+      if (line.startsWith("[ATK]")) return `<div class="logAttack">${shown}</div>`;
+      if (line.startsWith("[SKILL]")) return `<div class="logSkill">${shown}</div>`;
+      return `<div>${shown}</div>`;
+    })
+    .join("");
 }
 
 function applyCombatEvent(view, event) {
   if (!event) return;
+  view.badges = new Map();
 
   if (event.type === "skill") {
+    view.logs.push(event.text);
+    return;
+  }
+
+  if (event.type === "passive") {
+    if (event.badgeTargetKey && event.badgeText) {
+      view.badges.set(event.badgeTargetKey, {
+        text: event.badgeText,
+        kind: event.badgeKind ?? "mixed",
+      });
+    }
     view.logs.push(event.text);
     return;
   }
@@ -634,6 +724,7 @@ function playCombatAnimation(combat) {
     allies: cloneLineup(startAllies),
     enemies: cloneLineup(startEnemies),
     logs: [title],
+    badges: new Map(),
   };
 
   const token = ++playbackToken;
@@ -660,7 +751,17 @@ function playCombatAnimation(combat) {
     idx += 1;
 
     applyCombatEvent(view, event);
-    renderPlaybackFrame(view, event.actorKey ?? "", event.targetKey ?? "");
+    const actorKind = event.type === "hit"
+      ? (event.hitKind === "reflect" ? "reflect" : "attack")
+      : "";
+    const targetKind = event.type === "hit"
+      ? (event.hitKind ?? "normal")
+      : (event.type === "passive" ? (event.badgeKind ?? "proc") : "");
+    const targetKey = event.type === "passive" && event.badgeTargetKey
+      ? event.badgeTargetKey
+      : (event.targetKey ?? "");
+
+    renderPlaybackFrame(view, event.actorKey ?? "", targetKey, actorKind, targetKind);
 
     const delay = event.type === "defeat" ? 140 : 220;
     setTimeout(step, delay);
@@ -686,6 +787,7 @@ function renderCombat(game) {
 }
 
 export function renderAll(game) {
+  emojiEnabled = game.state.settings?.showEmoji !== false;
   renderHud(game);
   renderBoard(game);
   renderBench(game);

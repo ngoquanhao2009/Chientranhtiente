@@ -8,8 +8,22 @@ if (snapshot) {
   game.hydrate(snapshot);
 }
 
+if (Array.isArray(game.integrityIssues) && game.integrityIssues.length > 0) {
+  console.warn("Data integrity issues:", game.integrityIssues);
+}
+
 function run(action) {
-  const result = action();
+  let result;
+  try {
+    result = action();
+  } catch {
+    result = { ok: false, reason: "Co loi xay ra trong luc xu ly thao tac." };
+  }
+
+  if (result?.ok) {
+    saveGame(game.serialize());
+  }
+
   renderAll(game);
   feedback(result);
 }
@@ -61,6 +75,14 @@ bindUI(game, {
     if (where === "board") game.getInfoFromBoard(index);
     renderAll(game);
   },
+  onToggleEmoji: (enabled) => run(() => game.setEmojiEnabled(enabled)),
 });
 
 renderAll(game);
+
+if (Array.isArray(game.integrityIssues) && game.integrityIssues.length > 0) {
+  feedback({
+    ok: false,
+    reason: `Canh bao du lieu: phat hien ${game.integrityIssues.length} van de JSON. Kiem tra console de xem chi tiet.`,
+  });
+}

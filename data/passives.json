@@ -1,0 +1,242 @@
+[
+  {
+    "id": "c001",
+    "name": "Adaptive Strike",
+    "effectTone": "mixed",
+    "wikiHint": "Trailblazer phong cach da dung, vua tan cong vua giu nhi",
+    "desc": "Ban linh linh hoat: tang cong ban than va hoi chut giam sat thuong.",
+    "effects": { "selfAtkPct": 0.1, "selfDmgReductionPct": 0.06 }
+  },
+  {
+    "id": "c002",
+    "name": "Camera Guard",
+    "effectTone": "beneficial",
+    "wikiHint": "March 7th noi bat ve khien bao ke",
+    "desc": "Mo giao khien dau tran cho toan doi.",
+    "effects": { "teamShieldPct": 0.12 }
+  },
+  {
+    "id": "c003",
+    "name": "Cloud Piercer",
+    "effectTone": "harmful",
+    "wikiHint": "Dan Heng manh o sat thuong ket lieu",
+    "desc": "Danh manh hon vao muc tieu thap mau.",
+    "effects": { "executeThresholdPct": 0.45, "executeBonusPct": 0.24 }
+  },
+  {
+    "id": "c004",
+    "name": "Molten Sweep",
+    "effectTone": "harmful",
+    "wikiHint": "Himeko nghieng sat thuong rong",
+    "desc": "Ap luc dien rong lam giam toc do doi thu.",
+    "effects": { "enemySpdPctDown": 0.08 }
+  },
+  {
+    "id": "c005",
+    "name": "Imaginary Lock",
+    "effectTone": "harmful",
+    "wikiHint": "Welt chuyen kiem soat toc do doi thu",
+    "desc": "Lam cham doi hinh doi thu va giam luc danh.",
+    "effects": { "enemySpdPctDown": 0.1, "enemyAtkPctDown": 0.06 }
+  },
+  {
+    "id": "c006",
+    "name": "Shock Trigger",
+    "effectTone": "harmful",
+    "wikiHint": "Kafka co nhieu don sat thuong tiep dien",
+    "desc": "Co ti le danh them don sat thuong phu.",
+    "effects": { "extraHitChance": 0.3, "extraHitPct": 0.34 }
+  },
+  {
+    "id": "c007",
+    "name": "System Breach",
+    "effectTone": "harmful",
+    "wikiHint": "Silver Wolf gioi gay yeu diem va debuff",
+    "desc": "Lam doi thu yeu di, giam sat thuong dau ra.",
+    "effects": { "enemyAtkPctDown": 0.12, "onAttackMarkPctUp": 0.08 }
+  },
+  {
+    "id": "c008",
+    "name": "Molten Armor",
+    "effectTone": "beneficial",
+    "wikiHint": "Firefly vua tan cong vua chiu don tot",
+    "desc": "Tang mau ao va sat thuong ban than.",
+    "effects": { "selfShieldPct": 0.15, "selfAtkPct": 0.1 }
+  },
+  {
+    "id": "c009",
+    "name": "Shuhu Gift",
+    "effectTone": "mixed",
+    "wikiHint": "Blade doi mau lay sat thuong",
+    "desc": "Hut mau theo sat thuong gay ra va giam sat thuong nhan vao.",
+    "effects": { "selfLifestealPct": 0.2, "selfDmgReductionPct": 0.08, "onHitHealPct": 0.05 }
+  },
+  {
+    "id": "c010",
+    "name": "Resurgence",
+    "effectTone": "mixed",
+    "wikiHint": "Seele thuong co nhip ket lieu roi boi them",
+    "desc": "Khi ha guc muc tieu, tang cong va toc do tam thoi.",
+    "effects": { "onKillAtkPct": 0.12, "onKillSpdPct": 0.08 }
+  },
+  {
+    "id": "c011",
+    "name": "Commanding Wind",
+    "effectTone": "beneficial",
+    "wikiHint": "Bronya buff sat thuong va day nhip doi",
+    "desc": "Tang cong va toc cho toan doi.",
+    "effects": { "teamAtkPct": 0.08, "teamSpdPct": 0.08 }
+  },
+  {
+    "id": "c012",
+    "name": "Landau Wall",
+    "effectTone": "beneficial",
+    "wikiHint": "Gepard la tanker dat khien",
+    "desc": "Tang khang sat thuong toan doi.",
+    "effects": { "teamDmgReductionPct": 0.08, "onHitGuardPct": 0.05 }
+  },
+  {
+    "id": "c013",
+    "name": "Medical Injection",
+    "effectTone": "beneficial",
+    "wikiHint": "Natasha la healer co hoi phuc chu ky",
+    "desc": "Moi vai luot se hoi phuc nhe cho dong doi.",
+    "effects": { "periodicHealPct": 0.08, "periodicHealInterval": 3 }
+  },
+  {
+    "id": "c014",
+    "name": "Lightning Lord Echo",
+    "effectTone": "harmful",
+    "wikiHint": "Jing Yuan noi tieng sat thuong bo sung",
+    "desc": "Co ti le danh them sat thuong dien.",
+    "effects": { "extraHitChance": 0.26, "extraHitPct": 0.4 }
+  },
+  {
+    "id": "c015",
+    "name": "Matrix of Prescience",
+    "effectTone": "beneficial",
+    "wikiHint": "Fu Xuan chia sat thuong va bao ke doi",
+    "desc": "Tang mau ao va giam sat thuong cho toan doi.",
+    "effects": { "teamShieldPct": 0.1, "teamDmgReductionPct": 0.1 }
+  },
+  {
+    "id": "c016",
+    "name": "Transcendent Flash",
+    "effectTone": "harmful",
+    "wikiHint": "Jingliu co burst ket lieu cuc manh",
+    "desc": "Sat thuong cao hon khi ket lieu muc tieu thap mau.",
+    "effects": { "selfAtkPct": 0.12, "executeThresholdPct": 0.5, "executeBonusPct": 0.26 }
+  },
+  {
+    "id": "c017",
+    "name": "Abyss Flower",
+    "effectTone": "beneficial",
+    "wikiHint": "Luocha co truong hoi phuc tu dong",
+    "desc": "Hoi phuc theo chu ky va hut mau nhe.",
+    "effects": { "periodicHealPct": 0.09, "periodicHealInterval": 2, "selfLifestealPct": 0.08 }
+  },
+  {
+    "id": "c018",
+    "name": "Proof of Debt",
+    "effectTone": "harmful",
+    "wikiHint": "Topaz manh o truy sat muc tieu uu tien",
+    "desc": "Tang sat thuong ket lieu vao muc tieu thap mau.",
+    "effects": { "executeThresholdPct": 0.55, "executeBonusPct": 0.22 }
+  },
+  {
+    "id": "c019",
+    "name": "Stoneheart Bet",
+    "effectTone": "beneficial",
+    "wikiHint": "Aventurine de khien va giu nhip doi",
+    "desc": "Dat khien lon cho doi va tang do ben.",
+    "effects": { "teamShieldPct": 0.14, "teamDmgReductionPct": 0.06, "onHitThornsPct": 0.2 }
+  },
+  {
+    "id": "c020",
+    "name": "Rational Verdict",
+    "effectTone": "harmful",
+    "wikiHint": "Dr. Ratio gioi don sat thuong truc phat",
+    "desc": "Danh dau doi thu yeu, tang sat thuong dau ra.",
+    "effects": { "selfAtkPct": 0.1, "enemyDmgTakenPctUp": 0.08 }
+  },
+  {
+    "id": "c021",
+    "name": "String Theory",
+    "effectTone": "beneficial",
+    "wikiHint": "Ruan Mei buff toan doi rat manh",
+    "desc": "Tang toc va sat thuong cho ca doi.",
+    "effects": { "teamAtkPct": 0.1, "teamSpdPct": 0.1 }
+  },
+  {
+    "id": "c022",
+    "name": "Kuru Kuru",
+    "effectTone": "harmful",
+    "wikiHint": "Herta co don quet bo sung khi doi thu thap mau",
+    "desc": "Co ti le danh them sat thuong xoay.",
+    "effects": { "extraHitChance": 0.24, "extraHitPct": 0.36 }
+  },
+  {
+    "id": "c023",
+    "name": "Encore Chorus",
+    "effectTone": "beneficial",
+    "wikiHint": "Robin buff nhip tan cong toan doi",
+    "desc": "Truyen cam hung, tang sat thuong va nhip danh cho doi.",
+    "effects": { "teamAtkPct": 0.08, "teamSpdPct": 0.12 }
+  },
+  {
+    "id": "c024",
+    "name": "Duel Protocol",
+    "effectTone": "harmful",
+    "wikiHint": "Boothill thien ve don sat thuong don muc tieu",
+    "desc": "Sat thuong ket lieu va buff khi ha guc.",
+    "effects": { "executeThresholdPct": 0.5, "executeBonusPct": 0.24, "onKillAtkPct": 0.08, "onAttackWeakenPctDown": 0.08 }
+  },
+  {
+    "id": "c025",
+    "name": "Illusion Jackpot",
+    "effectTone": "beneficial",
+    "wikiHint": "Sparkle buff crit va nhip doi dang ao",
+    "desc": "Tang toc va sat thuong cho toan doi, ke ca ban than.",
+    "effects": { "teamAtkPct": 0.07, "teamSpdPct": 0.1, "selfAtkPct": 0.05 }
+  },
+  {
+    "id": "c026",
+    "name": "Wind Shear Hustle",
+    "effectTone": "harmful",
+    "wikiHint": "Sampo nghieng dot va roi nhip doi thu",
+    "desc": "Lam giam toc va sat thuong doi thu.",
+    "effects": { "enemySpdPctDown": 0.08, "enemyAtkPctDown": 0.08 }
+  },
+  {
+    "id": "c027",
+    "name": "Resonant Verse",
+    "effectTone": "beneficial",
+    "wikiHint": "Suy luan theo phong cach Harmony/Elation",
+    "desc": "Tang nhip danh va hoi nhe theo chu ky.",
+    "effects": { "teamSpdPct": 0.08, "periodicHealPct": 0.06, "periodicHealInterval": 3 }
+  },
+  {
+    "id": "c028",
+    "name": "Lucky Trigger",
+    "effectTone": "mixed",
+    "wikiHint": "Suy luan carry Hunt/Elation",
+    "desc": "Co kha nang danh them va hoi mau theo sat thuong.",
+    "effects": { "extraHitChance": 0.28, "extraHitPct": 0.34, "selfLifestealPct": 0.1 }
+  },
+  {
+    "id": "c029",
+    "name": "Starfall Reprise",
+    "effectTone": "harmful",
+    "wikiHint": "Suy luan Erudition/Elation sat thuong rong",
+    "desc": "Lam doi thu cham hon va de bi ha guc hon.",
+    "effects": { "enemySpdPctDown": 0.06, "enemyDmgTakenPctUp": 0.08 }
+  },
+  {
+    "id": "c030",
+    "name": "Ashen Prank",
+    "effectTone": "harmful",
+    "wikiHint": "Suy luan Nihility/Elation gay roi nhip",
+    "desc": "Giam sat thuong va toc cua doi thu.",
+    "effects": { "enemyAtkPctDown": 0.07, "enemySpdPctDown": 0.07 }
+  }
+]
