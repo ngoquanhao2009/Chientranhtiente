@@ -50,7 +50,7 @@ function withCacheBust(url, seed = 1) {
 }
 
 function onPortraitImgError(img) {
-  if (!(img instanceof HTMLImageElement)) return;
+  if (!img || typeof img !== "object") return;
 
   const baseSrc = img.dataset.baseSrc || img.getAttribute("src") || "";
   const retries = Number(img.dataset.retries ?? "0");
@@ -67,9 +67,31 @@ function onPortraitImgError(img) {
   img.remove();
 }
 
+function bindPortraitImageGuards() {
+  if (typeof window === "undefined" || window.__ctttPortraitGuardsBound) return;
+  window.__ctttPortraitGuardsBound = true;
+
+  window.addEventListener("error", (ev) => {
+    const target = ev.target;
+    if (!(target instanceof HTMLImageElement)) return;
+    if (!target.dataset.baseSrc) return;
+    onPortraitImgError(target);
+  }, true);
+
+  window.addEventListener("load", (ev) => {
+    const target = ev.target;
+    if (!(target instanceof HTMLImageElement)) return;
+    if (!target.dataset.baseSrc) return;
+    const parent = target.parentElement;
+    if (parent) parent.classList.remove("fallback");
+  }, true);
+}
+
 if (typeof window !== "undefined" && !window.__ctttPortraitImgError) {
   window.__ctttPortraitImgError = onPortraitImgError;
 }
+
+bindPortraitImageGuards();
 
 function cardPortraitHtml(unit) {
   const initials = unitInitials(unit.name);
