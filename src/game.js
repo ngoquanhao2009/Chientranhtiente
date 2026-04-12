@@ -1865,6 +1865,21 @@ export class Game {
     return clamp(power, 0.5, 0.95);
   }
 
+  getEnemyAeonTargetCount(round) {
+    if (round > 110) return 6;
+    if (round > 90) return 5;
+    if (round > 70) return 4;
+    if (round > 50) return 3;
+    if (round > 30) return 2;
+    if (round >= 20) return 1;
+    return 0;
+  }
+
+  getEnemyAeonGroupScale(aeonCount) {
+    if (aeonCount <= 1) return 1;
+    return clamp(1 - (aeonCount - 1) * 0.08, 0.6, 1);
+  }
+
   scaleEnemyAeonEffects(effects = {}, power = 0.5) {
     const out = {};
     for (const [key, value] of Object.entries(effects)) {
@@ -1880,11 +1895,12 @@ export class Game {
     return out;
   }
 
-  createEnemyAeonUnit(round, isBossRoundNow = false) {
-    const power = this.getEnemyAeonPower(round, isBossRoundNow);
+  createEnemyAeonUnit(round, isBossRoundNow = false, excludedIds = new Set(), groupScale = 1) {
+    const power = this.getEnemyAeonPower(round, isBossRoundNow) * clamp(groupScale, 0.5, 1);
     if (power <= 0 || this.aeons.length === 0) return null;
 
-    const aeon = pickRandom(this.aeons);
+    const pool = this.aeons.filter((x) => !excludedIds.has(x.id));
+    const aeon = pickRandom(pool.length > 0 ? pool : this.aeons);
     const passiveRaw = aeon?.passive ?? null;
     const scaledEffects = this.scaleEnemyAeonEffects(passiveRaw?.effects ?? {}, power);
     const passive = passiveRaw
@@ -1928,6 +1944,7 @@ export class Game {
     const list = [];
     let bossInfo = null;
     let aeonPower = 0;
+    let aeonCount = 0;
 
     if (boss) {
       const picked = pickRandom(this.bosses);
@@ -1942,11 +1959,19 @@ export class Game {
       };
     }
 
-    if (round >= 20 && list.length < count) {
-      const aeon = this.createEnemyAeonUnit(round, boss);
+    const targetAeonCount = this.getEnemyAeonTargetCount(round);
+    const maxAeonCanSpawn = Math.max(0, count - list.length);
+    const aeonToSpawn = Math.min(targetAeonCount, maxAeonCanSpawn);
+    const aeonGroupScale = this.getEnemyAeonGroupScale(aeonToSpawn);
+    const usedAeonIds = new Set();
+
+    for (let i = 0; i < aeonToSpawn; i += 1) {
+      const aeon = this.createEnemyAeonUnit(round, boss, usedAeonIds, aeonGroupScale);
       if (aeon) {
         list.push(aeon);
-        aeonPower = aeon.enemyAeonPower ?? 0;
+        usedAeonIds.add(aeon.id);
+        aeonPower = aeon.enemyAeonPower ?? aeonPower;
+        aeonCount += 1;
       }
     }
 
@@ -1963,7 +1988,8 @@ export class Game {
       boss,
       bossName: boss ? list[0].name : "",
       bossInfo,
-      hasAeon: list.some((x) => x?.faction === "Aeon"),
+      hasAeon: aeonCount > 0,
+      aeonCount,
       aeonPower,
     };
   }
@@ -2033,7 +2059,8 @@ export class Game {
 
     if (enemyBuild.hasAeon) {
       const pct = Math.round((enemyBuild.aeonPower ?? 0.5) * 100);
-      log.unshift(`[MIXED] 🌀 Tu Round 20, ke dich da trieu hoi Aeon (suc manh ${pct}%).`);
+      const count = enemyBuild.aeonCount ?? 1;
+      log.unshift(`[MIXED] 🌀 Ke dich trieu hoi ${count} Aeon (suc manh moi Aeon ~${pct}%).`);
     }
 
     const startAllies = allies.map((f) => this.cloneFighter(f));
