@@ -1852,12 +1852,82 @@ export class Game {
     };
   }
 
+  getEnemyAeonPower(round, isBossRoundNow = false) {
+    if (round < 20) return 0;
+
+    // Round 20 starts at 50% power. Every boss milestone after that adds +8%.
+    const bossMilestonesPassed = Math.max(0, Math.floor((round - 20) / 5));
+    let power = 0.5 + bossMilestonesPassed * 0.08;
+
+    // Boss rounds are already spikes, so Aeon is toned down a bit for fairness.
+    if (isBossRoundNow) power -= 0.08;
+
+    return clamp(power, 0.5, 0.95);
+  }
+
+  scaleEnemyAeonEffects(effects = {}, power = 0.5) {
+    const out = {};
+    for (const [key, value] of Object.entries(effects)) {
+      const num = asNumber(value, 0);
+      if (key.toLowerCase().includes("interval")) {
+        // Lower power means less frequent periodic effects.
+        const baseInterval = Math.max(1, Math.floor(num || 1));
+        out[key] = Math.max(1, Math.round(baseInterval / Math.max(0.35, power)));
+        continue;
+      }
+      out[key] = Number((num * power).toFixed(4));
+    }
+    return out;
+  }
+
+  createEnemyAeonUnit(round, isBossRoundNow = false) {
+    const power = this.getEnemyAeonPower(round, isBossRoundNow);
+    if (power <= 0 || this.aeons.length === 0) return null;
+
+    const aeon = pickRandom(this.aeons);
+    const passiveRaw = aeon?.passive ?? null;
+    const scaledEffects = this.scaleEnemyAeonEffects(passiveRaw?.effects ?? {}, power);
+    const passive = passiveRaw
+      ? {
+        ...passiveRaw,
+        effects: scaledEffects,
+        themeColor: this.getCharacterThemeColor(aeon),
+        triggerKinds: this.getPassiveTriggerKinds(scaledEffects),
+      }
+      : null;
+
+    return {
+      uid: uid(),
+      id: aeon.id,
+      name: aeon.name,
+      path: aeon.path ?? "Aeon",
+      cost: 5,
+      faction: "Aeon",
+      archetypes: [...(aeon.archetypes ?? [])],
+      bio: aeon.bio,
+      imageUrl: aeon.imageUrl ?? "",
+      logoUrl: aeon.logoUrl ?? "",
+      fusionImageUrl2: "",
+      // Keep enemy Aeon intentionally tame at entry stage.
+      star: 1,
+      stats: {
+        hp: Math.max(1, Math.round(asNumber(aeon.stats?.hp, 2200) * power)),
+        atk: Math.max(1, Math.round(asNumber(aeon.stats?.atk, 220) * power)),
+        spd: Number(Math.max(0.75, asNumber(aeon.stats?.spd, 1.02) * (0.86 + power * 0.18)).toFixed(2)),
+      },
+      passive,
+      fusionMeta: null,
+      enemyAeonPower: power,
+    };
+  }
+
   buildEnemyTeam(round) {
     const count = clamp(1 + Math.floor(round / 2), 1, this.boardSlots);
     const enemyLevel = clamp(Math.ceil(round / 3), 1, MAX_LEVEL);
     const boss = isBossRound(round);
     const list = [];
     let bossInfo = null;
+    let aeonPower = 0;
 
     if (boss) {
       const picked = pickRandom(this.bosses);
@@ -1872,8 +1942,15 @@ export class Game {
       };
     }
 
-    const startIndex = boss ? 1 : 0;
-    for (let i = startIndex; i < count; i += 1) {
+    if (round >= 20 && list.length < count) {
+      const aeon = this.createEnemyAeonUnit(round, boss);
+      if (aeon) {
+        list.push(aeon);
+        aeonPower = aeon.enemyAeonPower ?? 0;
+      }
+    }
+
+    for (let i = list.length; i < count; i += 1) {
       const cost = this.rollCost(enemyLevel);
       const base = this.randomUnitByCost(cost);
       const star = round >= 10 && Math.random() < 0.22 ? 2 : 1;
@@ -1886,6 +1963,8 @@ export class Game {
       boss,
       bossName: boss ? list[0].name : "",
       bossInfo,
+      hasAeon: list.some((x) => x?.faction === "Aeon"),
+      aeonPower,
     };
   }
 
@@ -1923,8 +2002,19 @@ export class Game {
       spdPct: round * 0.009 + (enemyBuild.boss ? 0.04 : 0),
     };
 
+    const aeonEnemyBuffScale = clamp(0.25 + (enemyBuild.aeonPower ?? 0) * 0.45, 0.25, 0.7);
+
     const allies = allyUnits.map((u, i) => this.makeFighter(u, "ally", i, allyBuffs, 1));
-    const enemies = enemyUnits.map((u, i) => this.makeFighter(u, "enemy", i, enemyBuffs, 1));
+    const enemies = enemyUnits.map((u, i) => {
+      if (u?.faction !== "Aeon") return this.makeFighter(u, "enemy", i, enemyBuffs, 1);
+
+      const aeonBuffs = {
+        hpPct: enemyBuffs.hpPct * aeonEnemyBuffScale,
+        atkPct: enemyBuffs.atkPct * aeonEnemyBuffScale,
+        spdPct: enemyBuffs.spdPct * aeonEnemyBuffScale,
+      };
+      return this.makeFighter(u, "enemy", i, aeonBuffs, 1);
+    });
     const events = [];
     const bossCooldown = new Map();
     const passiveRuntime = new Map();
@@ -1939,6 +2029,11 @@ export class Game {
     }
     for (const enemy of enemies) {
       this.applyPassiveStartEffects(enemy, enemies, allies, passiveRuntime, events, log, round);
+    }
+
+    if (enemyBuild.hasAeon) {
+      const pct = Math.round((enemyBuild.aeonPower ?? 0.5) * 100);
+      log.unshift(`[MIXED] 🌀 Tu Round 20, ke dich da trieu hoi Aeon (suc manh ${pct}%).`);
     }
 
     const startAllies = allies.map((f) => this.cloneFighter(f));
