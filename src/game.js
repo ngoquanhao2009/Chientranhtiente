@@ -67,6 +67,7 @@ const FACTION_THEME_BY_NAME = {
   "Galaxy Rangers": "#fb7185",
   "Masked Fools": "#f43f5e",
   "Chrysos Heirs": "#22d3ee",
+  Aeon: "#f59e0b",
 };
 
 function randomInt(min, max) {
@@ -585,6 +586,7 @@ export class Game {
         kind: "aeon",
         id: aeon.id,
         name: aeon.name,
+        path: aeon.path ?? "Aeon",
         cost: 7,
         faction: aeon.faction ?? "Aeon",
         archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
@@ -665,7 +667,9 @@ export class Game {
     if (!x) return;
     this.setInspect({
       title: x.name,
-      tags: this.unitInspectTags(x),
+      tags: x.kind === "aeon"
+        ? ["Aeon", x.path ?? x.archetypes?.[0] ?? "Mythic"]
+        : this.unitInspectTags(x),
       passive: x.passive ?? null,
     });
   }
@@ -778,6 +782,30 @@ export class Game {
     return buffs;
   }
 
+  getAeonUnlockProgress() {
+    const rows = [];
+    for (const aeon of this.aeons) {
+      const rule = aeon.unlock ?? {};
+      const need = Math.max(1, Math.floor(asNumber(rule.need, 1)));
+      const current = rule.type === "faction"
+        ? this.countBoardByFaction(rule.id)
+        : this.countBoardByArchetype(rule.id);
+      const owned = this.hasOwnedUnitId(aeon.id);
+      const unlocked = current >= need;
+      rows.push({
+        id: aeon.id,
+        name: aeon.name,
+        path: aeon.path ?? "Aeon",
+        current,
+        need,
+        unlocked,
+        owned,
+        condition: aeon.unlock?.text ?? "Dat dieu kien doi hinh",
+      });
+    }
+    return rows;
+  }
+
   countBoardByArchetype(id) {
     return this.boardUnits.reduce((acc, unit) => acc + ((unit.archetypes ?? []).includes(id) ? 1 : 0), 0);
   }
@@ -830,6 +858,7 @@ export class Game {
       kind: "aeon",
       id: aeon.id,
       name: aeon.name,
+      path: aeon.path ?? "Aeon",
       cost: 7,
       faction: aeon.faction ?? "Aeon",
       archetypes: [...(aeon.archetypes ?? [])],

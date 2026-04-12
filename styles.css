@@ -18,7 +18,6 @@
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   min-height: 100vh;
@@ -351,6 +350,7 @@ p {
 .c3 { color: var(--rare3); }
 .c4 { color: var(--rare4); }
 .c5 { color: var(--rare5); }
+.c7 { color: #ffd36a; }
 
 .shopPanel {
   grid-column: 1 / -1;
@@ -386,6 +386,64 @@ p {
   box-shadow: 0 0 14px #f6c3432f;
 }
 
+.aeonProgress {
+  margin: 8px 0 10px;
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aeonTrack {
+  border: 1px solid #49668f;
+  border-radius: 10px;
+  background: rgba(12, 24, 43, 0.7);
+  padding: 7px;
+}
+
+.aeonTrack.ready {
+  border-color: #34d399;
+  box-shadow: 0 0 0 1px #34d39933 inset;
+}
+
+.aeonTrack.owned {
+  border-color: #f6c343;
+  box-shadow: 0 0 0 1px #f6c34340 inset;
+}
+
+.aeonTrackTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.77rem;
+}
+
+.aeonTrackTop b {
+  font-size: 0.78rem;
+}
+
+.aeonTrackMeta {
+  margin-top: 3px;
+  color: #9eb9de;
+  font-size: 0.71rem;
+}
+
+.aeonBar {
+  margin-top: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(25, 45, 74, 0.85);
+  overflow: hidden;
+}
+
+.aeonBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7dd3fc, #fbbf24);
+  box-shadow: 0 0 10px #7dd3fc4d;
+}
+
 .shopCard {
   text-align: left;
   border-radius: 10px;
@@ -395,6 +453,40 @@ p {
   min-height: 130px;
   padding: 8px;
   cursor: pointer;
+}
+
+.shopCard.aeonCard {
+  border-color: #d4a94f;
+  background:
+    radial-gradient(circle at 86% 12%, #f9c96e30 0%, transparent 42%),
+    linear-gradient(170deg, #2b355b, #1a2443);
+  box-shadow: 0 0 0 1px #f6c34326 inset;
+}
+
+.aeonHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.aeonBadge {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid #d2ac5e;
+  color: #ffe5ad;
+  background: rgba(90, 64, 21, 0.45);
+  padding: 1px 7px;
+  font-size: 0.64rem;
+  letter-spacing: 0.9px;
+  font-weight: 800;
+}
+
+.aeonPath {
+  color: #ffd37f;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
 }
 
 .shopCard.empty {
@@ -956,6 +1048,10 @@ p {
 
   .shopRow {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .aeonProgress {
+    grid-template-columns: 1fr;
   }
 
   .slots {

@@ -4,18 +4,34 @@
     "name": "Nanook",
     "path": "Huy Diet",
     "faction": "Aeon",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Pha huy de tai tao. Sat thuong cuong no o cuoi tran.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2280, "atk": 236, "spd": 1.02 },
-    "unlock": { "type": "archetype", "id": "Destruction", "need": 4, "text": "Can 4 Huy Diet tren Board." },
+    "stats": {
+      "hp": 2280,
+      "atk": 236,
+      "spd": 1.02
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Destruction",
+      "need": 4,
+      "text": "Can 4 Huy Diet tren Board."
+    },
     "passive": {
       "name": "Entropy Collapse",
       "effectTone": "harmful",
-      "desc": "Tang sat thuong va kha nang ket lieu.",
-      "effects": { "selfAtkPct": 0.22, "enemyDmgTakenPctUp": 0.16, "executeThresholdPct": 0.2, "executeBonusPct": 0.22 }
+      "desc": "Con duong Huy Diet: sat thuong ket lieu cuc manh.",
+      "effects": {
+        "selfAtkPct": 0.38,
+        "enemyDmgTakenPctUp": 0.28,
+        "executeThresholdPct": 0.28,
+        "executeBonusPct": 0.34
+      }
     }
   },
   {
@@ -23,18 +39,33 @@
     "name": "Xipe",
     "path": "Hoa Hop",
     "faction": "Aeon",
-    "archetypes": ["Harmony"],
+    "archetypes": [
+      "Harmony"
+    ],
     "bio": "Hop nhat moi ca the vao mot nhac do chung.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2140, "atk": 198, "spd": 1.09 },
-    "unlock": { "type": "archetype", "id": "Harmony", "need": 3, "text": "Can 3 Hoa Hop tren Board." },
+    "stats": {
+      "hp": 2140,
+      "atk": 198,
+      "spd": 1.09
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Harmony",
+      "need": 3,
+      "text": "Can 3 Hoa Hop tren Board."
+    },
     "passive": {
       "name": "Choir of One",
       "effectTone": "beneficial",
-      "desc": "Buff tong luc cho toan doi.",
-      "effects": { "teamAtkPct": 0.14, "teamSpdPct": 0.12, "teamDmgReductionPct": 0.1 }
+      "desc": "Con duong Hoa Hop: dong bo suc manh toan doi.",
+      "effects": {
+        "teamAtkPct": 0.26,
+        "teamSpdPct": 0.22,
+        "teamDmgReductionPct": 0.18
+      }
     }
   },
   {
@@ -42,18 +73,34 @@
     "name": "Yaoshi",
     "path": "Tru Phu",
     "faction": "Aeon",
-    "archetypes": ["Abundance"],
+    "archetypes": [
+      "Abundance"
+    ],
     "bio": "Su song vo han, hoi phuc bat tan.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2440, "atk": 174, "spd": 1.01 },
-    "unlock": { "type": "archetype", "id": "Abundance", "need": 2, "text": "Can 2 Tru Phu tren Board." },
+    "stats": {
+      "hp": 2440,
+      "atk": 174,
+      "spd": 1.01
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Abundance",
+      "need": 2,
+      "text": "Can 2 Tru Phu tren Board."
+    },
     "passive": {
       "name": "Immortal Bloom",
       "effectTone": "beneficial",
-      "desc": "Hoi phuc dinh ky va hut mau manh.",
-      "effects": { "periodicHealPct": 0.12, "periodicHealInterval": 2, "selfLifestealPct": 0.18, "onHitHealPct": 0.1 }
+      "desc": "Con duong Tru Phu: hoi phuc bat tan va hut mau.",
+      "effects": {
+        "periodicHealPct": 0.2,
+        "periodicHealInterval": 2,
+        "selfLifestealPct": 0.3,
+        "onHitHealPct": 0.18
+      }
     }
   },
   {
@@ -61,18 +108,33 @@
     "name": "IX",
     "path": "Hu Vo",
     "faction": "Aeon",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Tat ca y nghia bi hoa tan trong hu vo.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2200, "atk": 210, "spd": 1.05 },
-    "unlock": { "type": "archetype", "id": "Nihility", "need": 4, "text": "Can 4 Hu Vo tren Board." },
+    "stats": {
+      "hp": 2200,
+      "atk": 210,
+      "spd": 1.05
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Nihility",
+      "need": 4,
+      "text": "Can 4 Hu Vo tren Board."
+    },
     "passive": {
       "name": "Null Horizon",
       "effectTone": "harmful",
-      "desc": "Lam doi thu cham va mong manh hon.",
-      "effects": { "enemySpdPctDown": 0.18, "enemyAtkPctDown": 0.14, "enemyDmgTakenPctUp": 0.14 }
+      "desc": "Con duong Hu Vo: rut can doi thu tren moi mat tran.",
+      "effects": {
+        "enemySpdPctDown": 0.3,
+        "enemyAtkPctDown": 0.26,
+        "enemyDmgTakenPctUp": 0.22
+      }
     }
   },
   {
@@ -80,18 +142,34 @@
     "name": "Lan",
     "path": "Tuan Liep",
     "faction": "Aeon",
-    "archetypes": ["Hunt"],
+    "archetypes": [
+      "Hunt"
+    ],
     "bio": "Truy sat muc tieu den hoi ket.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2060, "atk": 248, "spd": 1.12 },
-    "unlock": { "type": "archetype", "id": "Hunt", "need": 4, "text": "Can 4 San Duoi tren Board." },
+    "stats": {
+      "hp": 2060,
+      "atk": 248,
+      "spd": 1.12
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Hunt",
+      "need": 4,
+      "text": "Can 4 San Duoi tren Board."
+    },
     "passive": {
       "name": "Relentless Chase",
       "effectTone": "harmful",
-      "desc": "Danh them hit va gia tang sat thuong danh dau.",
-      "effects": { "selfSpdPct": 0.16, "extraHitChance": 0.28, "extraHitPct": 0.4, "onAttackMarkPctUp": 0.18 }
+      "desc": "Con duong Tuan Liep: truy sat va ket lieu lien tuc.",
+      "effects": {
+        "selfSpdPct": 0.28,
+        "extraHitChance": 0.42,
+        "extraHitPct": 0.62,
+        "onAttackMarkPctUp": 0.24
+      }
     }
   },
   {
@@ -99,18 +177,34 @@
     "name": "Nous",
     "path": "Tri Thuc",
     "faction": "Aeon",
-    "archetypes": ["Erudition"],
+    "archetypes": [
+      "Erudition"
+    ],
     "bio": "Tri tue giai cau truc moi quy luat.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2120, "atk": 228, "spd": 1.07 },
-    "unlock": { "type": "archetype", "id": "Erudition", "need": 3, "text": "Can 3 Tri Thuc tren Board." },
+    "stats": {
+      "hp": 2120,
+      "atk": 228,
+      "spd": 1.07
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Erudition",
+      "need": 3,
+      "text": "Can 3 Tri Thuc tren Board."
+    },
     "passive": {
       "name": "Equation of Stars",
       "effectTone": "mixed",
-      "desc": "Tang sat thuong toan doi va dan ap doi thu.",
-      "effects": { "teamAtkPct": 0.12, "enemyAtkPctDown": 0.12, "extraHitChance": 0.2, "extraHitPct": 0.32 }
+      "desc": "Con duong Tri Thuc: toi uu hoa sat thuong va logic chien tran.",
+      "effects": {
+        "teamAtkPct": 0.2,
+        "enemyAtkPctDown": 0.2,
+        "extraHitChance": 0.36,
+        "extraHitPct": 0.58
+      }
     }
   },
   {
@@ -118,18 +212,33 @@
     "name": "Qlipoth",
     "path": "Ton Ho",
     "faction": "Aeon",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Dung thanh bao ve su ton tai.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2580, "atk": 170, "spd": 0.98 },
-    "unlock": { "type": "archetype", "id": "Preservation", "need": 4, "text": "Can 4 Bao Ho tren Board." },
+    "stats": {
+      "hp": 2580,
+      "atk": 170,
+      "spd": 0.98
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Preservation",
+      "need": 4,
+      "text": "Can 4 Bao Ho tren Board."
+    },
     "passive": {
       "name": "Amber Wall",
       "effectTone": "beneficial",
-      "desc": "Khien dau tran va giam sat thuong toan doi.",
-      "effects": { "teamShieldPct": 0.16, "teamDmgReductionPct": 0.14, "onHitGuardPct": 0.1 }
+      "desc": "Con duong Ton Ho: lap thanh bao ve the tran.",
+      "effects": {
+        "teamShieldPct": 0.24,
+        "teamDmgReductionPct": 0.22,
+        "onHitGuardPct": 0.18
+      }
     }
   },
   {
@@ -137,18 +246,33 @@
     "name": "Aha",
     "path": "Hoan Du",
     "faction": "Aeon",
-    "archetypes": ["Elation"],
+    "archetypes": [
+      "Elation"
+    ],
     "bio": "Moi thu la mot tro dua vo tan.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2140, "atk": 222, "spd": 1.11 },
-    "unlock": { "type": "archetype", "id": "Elation", "need": 4, "text": "Can 4 Vui Ve tren Board." },
+    "stats": {
+      "hp": 2140,
+      "atk": 222,
+      "spd": 1.11
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Elation",
+      "need": 4,
+      "text": "Can 4 Vui Ve tren Board."
+    },
     "passive": {
       "name": "Cosmic Punchline",
       "effectTone": "mixed",
-      "desc": "No sat thuong bat ngo bang don danh them.",
-      "effects": { "extraHitChance": 0.34, "extraHitPct": 0.48, "selfAtkPct": 0.12 }
+      "desc": "Con duong Hoan Du: sat thuong dot bien, kho doan.",
+      "effects": {
+        "extraHitChance": 0.5,
+        "extraHitPct": 0.7,
+        "selfAtkPct": 0.26
+      }
     }
   },
   {
@@ -156,18 +280,34 @@
     "name": "Akivili",
     "path": "Khai Pha",
     "faction": "Aeon",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Hanh trinh vo tan mo loi den chan troi moi.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2300, "atk": 214, "spd": 1.08 },
-    "unlock": { "type": "faction", "id": "Astral Express", "need": 4, "text": "Can 4 Astral Express tren Board." },
+    "stats": {
+      "hp": 2300,
+      "atk": 214,
+      "spd": 1.08
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Astral Express",
+      "need": 4,
+      "text": "Can 4 Astral Express tren Board."
+    },
     "passive": {
       "name": "Trailblaze Engine",
       "effectTone": "beneficial",
-      "desc": "Gia tang toan dien cho doi hinh.",
-      "effects": { "teamAtkPct": 0.1, "teamSpdPct": 0.1, "teamShieldPct": 0.08 }
+      "desc": "Con duong Khai Pha: day toan doi tien len khong gioi han.",
+      "effects": {
+        "teamAtkPct": 0.2,
+        "teamSpdPct": 0.2,
+        "teamShieldPct": 0.14,
+        "onKillSpdPct": 0.14
+      }
     }
   },
   {
@@ -175,18 +315,34 @@
     "name": "Ena",
     "path": "Trat Tu",
     "faction": "Aeon",
-    "archetypes": ["Harmony"],
+    "archetypes": [
+      "Harmony"
+    ],
     "bio": "Moi thu phai nam trong quy tac hoan hao.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2240, "atk": 202, "spd": 1.04 },
-    "unlock": { "type": "faction", "id": "Genius Society", "need": 3, "text": "Can 3 Genius Society tren Board." },
+    "stats": {
+      "hp": 2240,
+      "atk": 202,
+      "spd": 1.04
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Genius Society",
+      "need": 3,
+      "text": "Can 3 Genius Society tren Board."
+    },
     "passive": {
       "name": "Edict of Order",
       "effectTone": "mixed",
-      "desc": "Tang suc manh dong minh va lam yeu doi thu.",
-      "effects": { "teamAtkPct": 0.1, "teamDmgReductionPct": 0.08, "enemyAtkPctDown": 0.12 }
+      "desc": "Con duong Trat Tu: ep doi thu vao khuon phep, buff dong minh.",
+      "effects": {
+        "teamAtkPct": 0.18,
+        "teamDmgReductionPct": 0.16,
+        "enemyAtkPctDown": 0.2,
+        "enemySpdPctDown": 0.2
+      }
     }
   },
   {
@@ -194,18 +350,34 @@
     "name": "Fuli",
     "path": "Ky Uc",
     "faction": "Aeon",
-    "archetypes": ["Remembrance"],
+    "archetypes": [
+      "Remembrance"
+    ],
     "bio": "Luu giu moi vet han cua ton tai.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2180, "atk": 208, "spd": 1.06 },
-    "unlock": { "type": "archetype", "id": "Remembrance", "need": 3, "text": "Can 3 Ky Uc tren Board." },
+    "stats": {
+      "hp": 2180,
+      "atk": 208,
+      "spd": 1.06
+    },
+    "unlock": {
+      "type": "archetype",
+      "id": "Remembrance",
+      "need": 3,
+      "text": "Can 3 Ky Uc tren Board."
+    },
     "passive": {
       "name": "Frozen Archive",
       "effectTone": "harmful",
-      "desc": "Lam cham va danh dau doi thu de ket lieu.",
-      "effects": { "enemySpdPctDown": 0.14, "onAttackMarkPctUp": 0.16, "executeThresholdPct": 0.16 }
+      "desc": "Con duong Ky Uc: dong bang nhip danh va danh dau so phan.",
+      "effects": {
+        "enemySpdPctDown": 0.24,
+        "onAttackMarkPctUp": 0.24,
+        "executeThresholdPct": 0.2,
+        "executeBonusPct": 0.22
+      }
     }
   },
   {
@@ -213,18 +385,34 @@
     "name": "HooH",
     "path": "Can Bang",
     "faction": "Aeon",
-    "archetypes": ["Preservation"],
+    "archetypes": [
+      "Preservation"
+    ],
     "bio": "Can bang tuyet doi giua cac luc luong.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2360, "atk": 192, "spd": 1.03 },
-    "unlock": { "type": "faction", "id": "Belobog", "need": 4, "text": "Can 4 Belobog tren Board." },
+    "stats": {
+      "hp": 2360,
+      "atk": 192,
+      "spd": 1.03
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Belobog",
+      "need": 4,
+      "text": "Can 4 Belobog tren Board."
+    },
     "passive": {
       "name": "Perfect Equilibrium",
       "effectTone": "mixed",
-      "desc": "Can bang cong thu cho toan doi.",
-      "effects": { "teamAtkPct": 0.1, "teamDmgReductionPct": 0.1, "enemyDmgTakenPctUp": 0.08 }
+      "desc": "Con duong Can Bang: can bang cong-thu o nguong toi uu.",
+      "effects": {
+        "teamAtkPct": 0.18,
+        "teamDmgReductionPct": 0.18,
+        "enemyDmgTakenPctUp": 0.16,
+        "selfShieldPct": 0.14
+      }
     }
   },
   {
@@ -232,18 +420,34 @@
     "name": "Idrila",
     "path": "Sac Dep",
     "faction": "Aeon",
-    "archetypes": ["Elation"],
+    "archetypes": [
+      "Elation"
+    ],
     "bio": "Ve dep hoan my vuot khoi tam voi.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2100, "atk": 224, "spd": 1.1 },
-    "unlock": { "type": "faction", "id": "Galaxy Rangers", "need": 2, "text": "Can 2 Galaxy Rangers tren Board." },
+    "stats": {
+      "hp": 2100,
+      "atk": 224,
+      "spd": 1.1
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Galaxy Rangers",
+      "need": 2,
+      "text": "Can 2 Galaxy Rangers tren Board."
+    },
     "passive": {
       "name": "Flawless Form",
       "effectTone": "beneficial",
-      "desc": "Tang toc danh va sat thuong chuan xac.",
-      "effects": { "selfSpdPct": 0.14, "selfAtkPct": 0.14, "onAttackMarkPctUp": 0.14 }
+      "desc": "Con duong Sac Dep: toc do, sat thuong va do chinh xac hoan my.",
+      "effects": {
+        "selfSpdPct": 0.24,
+        "selfAtkPct": 0.28,
+        "onAttackMarkPctUp": 0.22,
+        "extraHitChance": 0.28
+      }
     }
   },
   {
@@ -251,18 +455,34 @@
     "name": "Long",
     "path": "Bat Hu",
     "faction": "Aeon",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Du da diet vong, anh huong van bat tan.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2480, "atk": 210, "spd": 1.0 },
-    "unlock": { "type": "faction", "id": "Xianzhou Luofu", "need": 4, "text": "Can 4 Xianzhou Luofu tren Board." },
+    "stats": {
+      "hp": 2480,
+      "atk": 210,
+      "spd": 1
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Xianzhou Luofu",
+      "need": 4,
+      "text": "Can 4 Xianzhou Luofu tren Board."
+    },
     "passive": {
       "name": "Undying Legacy",
       "effectTone": "beneficial",
-      "desc": "Tang do ben va hut mau manh me.",
-      "effects": { "selfShieldPct": 0.14, "selfLifestealPct": 0.16, "onHitHealPct": 0.08 }
+      "desc": "Con duong Bat Hu: co the kho bi ha guc va hoi phuc manh.",
+      "effects": {
+        "selfShieldPct": 0.22,
+        "selfLifestealPct": 0.26,
+        "onHitHealPct": 0.16,
+        "onHitGuardPct": 0.14
+      }
     }
   },
   {
@@ -270,18 +490,34 @@
     "name": "Mythus",
     "path": "Bi An",
     "faction": "Aeon",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Su that bi bo cong trong man suong mo.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2160, "atk": 220, "spd": 1.07 },
-    "unlock": { "type": "faction", "id": "Masked Fools", "need": 3, "text": "Can 3 Masked Fools tren Board." },
+    "stats": {
+      "hp": 2160,
+      "atk": 220,
+      "spd": 1.07
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Masked Fools",
+      "need": 3,
+      "text": "Can 3 Masked Fools tren Board."
+    },
     "passive": {
       "name": "Labyrinth of Lies",
       "effectTone": "harmful",
-      "desc": "Danh lua doi thu bang cac debuff xep chong.",
-      "effects": { "enemyAtkPctDown": 0.12, "enemySpdPctDown": 0.12, "onAttackWeakenPctDown": 0.12 }
+      "desc": "Con duong Bi An: me hoac va bop meo suc manh dich.",
+      "effects": {
+        "enemyAtkPctDown": 0.22,
+        "enemySpdPctDown": 0.22,
+        "onAttackWeakenPctDown": 0.24,
+        "enemyDmgTakenPctUp": 0.16
+      }
     }
   },
   {
@@ -289,18 +525,34 @@
     "name": "Oroboros",
     "path": "Tham Thao",
     "faction": "Aeon",
-    "archetypes": ["Destruction"],
+    "archetypes": [
+      "Destruction"
+    ],
     "bio": "Can nuot moi thu ma khong bao gio du.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2420, "atk": 224, "spd": 1.01 },
-    "unlock": { "type": "faction", "id": "Stellaron Hunters", "need": 4, "text": "Can 4 Stellaron Hunters tren Board." },
+    "stats": {
+      "hp": 2420,
+      "atk": 224,
+      "spd": 1.01
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Stellaron Hunters",
+      "need": 4,
+      "text": "Can 4 Stellaron Hunters tren Board."
+    },
     "passive": {
       "name": "Endless Appetite",
       "effectTone": "mixed",
-      "desc": "Hut mau manh, cang danh cang kho ha.",
-      "effects": { "selfLifestealPct": 0.2, "onHitThornsPct": 0.14, "onKillAtkPct": 0.12 }
+      "desc": "Con duong Tham Thao: cang danh cang manh, hut can doi thu.",
+      "effects": {
+        "selfLifestealPct": 0.3,
+        "onHitThornsPct": 0.28,
+        "onKillAtkPct": 0.2,
+        "onKillSpdPct": 0.16
+      }
     }
   },
   {
@@ -308,18 +560,35 @@
     "name": "Tayzzyronth",
     "path": "Phon Duc",
     "faction": "Aeon",
-    "archetypes": ["Abundance"],
+    "archetypes": [
+      "Abundance"
+    ],
     "bio": "Nhan ban vo han, tran ngap moi chien truong.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2360, "atk": 206, "spd": 1.06 },
-    "unlock": { "type": "faction", "id": "Chrysos Heirs", "need": 4, "text": "Can 4 Chrysos Heirs tren Board." },
+    "stats": {
+      "hp": 2360,
+      "atk": 206,
+      "spd": 1.06
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "Chrysos Heirs",
+      "need": 4,
+      "text": "Can 4 Chrysos Heirs tren Board."
+    },
     "passive": {
       "name": "Broodstorm",
       "effectTone": "beneficial",
-      "desc": "Hoi phuc dinh ky va tang toc toan doi.",
-      "effects": { "periodicHealPct": 0.1, "periodicHealInterval": 2, "teamSpdPct": 0.1, "onKillSpdPct": 0.1 }
+      "desc": "Con duong Phon Duc: toc do sinh soi khien team khong ngung lon.",
+      "effects": {
+        "periodicHealPct": 0.18,
+        "periodicHealInterval": 2,
+        "teamSpdPct": 0.2,
+        "onKillSpdPct": 0.16,
+        "teamAtkPct": 0.16
+      }
     }
   },
   {
@@ -327,18 +596,34 @@
     "name": "Terminus",
     "path": "Chung Mat",
     "faction": "Aeon",
-    "archetypes": ["Nihility"],
+    "archetypes": [
+      "Nihility"
+    ],
     "bio": "Diem ket thuc cua van vat trong dinh menh.",
     "imageUrl": "",
     "cost": 7,
     "star": 4,
-    "stats": { "hp": 2220, "atk": 238, "spd": 1.04 },
-    "unlock": { "type": "faction", "id": "IPC", "need": 3, "text": "Can 3 IPC tren Board." },
+    "stats": {
+      "hp": 2220,
+      "atk": 238,
+      "spd": 1.04
+    },
+    "unlock": {
+      "type": "faction",
+      "id": "IPC",
+      "need": 3,
+      "text": "Can 3 IPC tren Board."
+    },
     "passive": {
       "name": "Final Countdown",
       "effectTone": "harmful",
-      "desc": "Don sat thuong ket lieu khi dich xuong nguong mau.",
-      "effects": { "executeThresholdPct": 0.24, "executeBonusPct": 0.24, "enemyDmgTakenPctUp": 0.1 }
+      "desc": "Con duong Chung Mat: xu tu moi muc tieu den nguong tan diet.",
+      "effects": {
+        "executeThresholdPct": 0.34,
+        "executeBonusPct": 0.34,
+        "enemyDmgTakenPctUp": 0.2,
+        "onAttackMarkPctUp": 0.2
+      }
     }
   }
 ]

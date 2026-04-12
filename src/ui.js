@@ -558,13 +558,17 @@ function renderShop(game) {
     const unit = game.state.shop[i];
     const card = document.createElement("button");
     card.type = "button";
-    card.className = `shopCard ${unit ? "" : "empty"}`;
+    card.className = `shopCard ${unit ? "" : "empty"} ${unit?.kind === "aeon" ? "aeonCard" : ""}`;
     card.dataset.shopIndex = String(i);
 
     if (!unit) {
       card.innerHTML = `<span class="slotHint">Da mua</span>`;
     } else {
+      const aeonHead = unit.kind === "aeon"
+        ? `<div class="aeonHead"><span class="aeonBadge">AEON</span><span class="aeonPath">${unit.path ?? "Mythic"}</span></div>`
+        : "";
       card.innerHTML = `
+        ${aeonHead}
         ${cardPortraitHtml(unit)}
         <div class="cardTop">
           <b>${unit.name}</b>
@@ -577,6 +581,33 @@ function renderShop(game) {
     }
 
     shop.appendChild(card);
+  }
+
+  const aeonProgressEl = el("aeonProgress");
+  if (aeonProgressEl) {
+    const rows = game.getAeonUnlockProgress?.() ?? [];
+    aeonProgressEl.innerHTML = rows
+      .sort((a, b) => {
+        if (a.owned !== b.owned) return a.owned ? 1 : -1;
+        if (a.unlocked !== b.unlocked) return a.unlocked ? -1 : 1;
+        return (b.current / b.need) - (a.current / a.need);
+      })
+      .map((row) => {
+        const pct = Math.max(0, Math.min(100, Math.round((row.current / row.need) * 100)));
+        const stateClass = row.owned ? "owned" : row.unlocked ? "ready" : "locked";
+        const stateText = row.owned ? "Da so huu" : row.unlocked ? "Co the xuat hien" : `${row.current}/${row.need}`;
+        return `
+          <div class="aeonTrack ${stateClass}">
+            <div class="aeonTrackTop">
+              <b>${row.name}</b>
+              <span>${stateText}</span>
+            </div>
+            <div class="aeonTrackMeta">${row.path} · ${row.condition}</div>
+            <div class="aeonBar"><span style="width:${pct}%"></span></div>
+          </div>
+        `;
+      })
+      .join("");
   }
 
   const lockBtn = el("btnLockShop");
