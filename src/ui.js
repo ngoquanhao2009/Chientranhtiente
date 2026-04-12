@@ -25,6 +25,49 @@ function passiveBadgeHtml(unit) {
   return `<span class="skillBadge ${tone}" ${style} title="${passive.desc ?? ""}">${passive.name}</span>`;
 }
 
+function clamp01(value) {
+  return Math.max(0, Math.min(1, Number(value) || 0));
+}
+
+function parseHexColor(hex) {
+  const clean = String(hex ?? "").trim().replace(/^#/, "");
+  if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null;
+  return {
+    r: Number.parseInt(clean.slice(0, 2), 16),
+    g: Number.parseInt(clean.slice(2, 4), 16),
+    b: Number.parseInt(clean.slice(4, 6), 16),
+  };
+}
+
+function rgbToHex({ r, g, b }) {
+  const rr = Math.round(r).toString(16).padStart(2, "0");
+  const gg = Math.round(g).toString(16).padStart(2, "0");
+  const bb = Math.round(b).toString(16).padStart(2, "0");
+  return `#${rr}${gg}${bb}`;
+}
+
+function mixHexColor(colorA, colorB, t = 0.5) {
+  const a = parseHexColor(colorA);
+  const b = parseHexColor(colorB);
+  if (!a || !b) return colorA || colorB || "#f6c343";
+  const ratio = clamp01(t);
+  return rgbToHex({
+    r: a.r + (b.r - a.r) * ratio,
+    g: a.g + (b.g - a.g) * ratio,
+    b: a.b + (b.b - a.b) * ratio,
+  });
+}
+
+function applyAeonCardTheme(card, unit) {
+  if (!card || !unit || unit.kind !== "aeon") return;
+  const main = unit?.passive?.themeColor || "#f6c343";
+  const accent = mixHexColor(main, "#7dd3fc", 0.38);
+  const glow = mixHexColor(main, "#f6c343", 0.55);
+  card.style.setProperty("--aeon-main", main);
+  card.style.setProperty("--aeon-accent", accent);
+  card.style.setProperty("--aeon-glow", glow);
+}
+
 function passiveTriggerIconsHtml(unit) {
   const kinds = unit?.passive?.triggerKinds ?? [];
   if (kinds.length === 0) return "";
@@ -560,6 +603,7 @@ function renderShop(game) {
     card.type = "button";
     card.className = `shopCard ${unit ? "" : "empty"} ${unit?.kind === "aeon" ? "aeonCard" : ""}`;
     card.dataset.shopIndex = String(i);
+    applyAeonCardTheme(card, unit);
 
     if (!unit) {
       card.innerHTML = `<span class="slotHint">Da mua</span>`;
