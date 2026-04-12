@@ -787,8 +787,7 @@ export class Game {
     return count;
   }
 
-  buildAeonSynergyRow() {
-    const count = this.getOwnedAeonCount();
+  buildAeonSynergyRowFromCount(count = 0) {
     const capped = clamp(count, 0, 18);
     const effects = {
       hpPct: capped * 0.05,
@@ -820,11 +819,17 @@ export class Game {
     };
   }
 
-  getSynergyOverview() {
+  buildAeonSynergyRow() {
+    return this.buildAeonSynergyRowFromCount(this.getOwnedAeonCount());
+  }
+
+  getSynergyOverviewForUnits(units = [], options = {}) {
+    const includeAeon = options.includeAeon !== false;
     const factionCounts = new Map();
     const archetypeCounts = new Map();
 
-    for (const unit of this.boardUnits) {
+    for (const unit of units) {
+      if (!unit) continue;
       factionCounts.set(unit.faction, (factionCounts.get(unit.faction) ?? 0) + 1);
       for (const type of unit.archetypes ?? []) {
         archetypeCounts.set(type, (archetypeCounts.get(type) ?? 0) + 1);
@@ -832,7 +837,9 @@ export class Game {
     }
 
     const factionRows = this.getSynergyRows(this.factions, factionCounts, "Phe phai");
-    factionRows.push(this.buildAeonSynergyRow());
+    if (includeAeon) {
+      factionRows.push(this.buildAeonSynergyRowFromCount(factionCounts.get("Aeon") ?? 0));
+    }
 
     return {
       factions: factionRows,
@@ -840,25 +847,39 @@ export class Game {
     };
   }
 
+  getSynergyOverview() {
+    return this.getSynergyOverviewForUnits(this.boardUnits, { includeAeon: true });
+  }
+
   getTraitSummary() {
     const overview = this.getSynergyOverview();
     return [...overview.factions, ...overview.archetypes];
   }
 
-  getCombatBuffs() {
-    const overview = this.getSynergyOverview();
+  getCombatBuffsFromOverview(overview, scale = 1) {
     const summary = [...overview.factions, ...overview.archetypes];
     const buffs = { hpPct: 0, atkPct: 0, spdPct: 0, lifestealPct: 0, critChancePct: 0 };
     for (const row of summary) {
       if (!row.activeTier) continue;
       const effects = row.activeTier.effects ?? {};
-      buffs.hpPct += effects.hpPct ?? 0;
-      buffs.atkPct += effects.atkPct ?? 0;
-      buffs.spdPct += effects.spdPct ?? 0;
-      buffs.lifestealPct += effects.lifestealPct ?? 0;
-      buffs.critChancePct += effects.critChancePct ?? 0;
+      buffs.hpPct += (effects.hpPct ?? 0) * scale;
+      buffs.atkPct += (effects.atkPct ?? 0) * scale;
+      buffs.spdPct += (effects.spdPct ?? 0) * scale;
+      buffs.lifestealPct += (effects.lifestealPct ?? 0) * scale;
+      buffs.critChancePct += (effects.critChancePct ?? 0) * scale;
     }
     return buffs;
+  }
+
+  getCombatBuffs() {
+    return this.getCombatBuffsFromOverview(this.getSynergyOverview(), 1);
+  }
+
+  getCombatBuffsForUnits(units = [], options = {}) {
+    const scale = clamp(asNumber(options.scale, 1), 0, 1.5);
+    const includeAeon = options.includeAeon !== false;
+    const overview = this.getSynergyOverviewForUnits(units, { includeAeon });
+    return this.getCombatBuffsFromOverview(overview, scale);
   }
 
   getAeonUnlockProgress() {
@@ -2022,10 +2043,17 @@ export class Game {
     const enemyUnits = enemyBuild.list;
 
     const allyBuffs = this.getCombatBuffs();
+    const enemyTraitBuffs = this.getCombatBuffsForUnits(enemyUnits, {
+      includeAeon: true,
+      // Enemy still gets tộc hệ buff, but at reduced potency for fairness.
+      scale: 0.72,
+    });
     const enemyBuffs = {
-      hpPct: enemyBuild.boss ? 0.3 : 0,
-      atkPct: round * 0.013 + (enemyBuild.boss ? 0.1 : 0),
-      spdPct: round * 0.009 + (enemyBuild.boss ? 0.04 : 0),
+      hpPct: (enemyBuild.boss ? 0.3 : 0) + enemyTraitBuffs.hpPct,
+      atkPct: round * 0.013 + (enemyBuild.boss ? 0.1 : 0) + enemyTraitBuffs.atkPct,
+      spdPct: round * 0.009 + (enemyBuild.boss ? 0.04 : 0) + enemyTraitBuffs.spdPct,
+      lifestealPct: enemyTraitBuffs.lifestealPct,
+      critChancePct: enemyTraitBuffs.critChancePct,
     };
 
     const aeonEnemyBuffScale = clamp(0.25 + (enemyBuild.aeonPower ?? 0) * 0.45, 0.25, 0.7);
