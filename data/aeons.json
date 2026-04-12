@@ -8,7 +8,7 @@
       "Destruction"
     ],
     "bio": "Pha huy de tai tao. Sat thuong cuong no o cuoi tran.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-nanook.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -43,7 +43,7 @@
       "Harmony"
     ],
     "bio": "Hop nhat moi ca the vao mot nhac do chung.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-xipe.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -77,7 +77,7 @@
       "Abundance"
     ],
     "bio": "Su song vo han, hoi phuc bat tan.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-yaoshi.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -112,7 +112,7 @@
       "Nihility"
     ],
     "bio": "Tat ca y nghia bi hoa tan trong hu vo.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-ix.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -146,7 +146,7 @@
       "Hunt"
     ],
     "bio": "Truy sat muc tieu den hoi ket.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-lan.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -181,7 +181,7 @@
       "Erudition"
     ],
     "bio": "Tri tue giai cau truc moi quy luat.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-nous.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -216,7 +216,7 @@
       "Preservation"
     ],
     "bio": "Dung thanh bao ve su ton tai.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-qlipoth.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -250,7 +250,7 @@
       "Elation"
     ],
     "bio": "Moi thu la mot tro dua vo tan.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-aha.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -284,7 +284,7 @@
       "Destruction"
     ],
     "bio": "Hanh trinh vo tan mo loi den chan troi moi.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-akivili.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -319,7 +319,7 @@
       "Harmony"
     ],
     "bio": "Moi thu phai nam trong quy tac hoan hao.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-ena.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -354,7 +354,7 @@
       "Remembrance"
     ],
     "bio": "Luu giu moi vet han cua ton tai.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-fuli.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -389,7 +389,7 @@
       "Preservation"
     ],
     "bio": "Can bang tuyet doi giua cac luc luong.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-hooh.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -424,7 +424,7 @@
       "Elation"
     ],
     "bio": "Ve dep hoan my vuot khoi tam voi.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-idrila.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -459,7 +459,7 @@
       "Destruction"
     ],
     "bio": "Du da diet vong, anh huong van bat tan.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-long.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -494,7 +494,7 @@
       "Nihility"
     ],
     "bio": "Su that bi bo cong trong man suong mo.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-mythus.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -529,7 +529,7 @@
       "Destruction"
     ],
     "bio": "Can nuot moi thu ma khong bao gio du.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-oroboros.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -564,7 +564,7 @@
       "Abundance"
     ],
     "bio": "Nhan ban vo han, tran ngap moi chien truong.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-tayzzyronth.png",
     "cost": 7,
     "star": 4,
     "stats": {
@@ -600,7 +600,7 @@
       "Nihility"
     ],
     "bio": "Diem ket thuc cua van vat trong dinh menh.",
-    "imageUrl": "",
+    "imageUrl": "assets/aeons/aeon-terminus.png",
     "cost": 7,
     "star": 4,
     "stats": {

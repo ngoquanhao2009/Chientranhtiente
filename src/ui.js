@@ -216,6 +216,7 @@ export function bindUI(game, handlers) {
   el("btnRefresh").addEventListener("click", handlers.onRefresh);
   el("btnBuyXp").addEventListener("click", handlers.onBuyXp);
   el("btnNextRound").addEventListener("click", handlers.onNextRound);
+  el("btnAeon")?.addEventListener("click", handlers.onToggleAeon);
   el("btnLockShop").addEventListener("click", handlers.onLockShop);
   el("btnFuse")?.addEventListener("click", handlers.onFuseToggle);
   const emojiToggle = el("settingEmoji");
@@ -628,8 +629,19 @@ function renderShop(game) {
   }
 
   const aeonProgressEl = el("aeonProgress");
+  const aeonBtn = el("btnAeon");
+  const rows = game.getAeonUnlockProgress?.() ?? [];
+  const unlockedCount = rows.filter((x) => x.unlocked || x.owned).length;
+  const ownedCount = rows.filter((x) => x.owned).length;
+
+  if (aeonBtn) {
+    aeonBtn.classList.toggle("active", game.state.settings?.showAeonPanel === true);
+    aeonBtn.textContent = `Aeon ${ownedCount}/${rows.length}`;
+    aeonBtn.title = `Da mo ${unlockedCount}/${rows.length} - Da so huu ${ownedCount}`;
+  }
+
   if (aeonProgressEl) {
-    const rows = game.getAeonUnlockProgress?.() ?? [];
+    aeonProgressEl.classList.toggle("collapsed", game.state.settings?.showAeonPanel !== true);
     aeonProgressEl.innerHTML = rows
       .sort((a, b) => {
         if (a.owned !== b.owned) return a.owned ? 1 : -1;

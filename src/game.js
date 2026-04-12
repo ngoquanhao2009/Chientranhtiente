@@ -329,6 +329,7 @@ export class Game {
       bench: Array(BENCH_SIZE).fill(null),
       settings: {
         showEmoji: true,
+        showAeonPanel: false,
       },
       fusion: {
         mode: false,
@@ -392,6 +393,7 @@ export class Game {
       inspect: source.inspect && typeof source.inspect === "object" ? source.inspect : null,
       settings: {
         showEmoji: source.settings?.showEmoji !== false,
+        showAeonPanel: source.settings?.showAeonPanel === true,
       },
       fusion: {
         mode: Boolean(source.fusion?.mode),
@@ -1003,6 +1005,16 @@ export class Game {
   setEmojiEnabled(enabled) {
     this.state.settings.showEmoji = Boolean(enabled);
     return { ok: true };
+  }
+
+  toggleAeonPanel() {
+    this.state.settings.showAeonPanel = !this.state.settings.showAeonPanel;
+    return {
+      ok: true,
+      reason: this.state.settings.showAeonPanel
+        ? "Da mo bang tien do Aeon."
+        : "Da an bang tien do Aeon.",
+    };
   }
 
   toggleFusionMode() {

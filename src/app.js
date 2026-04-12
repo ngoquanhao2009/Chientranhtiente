@@ -57,6 +57,7 @@ bindUI(game, {
   onRefresh: () => run(() => game.rollShop(false)),
   onBuyXp: () => run(() => game.buyXp()),
   onNextRound: () => run(() => game.nextRound()),
+  onToggleAeon: () => run(() => game.toggleAeonPanel()),
   onLockShop: () => run(() => game.lockShop()),
   onFuseToggle: () => run(() => game.toggleFusionMode()),
   onFusePick: (zone, index) => run(() => game.fusePick(zone, index)),

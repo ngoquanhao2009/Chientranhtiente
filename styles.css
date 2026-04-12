@@ -393,6 +393,10 @@ p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.aeonProgress.collapsed {
+  display: none;
+}
+
 .aeonTrack {
   border: 1px solid #49668f;
   border-radius: 10px;
