@@ -2,7 +2,7 @@
   {
     "id": "aeon_nanook",
     "name": "Nanook",
-    "path": "Huy Diet",
+    "path": "Huỷ Diệt",
     "faction": "Aeon",
     "archetypes": [
       "Destruction"
@@ -37,7 +37,7 @@
   {
     "id": "aeon_xipe",
     "name": "Xipe",
-    "path": "Hoa Hop",
+    "path": "Hoà Hợp",
     "faction": "Aeon",
     "archetypes": [
       "Harmony"
@@ -71,7 +71,7 @@
   {
     "id": "aeon_yaoshi",
     "name": "Yaoshi",
-    "path": "Tru Phu",
+    "path": "Trù Phú",
     "faction": "Aeon",
     "archetypes": [
       "Abundance"
@@ -106,7 +106,7 @@
   {
     "id": "aeon_ix",
     "name": "IX",
-    "path": "Hu Vo",
+    "path": "Hư Vô",
     "faction": "Aeon",
     "archetypes": [
       "Nihility"
@@ -140,7 +140,7 @@
   {
     "id": "aeon_lan",
     "name": "Lan",
-    "path": "Tuan Liep",
+    "path": "Săn Bắn",
     "faction": "Aeon",
     "archetypes": [
       "Hunt"
@@ -175,7 +175,7 @@
   {
     "id": "aeon_nous",
     "name": "Nous",
-    "path": "Tri Thuc",
+    "path": "Trí Thức",
     "faction": "Aeon",
     "archetypes": [
       "Erudition"
@@ -210,7 +210,7 @@
   {
     "id": "aeon_qlipoth",
     "name": "Qlipoth",
-    "path": "Ton Ho",
+    "path": "Bảo Hộ",
     "faction": "Aeon",
     "archetypes": [
       "Preservation"
@@ -244,7 +244,7 @@
   {
     "id": "aeon_aha",
     "name": "Aha",
-    "path": "Hoan Du",
+    "path": "Vui Vẻ",
     "faction": "Aeon",
     "archetypes": [
       "Elation"
@@ -278,7 +278,7 @@
   {
     "id": "aeon_akivili",
     "name": "Akivili",
-    "path": "Khai Pha",
+    "path": "Khai Phá",
     "faction": "Aeon",
     "archetypes": [
       "Destruction"
@@ -313,7 +313,7 @@
   {
     "id": "aeon_ena",
     "name": "Ena",
-    "path": "Trat Tu",
+    "path": "Trật Tự",
     "faction": "Aeon",
     "archetypes": [
       "Harmony"
@@ -348,7 +348,7 @@
   {
     "id": "aeon_fuli",
     "name": "Fuli",
-    "path": "Ky Uc",
+    "path": "Ký Ức",
     "faction": "Aeon",
     "archetypes": [
       "Remembrance"
@@ -383,7 +383,7 @@
   {
     "id": "aeon_hooh",
     "name": "HooH",
-    "path": "Can Bang",
+    "path": "Cân Bằng",
     "faction": "Aeon",
     "archetypes": [
       "Preservation"
@@ -418,7 +418,7 @@
   {
     "id": "aeon_idrila",
     "name": "Idrila",
-    "path": "Sac Dep",
+    "path": "Sắc Đẹp",
     "faction": "Aeon",
     "archetypes": [
       "Elation"
@@ -453,7 +453,7 @@
   {
     "id": "aeon_long",
     "name": "Long",
-    "path": "Bat Hu",
+    "path": "Vĩnh Cửu",
     "faction": "Aeon",
     "archetypes": [
       "Destruction"
@@ -488,7 +488,7 @@
   {
     "id": "aeon_mythus",
     "name": "Mythus",
-    "path": "Bi An",
+    "path": "Bí Ẩn",
     "faction": "Aeon",
     "archetypes": [
       "Nihility"
@@ -523,7 +523,7 @@
   {
     "id": "aeon_oroboros",
     "name": "Oroboros",
-    "path": "Tham Thao",
+    "path": "Tham Ăn",
     "faction": "Aeon",
     "archetypes": [
       "Destruction"
@@ -558,7 +558,7 @@
   {
     "id": "aeon_tayzzyronth",
     "name": "Tayzzyronth",
-    "path": "Phon Duc",
+    "path": "Sinh Sôi",
     "faction": "Aeon",
     "archetypes": [
       "Abundance"
@@ -594,7 +594,7 @@
   {
     "id": "aeon_terminus",
     "name": "Terminus",
-    "path": "Chung Mat",
+    "path": "Chung Mạt",
     "faction": "Aeon",
     "archetypes": [
       "Nihility"

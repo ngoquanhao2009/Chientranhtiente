@@ -61,8 +61,8 @@ function mixHexColor(colorA, colorB, t = 0.5) {
 function applyAeonCardTheme(card, unit) {
   if (!card || !unit || unit.kind !== "aeon") return;
   const main = unit?.passive?.themeColor || "#f6c343";
-  const accent = mixHexColor(main, "#7dd3fc", 0.38);
-  const glow = mixHexColor(main, "#f6c343", 0.55);
+  const accent = mixHexColor(main, "#ffffff", 0.28);
+  const glow = main;
   card.style.setProperty("--aeon-main", main);
   card.style.setProperty("--aeon-accent", accent);
   card.style.setProperty("--aeon-glow", glow);

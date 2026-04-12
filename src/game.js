@@ -70,6 +70,27 @@ const FACTION_THEME_BY_NAME = {
   Aeon: "#f59e0b",
 };
 
+const AEON_THEME_BY_ID = {
+  aeon_nanook: "#ff5f57",
+  aeon_xipe: "#ff9bd5",
+  aeon_yaoshi: "#6ee7b7",
+  aeon_ix: "#7c83ff",
+  aeon_lan: "#f97316",
+  aeon_nous: "#7dd3fc",
+  aeon_qlipoth: "#fbbf24",
+  aeon_aha: "#f59e0b",
+  aeon_akivili: "#60a5fa",
+  aeon_ena: "#d4b4ff",
+  aeon_fuli: "#9dd6ff",
+  aeon_hooh: "#d1d5db",
+  aeon_idrila: "#f9a8d4",
+  aeon_long: "#34d399",
+  aeon_mythus: "#a78bfa",
+  aeon_oroboros: "#84cc16",
+  aeon_tayzzyronth: "#f43f5e",
+  aeon_terminus: "#94a3b8",
+};
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -706,6 +727,7 @@ export class Game {
 
   getCharacterThemeColor(base) {
     if (!base) return "#7aa2ff";
+    if (base.id && AEON_THEME_BY_ID[base.id]) return AEON_THEME_BY_ID[base.id];
     return CHARACTER_THEME_BY_ID[base.id]
       ?? FACTION_THEME_BY_NAME[base.faction]
       ?? "#7aa2ff";
