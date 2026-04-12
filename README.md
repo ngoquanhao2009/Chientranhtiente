@@ -42,6 +42,23 @@ Simulator web cho mode chien thuat kinh te theo phong cach auto-battler.
 ## Tai lieu can bang
 
 - Xem huong dan chinh meta tai `docs/BALANCE_GUIDE.md`.
+- Nhat ky train an toan: `docs/TRAIN_LOG.md`.
+
+## Luu checkpoint de tranh mat tien do
+
+Neu ban vua train xong 1 doan quan trong, luu checkpoint nhanh:
+
+```bash
+git add -A
+git commit -m "checkpoint: mo ta ngan"
+git push
+```
+
+Neu mang/GitHub loi tam thoi, tao patch du phong local:
+
+```bash
+git diff > checkpoint.patch
+```
 
 ## Chay local
 

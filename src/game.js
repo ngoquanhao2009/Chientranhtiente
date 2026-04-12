@@ -1574,12 +1574,15 @@ export class Game {
     const spd = Number((unit.stats.spd * (1 + buffs.spdPct)).toFixed(2));
 
     return {
+      id: unit.id,
       key: `${side}-${index}-${unit.uid ?? uid()}`,
       side,
       index,
       name: `${unit.name} ${"★".repeat(unit.star)}`,
       cost: unit.cost ?? 1,
       star: unit.star ?? 1,
+      path: unit.path ?? "",
+      logoUrl: unit.logoUrl ?? "",
       imageUrl: unit.imageUrl ?? "",
       fusionImageUrl2: unit.fusionImageUrl2 ?? "",
       bio: unit.bio ?? "",
@@ -1599,12 +1602,15 @@ export class Game {
 
   cloneFighter(f) {
     return {
+      id: f.id,
       key: f.key,
       side: f.side,
       index: f.index,
       name: f.name,
       cost: f.cost,
       star: f.star,
+      path: f.path ?? "",
+      logoUrl: f.logoUrl ?? "",
       hp: f.hp,
       maxHp: f.maxHp,
       atk: f.atk,

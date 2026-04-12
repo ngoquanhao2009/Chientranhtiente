@@ -80,7 +80,9 @@ const AEON_BORDER_PALETTE = {
 };
 
 function applyAeonCardTheme(card, unit) {
-  if (!card || !unit || unit.kind !== "aeon") return;
+  if (!card || !unit) return;
+  const isAeon = unit.kind === "aeon" || unit.faction === "Aeon" || String(unit.id ?? "").startsWith("aeon_");
+  if (!isAeon) return;
   const fallback = unit?.passive?.themeColor || "#f6c343";
   const palette = AEON_BORDER_PALETTE[unit.id] ?? {
     main: fallback,
@@ -566,8 +568,9 @@ function renderBoard(game) {
     } else {
       slot.dataset.boardIndex = String(i);
       const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
+      const aeonCardClass = unit?.faction === "Aeon" ? " aeonCard aeonOwnedCard" : "";
       slot.innerHTML = `
-        <div class="card boardCard glow${selectedClass}" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
+        <div class="card boardCard glow${selectedClass}${aeonCardClass}" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
@@ -579,6 +582,11 @@ function renderBoard(game) {
           <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
         </div>
       `;
+
+      if (unit?.faction === "Aeon") {
+        const cardNode = slot.querySelector(".card");
+        applyAeonCardTheme(cardNode, unit);
+      }
     }
 
     board.appendChild(slot);
@@ -601,8 +609,9 @@ function renderBench(game) {
     } else {
       slot.dataset.benchIndex = String(i);
       const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
+      const aeonCardClass = unit?.faction === "Aeon" ? " aeonCard aeonOwnedCard" : "";
       slot.innerHTML = `
-        <div class="card benchCard${selectedClass}" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
+        <div class="card benchCard${selectedClass}${aeonCardClass}" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
@@ -614,6 +623,11 @@ function renderBench(game) {
           <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
         </div>
       `;
+
+      if (unit?.faction === "Aeon") {
+        const cardNode = slot.querySelector(".card");
+        applyAeonCardTheme(cardNode, unit);
+      }
     }
 
     bench.appendChild(slot);
@@ -801,6 +815,19 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
   const currentHp = hp ?? f.hp;
   const effectiveAlive = alive ?? f.alive;
   const effectivePct = f.maxHp === 0 ? 0 : Math.round((currentHp / f.maxHp) * 100);
+  const isAeon = f.faction === "Aeon" || String(f.id ?? "").startsWith("aeon_");
+  const fallback = f?.passive?.themeColor || "#f6c343";
+  const palette = AEON_BORDER_PALETTE[f.id] ?? {
+    main: fallback,
+    accent: mixHexColor(fallback, "#ffffff", 0.28),
+    third: mixHexColor(fallback, "#0ea5e9", 0.22),
+  };
+  const aeonStyle = isAeon
+    ? `style="--aeon-main:${palette.main};--aeon-accent:${palette.accent};--aeon-third:${palette.third};--aeon-glow:${palette.main};--aeon-icon:${f.logoUrl ? `url('${f.logoUrl}')` : "none"}"`
+    : "";
+  const aeonBadge = isAeon
+    ? `<div class="fighterAeonHead"><span class="aeonBadge">AEON</span><span class="aeonPath">${f.path ?? "Aeon"}</span></div>`
+    : "";
   const imageUrl = f.imageUrl ? String(f.imageUrl).trim() : "";
   const fusionImageUrl2 = f.fusionImageUrl2 ? String(f.fusionImageUrl2).trim() : "";
   const initials = unitInitials(f.name);
@@ -822,7 +849,8 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
       </div>
     `;
   return `
-    <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}${actorFx}${targetFx}">
+    <div class="fighter ${effectiveAlive ? "" : "dead"}${actorFlash}${targetFlash}${actorFx}${targetFx}${isAeon ? " aeonFighter" : ""}" ${aeonStyle}>
+      ${aeonBadge}
       <div class="fighterBody">
         ${portraitHtml}
         <div class="fighterInfo">
@@ -840,13 +868,18 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
 
 function cloneLineup(list) {
   return list.map((f) => ({
+    id: f.id,
     key: f.key,
     name: f.name,
+    faction: f.faction,
+    path: f.path,
+    logoUrl: f.logoUrl,
     imageUrl: f.imageUrl ?? "",
     fusionImageUrl2: f.fusionImageUrl2 ?? "",
     maxHp: f.maxHp,
     hp: f.hp,
     alive: f.alive,
+    passive: f.passive ?? null,
   }));
 }
 

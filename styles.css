@@ -505,6 +505,57 @@ p {
   z-index: 1;
 }
 
+.card.aeonOwnedCard {
+  --aeon-main: #f6c343;
+  --aeon-accent: #7dd3fc;
+  --aeon-third: #a78bfa;
+  --aeon-glow: #ffd36a;
+  --aeon-icon: none;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(170deg, #1b3259, #142746) padding-box,
+    linear-gradient(130deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main)) border-box;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset,
+    0 0 16px color-mix(in srgb, var(--aeon-glow) 32%, transparent 68%);
+}
+
+.card.aeonOwnedCard::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 10px;
+  background-image: var(--aeon-icon);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: min(70%, 120px) auto;
+  opacity: 0.12;
+  filter: saturate(1.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card.aeonOwnedCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 65%, color-mix(in srgb, var(--aeon-main) 14%, transparent 86%) 0%, transparent 66%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card.aeonOwnedCard > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card.aeonOwnedCard .cardPortrait {
+  border-color: color-mix(in srgb, var(--aeon-accent) 48%, #385b86 52%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset;
+}
+
 .aeonHead {
   display: flex;
   justify-content: space-between;
@@ -590,6 +641,57 @@ p {
   border-radius: 10px;
   padding: 7px;
   background: rgba(20, 35, 61, 0.75);
+}
+
+.fighter.aeonFighter {
+  --aeon-main: #f6c343;
+  --aeon-accent: #7dd3fc;
+  --aeon-third: #a78bfa;
+  --aeon-glow: #ffd36a;
+  --aeon-icon: none;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(165deg, rgba(16, 31, 55, 0.94), rgba(11, 23, 44, 0.92)) padding-box,
+    linear-gradient(120deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main)) border-box;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset,
+    0 0 18px color-mix(in srgb, var(--aeon-glow) 30%, transparent 70%);
+}
+
+.fighter.aeonFighter::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 8px;
+  background-image: var(--aeon-icon);
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: auto 72%;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.fighter.aeonFighter > * {
+  position: relative;
+  z-index: 1;
+}
+
+.fighterAeonHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.fighterAeonHead .aeonBadge {
+  font-size: 0.6rem;
+  padding: 1px 6px;
+}
+
+.fighterAeonHead .aeonPath {
+  font-size: 0.63rem;
 }
 
 .fighterBody {
