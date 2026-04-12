@@ -8,7 +8,7 @@
       "Destruction"
     ],
     "bio": "Dan dau doi hinh va vao tran on dinh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Trailblazer_(F)_Destruction_Splash_Art.png",
+    "imageUrl": "assets/characters/c001.png",
     "stats": {
       "hp": 830,
       "atk": 74,
@@ -24,7 +24,7 @@
       "Preservation"
     ],
     "bio": "Lop khien giup doi hinh tru san tot.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_March_7th_(Preservation)_Splash_Art.png",
+    "imageUrl": "assets/characters/c002.png",
     "stats": {
       "hp": 730,
       "atk": 50,
@@ -40,7 +40,7 @@
       "Hunt"
     ],
     "bio": "Don sat thuong don muc tieu on dinh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Dan_Heng_Splash_Art.png",
+    "imageUrl": "assets/characters/c003.png",
     "stats": {
       "hp": 700,
       "atk": 60,
@@ -56,7 +56,7 @@
       "Erudition"
     ],
     "bio": "Don sat thuong rong de don dep doi thu.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Himeko_Splash_Art.png",
+    "imageUrl": "assets/characters/c004.png",
     "stats": {
       "hp": 940,
       "atk": 116,
@@ -72,7 +72,7 @@
       "Nihility"
     ],
     "bio": "Kiem soat nhip danh cua giao tranh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Welt_Splash_Art.png",
+    "imageUrl": "assets/characters/c005.png",
     "stats": {
       "hp": 900,
       "atk": 90,
@@ -88,7 +88,7 @@
       "Nihility"
     ],
     "bio": "Duy tri sat thuong manh ve cuoi tran.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Kafka_Splash_Art.png",
+    "imageUrl": "assets/characters/c006.png",
     "stats": {
       "hp": 920,
       "atk": 102,
@@ -104,7 +104,7 @@
       "Nihility"
     ],
     "bio": "Debuff va pha vo doi hinh doi thu.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Silver_Wolf_Splash_Art.png",
+    "imageUrl": "assets/characters/c007.png",
     "stats": {
       "hp": 790,
       "atk": 72,
@@ -120,7 +120,7 @@
       "Destruction"
     ],
     "bio": "Tien phong gay ap luc sat thuong lon.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Firefly_Splash_Art.png",
+    "imageUrl": "assets/characters/c008.png",
     "stats": {
       "hp": 1120,
       "atk": 118,
@@ -136,7 +136,7 @@
       "Destruction"
     ],
     "bio": "Doi mau lay sat thuong, cang danh cang manh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Blade_Splash_Art.png",
+    "imageUrl": "assets/characters/c009.png",
     "stats": {
       "hp": 1280,
       "atk": 122,
@@ -152,7 +152,7 @@
       "Hunt"
     ],
     "bio": "Ket lieu muc tieu cuc nhanh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Seele_Splash_Art.png",
+    "imageUrl": "assets/characters/c010.png",
     "stats": {
       "hp": 850,
       "atk": 104,
@@ -168,7 +168,7 @@
       "Harmony"
     ],
     "bio": "Tang toc do va sat thuong cho doi hinh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Bronya_Splash_Art.png",
+    "imageUrl": "assets/characters/c011.png",
     "stats": {
       "hp": 770,
       "atk": 58,
@@ -184,7 +184,7 @@
       "Preservation"
     ],
     "bio": "Chan truoc giu nhiet cho doi hinh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Gepard_Splash_Art.png",
+    "imageUrl": "assets/characters/c012.png",
     "stats": {
       "hp": 870,
       "atk": 62,
@@ -200,7 +200,7 @@
       "Abundance"
     ],
     "bio": "Hau can de van hanh doi hinh dau game.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Natasha_Splash_Art.png",
+    "imageUrl": "assets/characters/c013.png",
     "stats": {
       "hp": 640,
       "atk": 42,
@@ -216,7 +216,7 @@
       "Erudition"
     ],
     "bio": "Sat thuong dien rong rat manh o giua tran.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Jing_Yuan_Splash_Art.png",
+    "imageUrl": "assets/characters/c014.png",
     "stats": {
       "hp": 1000,
       "atk": 122,
@@ -232,7 +232,7 @@
       "Preservation"
     ],
     "bio": "Giam sat thuong toan doi va giu form giao tranh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Fu_Xuan_Splash_Art.png",
+    "imageUrl": "assets/characters/c015.png",
     "stats": {
       "hp": 1260,
       "atk": 92,
@@ -248,7 +248,7 @@
       "Destruction"
     ],
     "bio": "Burst sat thuong cao, ket lieu nhanh.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Jingliu_Splash_Art.png",
+    "imageUrl": "assets/characters/c016.png",
     "stats": {
       "hp": 1100,
       "atk": 138,
@@ -264,7 +264,7 @@
       "Abundance"
     ],
     "bio": "Giu nhiet doi hinh khi tran keo dai.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Luocha_Splash_Art.png",
+    "imageUrl": "assets/characters/c017.png",
     "stats": {
       "hp": 860,
       "atk": 80,
@@ -280,7 +280,7 @@
       "Hunt"
     ],
     "bio": "Truy sat muc tieu uu tien rat hieu qua.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Topaz_and_Numby_Splash_Art.png",
+    "imageUrl": "assets/characters/c018.png",
     "stats": {
       "hp": 900,
       "atk": 116,
@@ -296,7 +296,7 @@
       "Preservation"
     ],
     "bio": "Chan dau va giu doi hinh cuc ky ben bi.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Aventurine_Splash_Art.png",
+    "imageUrl": "assets/characters/c019.png",
     "stats": {
       "hp": 1300,
       "atk": 94,
@@ -312,7 +312,7 @@
       "Hunt"
     ],
     "bio": "Don sat thuong don vi tri cao, de ket hop buff.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Dr._Ratio_Splash_Art.png",
+    "imageUrl": "assets/characters/c020.png",
     "stats": {
       "hp": 900,
       "atk": 104,
@@ -328,7 +328,7 @@
       "Harmony"
     ],
     "bio": "Buff tong the, giup team tang toc do trien khai.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Ruan_Mei_Splash_Art.png",
+    "imageUrl": "assets/characters/c021.png",
     "stats": {
       "hp": 930,
       "atk": 82,
@@ -344,7 +344,7 @@
       "Erudition"
     ],
     "bio": "Quet giao tranh bang sat thuong rong.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Herta_Splash_Art.png",
+    "imageUrl": "assets/characters/c022.png",
     "stats": {
       "hp": 650,
       "atk": 56,
@@ -360,7 +360,7 @@
       "Harmony"
     ],
     "bio": "Ho tro doi hinh toan dien trong combat.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Robin_Splash_Art.png",
+    "imageUrl": "assets/characters/c023.png",
     "stats": {
       "hp": 760,
       "atk": 58,
@@ -376,7 +376,7 @@
       "Hunt"
     ],
     "bio": "Tieu diet muc tieu don voi sat thuong cao.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Boothill_Splash_Art.png",
+    "imageUrl": "assets/characters/c024.png",
     "stats": {
       "hp": 900,
       "atk": 126,
@@ -393,7 +393,7 @@
       "Elation"
     ],
     "bio": "Bo tro bien ao, day nhip tan cong va sat thuong dot bien.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sparkle_Splash_Art.png",
+    "imageUrl": "assets/characters/c025.png",
     "stats": {
       "hp": 850,
       "atk": 84,
@@ -410,7 +410,7 @@
       "Elation"
     ],
     "bio": "Nhieu meo vat gay roi doi hinh doi thu va tao ap luc som.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sampo_Splash_Art.png",
+    "imageUrl": "assets/characters/c026.png",
     "stats": {
       "hp": 690,
       "atk": 54,
@@ -427,7 +427,7 @@
       "Harmony"
     ],
     "bio": "Dieu chinh nhip giao tranh, giup doi hinh bung no sat thuong dung luc.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Evanescia_Splash_Art.png",
+    "imageUrl": "assets/characters/c027.png",
     "stats": {
       "hp": 820,
       "atk": 70,
@@ -444,7 +444,7 @@
       "Hunt"
     ],
     "bio": "Carry Vui Ve sat thuong cao, de ket lieu doi thu o cuoi round.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Sparxie_Splash_Art.png",
+    "imageUrl": "assets/characters/c028.png",
     "stats": {
       "hp": 1080,
       "atk": 136,
@@ -461,7 +461,7 @@
       "Erudition"
     ],
     "bio": "Danh rong manh, tao nhieu pha bo no sat thuong tren san.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Yao_Guang_Splash_Art.png",
+    "imageUrl": "assets/characters/c029.png",
     "stats": {
       "hp": 980,
       "atk": 122,
@@ -478,7 +478,7 @@
       "Nihility"
     ],
     "bio": "Pha nhip doi thu tu som, de mo cua cho doi hinh Vui Ve.",
-    "imageUrl": "https://honkai-star-rail.fandom.com/wiki/Special:FilePath/Character_Ashveil_Splash_Art.png",
+    "imageUrl": "assets/characters/c030.png",
     "stats": {
       "hp": 660,
       "atk": 52,
