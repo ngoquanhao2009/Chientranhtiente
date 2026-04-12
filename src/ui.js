@@ -58,6 +58,15 @@ function mixHexColor(colorA, colorB, t = 0.5) {
   });
 }
 
+function aeonPhaseSeconds(id = "") {
+  const text = String(id ?? "");
+  let hash = 0;
+  for (let i = 0; i < text.length; i += 1) {
+    hash = (hash + text.charCodeAt(i) * (i + 3)) % 97;
+  }
+  return -((hash % 12) * 0.35).toFixed(2);
+}
+
 const AEON_BORDER_PALETTE = {
   aeon_nanook: { main: "#ff4d3d", accent: "#ff8a3d", third: "#ffd56b" },
   aeon_xipe: { main: "#f6c343", accent: "#ffe27d", third: "#fff3b8" },
@@ -94,6 +103,7 @@ function applyAeonCardTheme(card, unit) {
   card.style.setProperty("--aeon-third", palette.third);
   card.style.setProperty("--aeon-glow", palette.main);
   card.style.setProperty("--aeon-icon", unit.logoUrl ? `url('${unit.logoUrl}')` : "none");
+  card.style.setProperty("--aeon-phase", `${aeonPhaseSeconds(unit.id)}s`);
 }
 
 function passiveTriggerIconsHtml(unit) {
@@ -823,7 +833,7 @@ function fighterHtmlWithState(f, hp, alive, flashActorKey, flashTargetKey, flash
     third: mixHexColor(fallback, "#0ea5e9", 0.22),
   };
   const aeonStyle = isAeon
-    ? `style="--aeon-main:${palette.main};--aeon-accent:${palette.accent};--aeon-third:${palette.third};--aeon-glow:${palette.main};--aeon-icon:${f.logoUrl ? `url('${f.logoUrl}')` : "none"}"`
+    ? `style="--aeon-main:${palette.main};--aeon-accent:${palette.accent};--aeon-third:${palette.third};--aeon-glow:${palette.main};--aeon-icon:${f.logoUrl ? `url('${f.logoUrl}')` : "none"};--aeon-phase:${aeonPhaseSeconds(f.id)}s"`
     : "";
   const aeonBadge = isAeon
     ? `<div class="fighterAeonHead"><span class="aeonBadge">AEON</span><span class="aeonPath">${f.path ?? "Aeon"}</span></div>`

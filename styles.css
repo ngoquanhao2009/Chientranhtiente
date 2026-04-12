@@ -511,6 +511,7 @@ p {
   --aeon-third: #a78bfa;
   --aeon-glow: #ffd36a;
   --aeon-icon: none;
+  --aeon-phase: 0s;
   position: relative;
   overflow: hidden;
   border: 2px solid transparent;
@@ -519,6 +520,9 @@ p {
     linear-gradient(130deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main)) border-box;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset,
     0 0 16px color-mix(in srgb, var(--aeon-glow) 32%, transparent 68%);
+  animation: aeonAuraPulse 4.8s ease-in-out infinite;
+  animation-delay: var(--aeon-phase);
+  will-change: transform, filter;
 }
 
 .card.aeonOwnedCard::before {
@@ -544,6 +548,8 @@ p {
   background: radial-gradient(circle at 50% 65%, color-mix(in srgb, var(--aeon-main) 14%, transparent 86%) 0%, transparent 66%);
   pointer-events: none;
   z-index: 0;
+  animation: aeonSweep 6.6s linear infinite;
+  animation-delay: var(--aeon-phase);
 }
 
 .card.aeonOwnedCard > * {
@@ -554,6 +560,19 @@ p {
 .card.aeonOwnedCard .cardPortrait {
   border-color: color-mix(in srgb, var(--aeon-accent) 48%, #385b86 52%);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset;
+}
+
+.card.aeonOwnedCard:hover {
+  transform: translateY(-1px) scale(1.01);
+  filter: saturate(1.07);
+}
+
+.card.aeonOwnedCard .cardPortrait img {
+  transition: transform 0.45s ease;
+}
+
+.card.aeonOwnedCard:hover .cardPortrait img {
+  transform: scale(1.045);
 }
 
 .aeonHead {
@@ -649,6 +668,7 @@ p {
   --aeon-third: #a78bfa;
   --aeon-glow: #ffd36a;
   --aeon-icon: none;
+  --aeon-phase: 0s;
   position: relative;
   overflow: hidden;
   border: 2px solid transparent;
@@ -657,6 +677,9 @@ p {
     linear-gradient(120deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main)) border-box;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset,
     0 0 18px color-mix(in srgb, var(--aeon-glow) 30%, transparent 70%);
+  animation: aeonCombatPulse 3.8s ease-in-out infinite;
+  animation-delay: var(--aeon-phase);
+  will-change: transform, filter;
 }
 
 .fighter.aeonFighter::before {
@@ -671,6 +694,13 @@ p {
   opacity: 0.1;
   pointer-events: none;
   z-index: 0;
+  animation: aeonSweep 7.2s linear infinite;
+  animation-delay: var(--aeon-phase);
+}
+
+.fighter.aeonFighter.actorFlash {
+  animation: aeonStrike 0.26s ease, aeonCombatPulse 3.8s ease-in-out infinite;
+  animation-delay: 0s, var(--aeon-phase);
 }
 
 .fighter.aeonFighter > * {
@@ -1179,6 +1209,77 @@ p {
 @keyframes procPop {
   0% { opacity: 0; transform: translateY(8px) scale(0.92); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes aeonAuraPulse {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+  50% {
+    transform: translateY(-0.8px) scale(1.006);
+    filter: saturate(1.08);
+  }
+}
+
+@keyframes aeonCombatPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    filter: saturate(1);
+  }
+  50% {
+    transform: translateY(-0.6px);
+    filter: saturate(1.06);
+  }
+}
+
+@keyframes aeonSweep {
+  0% {
+    transform: translateX(-6%);
+    opacity: 0.06;
+  }
+  50% {
+    transform: translateX(6%);
+    opacity: 0.13;
+  }
+  100% {
+    transform: translateX(-6%);
+    opacity: 0.06;
+  }
+}
+
+@keyframes aeonStrike {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  55% {
+    transform: scale(1.015);
+    filter: brightness(1.18);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.aeonOwnedCard,
+  .card.aeonOwnedCard::after,
+  .fighter.aeonFighter,
+  .fighter.aeonFighter::before,
+  .fighter.aeonFighter.actorFlash {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .card.aeonOwnedCard:hover,
+  .card.aeonOwnedCard:hover .cardPortrait img {
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 @media (max-width: 980px) {
