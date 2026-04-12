@@ -4,6 +4,7 @@ import archetypesData from "../data/archetypes.json" with { type: "json" };
 import bossesData from "../data/bosses.json" with { type: "json" };
 import shopOddsData from "../data/shopOdds.json" with { type: "json" };
 import passivesData from "../data/passives.json" with { type: "json" };
+import aeonsData from "../data/aeons.json" with { type: "json" };
 
 const BENCH_SIZE = 8;
 const BOARD_MAX = 9;
@@ -127,10 +128,12 @@ export class Game {
     this.archetypes = validated.archetypes;
     this.bosses = validated.bosses;
     this.passives = validated.passives;
+    this.aeons = validated.aeons;
     this.shopOdds = validated.shopOdds;
     this.archetypeNameById = new Map(this.archetypes.map((x) => [x.id, x.name]));
     this.charactersById = new Map(this.characters.map((u) => [u.id, u]));
     this.passiveById = new Map(this.passives.map((x) => [x.id, x]));
+    this.aeonById = new Map(this.aeons.map((x) => [x.id, x]));
     this.charactersByCost = new Map();
     for (const unit of this.characters) {
       if (!this.charactersByCost.has(unit.cost)) this.charactersByCost.set(unit.cost, []);
@@ -148,6 +151,7 @@ export class Game {
     const archetypes = Array.isArray(archetypesData) ? archetypesData : [];
     const bosses = [];
     const passives = [];
+    const aeons = [];
     const shopOdds = [];
 
     const seenCharacterIds = new Set();
@@ -201,6 +205,44 @@ export class Game {
       passives.push(raw);
     }
 
+    const seenAeonIds = new Set();
+    for (const raw of Array.isArray(aeonsData) ? aeonsData : []) {
+      if (!raw || typeof raw !== "object") {
+        issues.push("aeons: co phan tu khong hop le.");
+        continue;
+      }
+
+      const id = typeof raw.id === "string" ? raw.id.trim() : "";
+      const name = typeof raw.name === "string" ? raw.name.trim() : "";
+      const cost = Math.floor(asNumber(raw.cost, -1));
+      const star = Math.floor(asNumber(raw.star, -1));
+      const hp = Math.floor(asNumber(raw.stats?.hp, -1));
+      const atk = Math.floor(asNumber(raw.stats?.atk, -1));
+      const spd = asNumber(raw.stats?.spd, -1);
+      const unlock = raw.unlock && typeof raw.unlock === "object" ? raw.unlock : null;
+      const passive = raw.passive && typeof raw.passive === "object" ? raw.passive : null;
+
+      if (!id || seenAeonIds.has(id) || !id.startsWith("aeon_")) {
+        issues.push(`aeons: id loi hoac trung (${id || "missing"}).`);
+        continue;
+      }
+      if (!name || cost !== 7 || star !== 4 || hp <= 0 || atk <= 0 || spd <= 0) {
+        issues.push(`aeons: ${id} thieu name/stats/cost/star hop le.`);
+        continue;
+      }
+      if (!unlock?.type || !unlock?.id || asNumber(unlock.need, 0) <= 0) {
+        issues.push(`aeons: ${id} thieu unlock rule hop le.`);
+        continue;
+      }
+      if (!passive?.name || !passive?.effects || typeof passive.effects !== "object") {
+        issues.push(`aeons: ${id} thieu passive hop le.`);
+        continue;
+      }
+
+      seenAeonIds.add(id);
+      aeons.push(raw);
+    }
+
     for (const raw of Array.isArray(shopOddsData) ? shopOddsData : []) {
       if (!raw || typeof raw !== "object") {
         issues.push("shopOdds: co phan tu khong hop le.");
@@ -247,12 +289,13 @@ export class Game {
       archetypes,
       bosses: bosses.length > 0 ? bosses : bossesData,
       passives,
+      aeons,
       shopOdds,
     };
   }
 
   passivePowerScale(cost, star, round) {
-    const costFactor = ({ 1: 0.84, 2: 0.9, 3: 1, 4: 1.08, 5: 1.15 })[cost] ?? 1;
+    const costFactor = ({ 1: 0.84, 2: 0.9, 3: 1, 4: 1.08, 5: 1.15, 7: 1.24 })[cost] ?? 1;
     const starFactor = 1 + Math.max(0, star - 1) * 0.08;
     const roundFactor = round >= 16 ? 0.82 : round >= 11 ? 0.9 : 1;
     return costFactor * starFactor * roundFactor;
@@ -265,7 +308,7 @@ export class Game {
 
   scalePassiveChance(value, cost, round, cap = 0.42) {
     if (!value) return 0;
-    const costFactor = ({ 1: 0.82, 2: 0.88, 3: 0.95, 4: 1.02, 5: 1.1 })[cost] ?? 1;
+    const costFactor = ({ 1: 0.82, 2: 0.88, 3: 0.95, 4: 1.02, 5: 1.1, 7: 1.2 })[cost] ?? 1;
     const roundFactor = round >= 16 ? 0.78 : round >= 11 ? 0.86 : 0.95;
     return clamp(value * costFactor * roundFactor, 0, cap);
   }
@@ -418,6 +461,40 @@ export class Game {
   normalizeOwnedUnit(raw) {
     if (!raw || typeof raw !== "object") return null;
     const base = this.charactersById.get(raw.id);
+    const aeon = this.aeonById.get(raw.id);
+    if (aeon) {
+      const passiveRaw = raw.passive && typeof raw.passive === "object" ? raw.passive : aeon.passive;
+      const passive = passiveRaw
+        ? {
+          ...passiveRaw,
+          effects: { ...(passiveRaw.effects ?? {}) },
+          triggerKinds: this.getPassiveTriggerKinds(passiveRaw.effects ?? {}),
+          themeColor: passiveRaw.themeColor ?? this.getCharacterThemeColor(aeon),
+        }
+        : null;
+
+      return {
+        uid: typeof raw.uid === "string" && raw.uid.trim() ? raw.uid : uid(),
+        id: aeon.id,
+        name: aeon.name,
+        cost: 7,
+        faction: aeon.faction ?? "Aeon",
+        archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
+        bio: String(aeon.bio ?? "The co suc manh Aeon."),
+        imageUrl: String(raw.imageUrl ?? aeon.imageUrl ?? ""),
+        fusionImageUrl2: "",
+        star: 4,
+        stats: {
+          hp: Math.max(1, Math.floor(asNumber(raw.stats?.hp, aeon.stats?.hp ?? 2200))),
+          atk: Math.max(1, Math.floor(asNumber(raw.stats?.atk, aeon.stats?.atk ?? 220))),
+          spd: Math.max(0.1, asNumber(raw.stats?.spd, aeon.stats?.spd ?? 1.05)),
+        },
+        bossSkill: null,
+        passive,
+        fusionMeta: null,
+      };
+    }
+
     if (!base) {
       if (!raw.fusionMeta || typeof raw.fusionMeta !== "object") return null;
       const passive = raw.passive && typeof raw.passive === "object"
@@ -489,11 +566,42 @@ export class Game {
 
   normalizeShopOffer(raw) {
     if (!raw || typeof raw !== "object") return null;
+    const offerKind = raw.kind === "aeon" ? "aeon" : "unit";
+
+    if (offerKind === "aeon") {
+      const aeon = this.aeonById.get(raw.id);
+      if (!aeon) return null;
+      const passiveRaw = raw.passive && typeof raw.passive === "object" ? raw.passive : aeon.passive;
+      const passive = passiveRaw
+        ? {
+          ...passiveRaw,
+          effects: { ...(passiveRaw.effects ?? {}) },
+          triggerKinds: this.getPassiveTriggerKinds(passiveRaw.effects ?? {}),
+          themeColor: passiveRaw.themeColor ?? this.getCharacterThemeColor(aeon),
+        }
+        : null;
+
+      return {
+        kind: "aeon",
+        id: aeon.id,
+        name: aeon.name,
+        cost: 7,
+        faction: aeon.faction ?? "Aeon",
+        archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
+        bio: aeon.bio,
+        imageUrl: raw.imageUrl ?? aeon.imageUrl ?? "",
+        star: 4,
+        passive,
+        unlockText: aeon.unlock?.text ?? "Mo khoa boi doi hinh dac biet.",
+      };
+    }
+
     const base = this.charactersById.get(raw.id);
     if (!base) return null;
     const passive = this.buildPassiveForUnit(base);
 
     return {
+      kind: "unit",
       id: base.id,
       name: base.name,
       cost: base.cost,
@@ -670,6 +778,69 @@ export class Game {
     return buffs;
   }
 
+  countBoardByArchetype(id) {
+    return this.boardUnits.reduce((acc, unit) => acc + ((unit.archetypes ?? []).includes(id) ? 1 : 0), 0);
+  }
+
+  countBoardByFaction(id) {
+    return this.boardUnits.reduce((acc, unit) => acc + (unit.faction === id ? 1 : 0), 0);
+  }
+
+  isAeonUnlockSatisfied(aeon) {
+    const rule = aeon?.unlock;
+    if (!rule || !rule.type || !rule.id) return false;
+    const need = Math.max(1, Math.floor(asNumber(rule.need, 1)));
+
+    if (rule.type === "archetype") {
+      return this.countBoardByArchetype(rule.id) >= need;
+    }
+    if (rule.type === "faction") {
+      return this.countBoardByFaction(rule.id) >= need;
+    }
+    return false;
+  }
+
+  hasOwnedUnitId(unitId) {
+    for (const unit of this.state.board) {
+      if (unit?.id === unitId) return true;
+    }
+    for (const unit of this.state.bench) {
+      if (unit?.id === unitId) return true;
+    }
+    return false;
+  }
+
+  getEligibleAeons() {
+    return this.aeons.filter((aeon) => this.isAeonUnlockSatisfied(aeon) && !this.hasOwnedUnitId(aeon.id));
+  }
+
+  createAeonShopOffer(aeon) {
+    const passiveRaw = aeon?.passive ?? null;
+    const effects = { ...(passiveRaw?.effects ?? {}) };
+    const passive = passiveRaw
+      ? {
+        ...passiveRaw,
+        effects,
+        themeColor: this.getCharacterThemeColor(aeon),
+        triggerKinds: this.getPassiveTriggerKinds(effects),
+      }
+      : null;
+
+    return {
+      kind: "aeon",
+      id: aeon.id,
+      name: aeon.name,
+      cost: 7,
+      faction: aeon.faction ?? "Aeon",
+      archetypes: [...(aeon.archetypes ?? [])],
+      bio: aeon.bio,
+      imageUrl: aeon.imageUrl ?? "",
+      star: 4,
+      passive,
+      unlockText: aeon.unlock?.text ?? "Mo khoa boi doi hinh dac biet.",
+    };
+  }
+
   rollCost(level) {
     const odds = this.oddsByLevel.get(level) ?? this.oddsByLevel.get(MAX_LEVEL);
     const r = Math.random() * 100;
@@ -715,6 +886,7 @@ export class Game {
       if (!base) return null;
       const passive = this.buildPassiveForUnit(base);
       return {
+        kind: "unit",
         id: base.id,
         name: base.name,
         cost: base.cost,
@@ -725,6 +897,13 @@ export class Game {
         passive,
       };
     });
+
+    const eligibleAeons = this.getEligibleAeons();
+    if (eligibleAeons.length > 0) {
+      const slotIndex = randomInt(0, SHOP_SIZE - 1);
+      const aeon = pickRandom(eligibleAeons);
+      this.state.shop[slotIndex] = this.createAeonShopOffer(aeon);
+    }
 
     return { ok: true, goldDelta: free ? 0 : -2 };
   }
@@ -754,6 +933,39 @@ export class Game {
       fusionImageUrl2: "",
       star,
       stats: { ...base.stats },
+      passive,
+      fusionMeta: null,
+    };
+  }
+
+  createAeonOwnedUnit(aeon) {
+    const passiveRaw = aeon?.passive ?? null;
+    const effects = { ...(passiveRaw?.effects ?? {}) };
+    const passive = passiveRaw
+      ? {
+        ...passiveRaw,
+        effects,
+        themeColor: this.getCharacterThemeColor(aeon),
+        triggerKinds: this.getPassiveTriggerKinds(effects),
+      }
+      : null;
+
+    return {
+      uid: uid(),
+      id: aeon.id,
+      name: aeon.name,
+      cost: 7,
+      faction: aeon.faction ?? "Aeon",
+      archetypes: [...(aeon.archetypes ?? [])],
+      bio: aeon.bio,
+      imageUrl: aeon.imageUrl ?? "",
+      fusionImageUrl2: "",
+      star: 4,
+      stats: {
+        hp: Math.max(1, Math.floor(asNumber(aeon.stats?.hp, 2200))),
+        atk: Math.max(1, Math.floor(asNumber(aeon.stats?.atk, 220))),
+        spd: Math.max(0.1, asNumber(aeon.stats?.spd, 1.05)),
+      },
       passive,
       fusionMeta: null,
     };
@@ -996,11 +1208,23 @@ export class Game {
     if (benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
 
     this.state.gold -= offer.cost;
+    if (offer.kind === "aeon") {
+      const aeon = this.aeonById.get(offer.id);
+      if (!aeon) {
+        this.state.shop[index] = null;
+        return { ok: false, reason: "Du lieu the Aeon loi, hay lam moi shop." };
+      }
+      this.state.bench[benchIndex] = this.createAeonOwnedUnit(aeon);
+      this.state.shop[index] = null;
+      return { ok: true, goldDelta: -offer.cost, merged: false, reason: `Da trieu hoi Aeon ${aeon.name}.` };
+    }
+
     const base = this.charactersById.get(offer.id);
     if (!base) {
       this.state.shop[index] = null;
       return { ok: false, reason: "Du lieu tuong loi, hay lam moi shop." };
     }
+
     this.state.bench[benchIndex] = this.createOwnedUnit(base, 1);
     this.state.shop[index] = null;
 
