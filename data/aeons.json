@@ -32,7 +32,8 @@
         "executeThresholdPct": 0.28,
         "executeBonusPct": 0.34
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-nanook.png"
   },
   {
     "id": "aeon_xipe",
@@ -66,7 +67,8 @@
         "teamSpdPct": 0.22,
         "teamDmgReductionPct": 0.18
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-xipe.png"
   },
   {
     "id": "aeon_yaoshi",
@@ -101,7 +103,8 @@
         "selfLifestealPct": 0.3,
         "onHitHealPct": 0.18
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-yaoshi.png"
   },
   {
     "id": "aeon_ix",
@@ -135,7 +138,8 @@
         "enemyAtkPctDown": 0.26,
         "enemyDmgTakenPctUp": 0.22
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-ix.png"
   },
   {
     "id": "aeon_lan",
@@ -170,7 +174,8 @@
         "extraHitPct": 0.62,
         "onAttackMarkPctUp": 0.24
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-lan.png"
   },
   {
     "id": "aeon_nous",
@@ -205,7 +210,8 @@
         "extraHitChance": 0.36,
         "extraHitPct": 0.58
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-nous.png"
   },
   {
     "id": "aeon_qlipoth",
@@ -239,7 +245,8 @@
         "teamDmgReductionPct": 0.22,
         "onHitGuardPct": 0.18
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-qlipoth.png"
   },
   {
     "id": "aeon_aha",
@@ -273,7 +280,8 @@
         "extraHitPct": 0.7,
         "selfAtkPct": 0.26
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-aha.png"
   },
   {
     "id": "aeon_akivili",
@@ -308,7 +316,8 @@
         "teamShieldPct": 0.14,
         "onKillSpdPct": 0.14
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-akivili.png"
   },
   {
     "id": "aeon_ena",
@@ -343,7 +352,8 @@
         "enemyAtkPctDown": 0.2,
         "enemySpdPctDown": 0.2
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-ena.png"
   },
   {
     "id": "aeon_fuli",
@@ -378,7 +388,8 @@
         "executeThresholdPct": 0.2,
         "executeBonusPct": 0.22
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-fuli.png"
   },
   {
     "id": "aeon_hooh",
@@ -413,7 +424,8 @@
         "enemyDmgTakenPctUp": 0.16,
         "selfShieldPct": 0.14
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-hooh.png"
   },
   {
     "id": "aeon_idrila",
@@ -448,7 +460,8 @@
         "onAttackMarkPctUp": 0.22,
         "extraHitChance": 0.28
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-idrila.png"
   },
   {
     "id": "aeon_long",
@@ -483,7 +496,8 @@
         "onHitHealPct": 0.16,
         "onHitGuardPct": 0.14
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-long.png"
   },
   {
     "id": "aeon_mythus",
@@ -518,7 +532,8 @@
         "onAttackWeakenPctDown": 0.24,
         "enemyDmgTakenPctUp": 0.16
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-mythus.png"
   },
   {
     "id": "aeon_oroboros",
@@ -553,7 +568,8 @@
         "onKillAtkPct": 0.2,
         "onKillSpdPct": 0.16
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-oroboros.png"
   },
   {
     "id": "aeon_tayzzyronth",
@@ -589,7 +605,8 @@
         "onKillSpdPct": 0.16,
         "teamAtkPct": 0.16
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-tayzzyronth.png"
   },
   {
     "id": "aeon_terminus",
@@ -624,6 +641,7 @@
         "enemyDmgTakenPctUp": 0.2,
         "onAttackMarkPctUp": 0.2
       }
-    }
+    },
+    "logoUrl": "assets/aeon-logos/aeon-terminus.png"
   }
 ]

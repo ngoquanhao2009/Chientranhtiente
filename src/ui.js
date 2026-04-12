@@ -58,14 +58,40 @@ function mixHexColor(colorA, colorB, t = 0.5) {
   });
 }
 
+const AEON_BORDER_PALETTE = {
+  aeon_nanook: { main: "#ff4d3d", accent: "#ff8a3d", third: "#ffd56b" },
+  aeon_xipe: { main: "#f6c343", accent: "#ffe27d", third: "#fff3b8" },
+  aeon_yaoshi: { main: "#22c55e", accent: "#6ee7b7", third: "#bbf7d0" },
+  aeon_ix: { main: "#11121b", accent: "#5b3a8a", third: "#2b193d" },
+  aeon_lan: { main: "#3b82f6", accent: "#60a5fa", third: "#93c5fd" },
+  aeon_nous: { main: "#8b5cf6", accent: "#a78bfa", third: "#c4b5fd" },
+  aeon_qlipoth: { main: "#f59e0b", accent: "#fbbf24", third: "#fcd34d" },
+  aeon_aha: { main: "#fb7185", accent: "#22d3ee", third: "#facc15" },
+  aeon_akivili: { main: "#d1d5db", accent: "#f8fafc", third: "#93c5fd" },
+  aeon_ena: { main: "#93c5fd", accent: "#dbeafe", third: "#bfdbfe" },
+  aeon_fuli: { main: "#a5f3fc", accent: "#67e8f9", third: "#d9f9ff" },
+  aeon_hooh: { main: "#111827", accent: "#e5e7eb", third: "#6b7280" },
+  aeon_idrila: { main: "#f9a8d4", accent: "#fbcfe8", third: "#fce7f3" },
+  aeon_long: { main: "#14b8a6", accent: "#2dd4bf", third: "#5eead4" },
+  aeon_mythus: { main: "#5b3a8a", accent: "#7c3aed", third: "#2b193d" },
+  aeon_oroboros: { main: "#92400e", accent: "#b45309", third: "#7c2d12" },
+  aeon_tayzzyronth: { main: "#39ff14", accent: "#86efac", third: "#22c55e" },
+  aeon_terminus: { main: "#11121b", accent: "#4c1d95", third: "#7e22ce" },
+};
+
 function applyAeonCardTheme(card, unit) {
   if (!card || !unit || unit.kind !== "aeon") return;
-  const main = unit?.passive?.themeColor || "#f6c343";
-  const accent = mixHexColor(main, "#ffffff", 0.28);
-  const glow = main;
-  card.style.setProperty("--aeon-main", main);
-  card.style.setProperty("--aeon-accent", accent);
-  card.style.setProperty("--aeon-glow", glow);
+  const fallback = unit?.passive?.themeColor || "#f6c343";
+  const palette = AEON_BORDER_PALETTE[unit.id] ?? {
+    main: fallback,
+    accent: mixHexColor(fallback, "#ffffff", 0.28),
+    third: mixHexColor(fallback, "#0ea5e9", 0.22),
+  };
+  card.style.setProperty("--aeon-main", palette.main);
+  card.style.setProperty("--aeon-accent", palette.accent);
+  card.style.setProperty("--aeon-third", palette.third);
+  card.style.setProperty("--aeon-glow", palette.main);
+  card.style.setProperty("--aeon-icon", unit.logoUrl ? `url('${unit.logoUrl}')` : "none");
 }
 
 function passiveTriggerIconsHtml(unit) {

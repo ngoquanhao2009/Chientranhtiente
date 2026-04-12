@@ -462,14 +462,47 @@ p {
 .shopCard.aeonCard {
   --aeon-main: #f6c343;
   --aeon-accent: #7dd3fc;
+  --aeon-third: #a78bfa;
   --aeon-glow: #ffd36a;
-  border: 1px solid transparent;
+  --aeon-icon: none;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
   background:
-    radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--aeon-main) 32%, transparent 68%) 0%, transparent 45%),
-    linear-gradient(170deg, #2b355b, #1a2443) padding-box,
-    linear-gradient(130deg, var(--aeon-main), var(--aeon-accent), var(--aeon-main)) border-box;
+    linear-gradient(170deg, #20365f, #152645) padding-box,
+    linear-gradient(130deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main)) border-box;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset,
-    0 0 16px color-mix(in srgb, var(--aeon-glow) 22%, transparent 78%);
+    0 0 22px color-mix(in srgb, var(--aeon-glow) 38%, transparent 62%);
+}
+
+.shopCard.aeonCard::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 10px;
+  background-image: var(--aeon-icon);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: min(72%, 130px) auto;
+  opacity: 0.14;
+  filter: saturate(1.2) drop-shadow(0 0 10px color-mix(in srgb, var(--aeon-main) 55%, transparent 45%));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shopCard.aeonCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 62%, color-mix(in srgb, var(--aeon-main) 14%, transparent 86%) 0%, transparent 66%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shopCard.aeonCard > * {
+  position: relative;
+  z-index: 1;
 }
 
 .aeonHead {
