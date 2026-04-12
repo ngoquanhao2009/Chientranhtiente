@@ -480,6 +480,7 @@ export class Game {
         uid: typeof raw.uid === "string" && raw.uid.trim() ? raw.uid : uid(),
         id: aeon.id,
         name: aeon.name,
+        path: aeon.path ?? "Aeon",
         cost: 7,
         faction: aeon.faction ?? "Aeon",
         archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
@@ -654,6 +655,9 @@ export class Game {
   }
 
   getUnitDisplayTags(unit) {
+    if (unit?.faction === "Aeon") {
+      return ["Aeon", unit.path ?? "Aeon"];
+    }
     const archetypes = (unit.archetypes ?? []).map((id) => this.displayArchetype(id));
     return [unit.faction, ...archetypes].filter(Boolean);
   }
@@ -748,6 +752,50 @@ export class Game {
     });
   }
 
+  getOwnedAeonCount() {
+    let count = 0;
+    for (const unit of this.state.board) {
+      if (unit?.faction === "Aeon") count += 1;
+    }
+    for (const unit of this.state.bench) {
+      if (unit?.faction === "Aeon") count += 1;
+    }
+    return count;
+  }
+
+  buildAeonSynergyRow() {
+    const count = this.getOwnedAeonCount();
+    const capped = clamp(count, 0, 18);
+    const effects = {
+      hpPct: capped * 0.05,
+      lifestealPct: capped * 0.01,
+      critChancePct: capped * 0.02,
+    };
+    const label = `+${Math.round(effects.lifestealPct * 100)}% hut mau, +${Math.round(effects.critChancePct * 100)}% chi mang, +${Math.round(effects.hpPct * 100)}% HP`;
+
+    return {
+      group: "Phe phai",
+      id: "Aeon",
+      name: "Aeon",
+      desc: "Moi 1 Aeon: +1% hut mau, +2% ti le chi mang, +5% HP (toi da 18).",
+      count,
+      tiers: [
+        {
+          need: 1,
+          label,
+          effects,
+        },
+      ],
+      activeTier: count > 0
+        ? {
+          need: 1,
+          label,
+          effects,
+        }
+        : null,
+    };
+  }
+
   getSynergyOverview() {
     const factionCounts = new Map();
     const archetypeCounts = new Map();
@@ -759,8 +807,11 @@ export class Game {
       }
     }
 
+    const factionRows = this.getSynergyRows(this.factions, factionCounts, "Phe phai");
+    factionRows.push(this.buildAeonSynergyRow());
+
     return {
-      factions: this.getSynergyRows(this.factions, factionCounts, "Phe phai"),
+      factions: factionRows,
       archetypes: this.getSynergyRows(this.archetypes, archetypeCounts, "Toc he"),
     };
   }
@@ -773,13 +824,15 @@ export class Game {
   getCombatBuffs() {
     const overview = this.getSynergyOverview();
     const summary = [...overview.factions, ...overview.archetypes];
-    const buffs = { hpPct: 0, atkPct: 0, spdPct: 0 };
+    const buffs = { hpPct: 0, atkPct: 0, spdPct: 0, lifestealPct: 0, critChancePct: 0 };
     for (const row of summary) {
       if (!row.activeTier) continue;
       const effects = row.activeTier.effects ?? {};
       buffs.hpPct += effects.hpPct ?? 0;
       buffs.atkPct += effects.atkPct ?? 0;
       buffs.spdPct += effects.spdPct ?? 0;
+      buffs.lifestealPct += effects.lifestealPct ?? 0;
+      buffs.critChancePct += effects.critChancePct ?? 0;
     }
     return buffs;
   }
@@ -985,6 +1038,7 @@ export class Game {
       uid: uid(),
       id: aeon.id,
       name: aeon.name,
+      path: aeon.path ?? "Aeon",
       cost: 7,
       faction: aeon.faction ?? "Aeon",
       archetypes: [...(aeon.archetypes ?? [])],
@@ -1507,6 +1561,8 @@ export class Game {
       archetypes: [...(unit.archetypes ?? [])],
       bossSkill: unit.bossSkill ?? null,
       passive: unit.passive ?? null,
+      critChancePct: clamp(asNumber(buffs.critChancePct, 0), 0, 0.9),
+      lifestealPct: clamp(asNumber(buffs.lifestealPct, 0), 0, 0.9),
       hp,
       maxHp: hp,
       atk,
@@ -1544,7 +1600,7 @@ export class Game {
       damageReductionPct: 0,
       damageOutPct: 0,
       damageTakenPctUp: 0,
-      lifestealPct: 0,
+      lifestealPct: clamp(asNumber(fighter.lifestealPct, 0), 0, 0.9),
       executeThresholdPct: 0,
       executeBonusPct: 0,
       onKillAtkPct: 0,
@@ -1558,6 +1614,7 @@ export class Game {
       extraHitPct: 0,
       periodicHealPct: 0,
       periodicHealInterval: 0,
+      critChancePct: clamp(asNumber(fighter.critChancePct, 0), 0, 0.9),
     };
   }
 
@@ -1965,7 +2022,8 @@ export class Game {
         const executeBonus = hpRatio <= actorState.executeThresholdPct ? actorState.executeBonusPct : 0;
         const damageScale = 1 + actorState.damageOutPct + executeBonus + targetState.damageTakenPctUp;
         const damageReduction = clamp(targetState.damageReductionPct, 0, 0.8);
-        const isCrit = Math.random() < 0.18;
+        const critChance = clamp(0.18 + asNumber(actorState.critChancePct, 0), 0, 0.95);
+        const isCrit = Math.random() < critChance;
         const critMult = isCrit ? 1.55 : 1;
         const damage = Math.max(1, Math.round(actor.atk * rng * damageScale * critMult * (1 - damageReduction)));
         const hitKind = isCrit ? "crit" : damageReduction >= 0.18 ? "shielded" : "normal";
