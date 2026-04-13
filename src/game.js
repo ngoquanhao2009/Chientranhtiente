@@ -91,6 +91,24 @@ const AEON_THEME_BY_ID = {
   aeon_terminus: "#4c1d95",
 };
 
+const AEON_STAR_POWER_BY_LEVEL = {
+  1: 0.1,
+  2: 0.3,
+  3: 0.6,
+  4: 1,
+};
+
+const AEON_FRAGMENT_RESPAWN_BASE_CHANCE = 0.02;
+const AEON_FRAGMENT_RESPAWN_PER_LEVEL = 0.015;
+const AEON_FRAGMENT_RESPAWN_MAX_CHANCE = 0.22;
+
+const AEON_FRAGMENT_COST_BY_STAR = {
+  1: 4,
+  2: 5,
+  3: 6,
+  4: 7,
+};
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -347,6 +365,7 @@ export class Game {
       streak: 0,
       lockedShop: false,
       shopLockTargetRound: null,
+      aeonProgress: this.buildInitialAeonProgress(),
       bench: Array(BENCH_SIZE).fill(null),
       settings: {
         showEmoji: true,
@@ -393,6 +412,7 @@ export class Game {
     const board = Array.from({ length: BOARD_MAX }, (_, i) => this.normalizeOwnedUnit(source.board[i]));
     const bench = Array.from({ length: BENCH_SIZE }, (_, i) => this.normalizeOwnedUnit(source.bench[i]));
     const shop = Array.from({ length: SHOP_SIZE }, (_, i) => this.normalizeShopOffer(source.shop?.[i]));
+    const aeonProgress = this.normalizeAeonProgress(source.aeonProgress, board, bench);
 
     this.state = {
       round: Math.max(1, Math.floor(asNumber(source.round, 1))),
@@ -407,6 +427,7 @@ export class Game {
       shopLockTargetRound: source.lockedShop
         ? Math.max(1, Math.floor(asNumber(source.shopLockTargetRound, asNumber(source.round, 1) + 1)))
         : null,
+      aeonProgress,
       bench,
       board,
       shop,
@@ -487,6 +508,7 @@ export class Game {
     const base = this.charactersById.get(raw.id);
     const aeon = this.aeonById.get(raw.id);
     if (aeon) {
+      const star = clamp(Math.floor(asNumber(raw.star, 4)), 1, 4);
       const passiveRaw = raw.passive && typeof raw.passive === "object" ? raw.passive : aeon.passive;
       const passive = passiveRaw
         ? {
@@ -509,12 +531,8 @@ export class Game {
         imageUrl: String(raw.imageUrl ?? aeon.imageUrl ?? ""),
         logoUrl: String(raw.logoUrl ?? aeon.logoUrl ?? ""),
         fusionImageUrl2: "",
-        star: 4,
-        stats: {
-          hp: Math.max(1, Math.floor(asNumber(raw.stats?.hp, aeon.stats?.hp ?? 2200))),
-          atk: Math.max(1, Math.floor(asNumber(raw.stats?.atk, aeon.stats?.atk ?? 220))),
-          spd: Math.max(0.1, asNumber(raw.stats?.spd, aeon.stats?.spd ?? 1.05)),
-        },
+        star,
+        stats: this.getAeonStatsByStar(aeon, star),
         bossSkill: null,
         passive,
         fusionMeta: null,
@@ -612,13 +630,15 @@ export class Game {
         id: aeon.id,
         name: aeon.name,
         path: aeon.path ?? "Aeon",
-        cost: 7,
+        cost: clamp(Math.floor(asNumber(raw.cost, 4)), 4, 7),
         faction: aeon.faction ?? "Aeon",
         archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
         bio: aeon.bio,
         imageUrl: raw.imageUrl ?? aeon.imageUrl ?? "",
         logoUrl: raw.logoUrl ?? aeon.logoUrl ?? "",
-        star: 4,
+        star: clamp(Math.floor(asNumber(raw.star, 1)), 1, 4),
+        targetStar: clamp(Math.floor(asNumber(raw.targetStar, raw.star ?? 1)), 1, 4),
+        fragment: Boolean(raw.fragment) || Math.floor(asNumber(raw.targetStar, raw.star ?? 1)) < 4,
         passive,
         unlockText: aeon.unlock?.text ?? "Mo khoa boi doi hinh dac biet.",
       };
@@ -882,6 +902,91 @@ export class Game {
     return this.getCombatBuffsFromOverview(overview, scale);
   }
 
+  buildInitialAeonProgress() {
+    const out = {};
+    for (const aeon of this.aeons) {
+      out[aeon.id] = {
+        star: 0,
+        firstOfferShown: false,
+      };
+    }
+    return out;
+  }
+
+  normalizeAeonProgress(rawProgress, board = [], bench = []) {
+    const normalized = this.buildInitialAeonProgress();
+    const source = rawProgress && typeof rawProgress === "object" ? rawProgress : {};
+
+    for (const aeon of this.aeons) {
+      const row = source[aeon.id] && typeof source[aeon.id] === "object" ? source[aeon.id] : {};
+      normalized[aeon.id] = {
+        star: clamp(Math.floor(asNumber(row.star, 0)), 0, 4),
+        firstOfferShown: row.firstOfferShown === true,
+      };
+    }
+
+    const inferFromLineup = (unit) => {
+      if (!unit || unit.faction !== "Aeon") return;
+      if (!normalized[unit.id]) return;
+      const ownedStar = clamp(Math.floor(asNumber(unit.star, 1)), 1, 4);
+      if (ownedStar > normalized[unit.id].star) {
+        normalized[unit.id].star = ownedStar;
+      }
+      normalized[unit.id].firstOfferShown = true;
+    };
+
+    for (const unit of board) inferFromLineup(unit);
+    for (const unit of bench) inferFromLineup(unit);
+
+    return normalized;
+  }
+
+  getAeonProgress(aeonId) {
+    if (!this.state.aeonProgress || typeof this.state.aeonProgress !== "object") {
+      this.state.aeonProgress = this.buildInitialAeonProgress();
+    }
+    if (!this.state.aeonProgress[aeonId]) {
+      this.state.aeonProgress[aeonId] = {
+        star: 0,
+        firstOfferShown: false,
+      };
+    }
+    return this.state.aeonProgress[aeonId];
+  }
+
+  getAeonCurrentStar(aeonId) {
+    return clamp(Math.floor(asNumber(this.getAeonProgress(aeonId)?.star, 0)), 0, 4);
+  }
+
+  getAeonRespawnChance(level = this.state.level) {
+    const normalizedLevel = clamp(Math.floor(asNumber(level, 1)), 1, MAX_LEVEL);
+    return clamp(
+      AEON_FRAGMENT_RESPAWN_BASE_CHANCE + normalizedLevel * AEON_FRAGMENT_RESPAWN_PER_LEVEL,
+      0,
+      AEON_FRAGMENT_RESPAWN_MAX_CHANCE,
+    );
+  }
+
+  getAeonStatsByStar(aeon, star = 1) {
+    const tier = clamp(Math.floor(asNumber(star, 1)), 1, 4);
+    const power = AEON_STAR_POWER_BY_LEVEL[tier] ?? 1;
+    return {
+      hp: Math.max(1, Math.floor(asNumber(aeon?.stats?.hp, 2200) * power)),
+      atk: Math.max(1, Math.floor(asNumber(aeon?.stats?.atk, 220) * power)),
+      spd: Math.max(0.1, Number((asNumber(aeon?.stats?.spd, 1.05) * (0.84 + power * 0.16)).toFixed(2))),
+    };
+  }
+
+  findOwnedAeonSlot(aeonId) {
+    for (let i = 0; i < this.state.board.length; i += 1) {
+      if (this.state.board[i]?.id === aeonId) return { zone: "board", index: i };
+    }
+    for (let i = 0; i < this.state.bench.length; i += 1) {
+      if (this.state.bench[i]?.id === aeonId) return { zone: "bench", index: i };
+    }
+    return null;
+  }
+
   getAeonUnlockProgress() {
     const rows = [];
     for (const aeon of this.aeons) {
@@ -890,8 +995,15 @@ export class Game {
       const current = rule.type === "faction"
         ? this.countBoardByFaction(rule.id)
         : this.countBoardByArchetype(rule.id);
+      const progress = this.getAeonProgress(aeon.id);
+      const star = clamp(Math.floor(asNumber(progress.star, 0)), 0, 4);
       const owned = this.hasOwnedUnitId(aeon.id);
-      const unlocked = current >= need;
+      const unlocked = current >= need || star > 0;
+      const maxed = star >= 4;
+      const nextStar = clamp(star + 1, 1, 4);
+      const nextChancePct = unlocked && !maxed
+        ? ((star === 0 && progress.firstOfferShown !== true) ? 100 : this.getAeonRespawnChance(this.state.level) * 100)
+        : 0;
       rows.push({
         id: aeon.id,
         name: aeon.name,
@@ -900,6 +1012,10 @@ export class Game {
         need,
         unlocked,
         owned,
+        star,
+        maxed,
+        nextStar,
+        nextChancePct: Number(nextChancePct.toFixed(1)),
         condition: aeon.unlock?.text ?? "Dat dieu kien doi hinh",
       });
     }
@@ -939,10 +1055,18 @@ export class Game {
   }
 
   getEligibleAeons() {
-    return this.aeons.filter((aeon) => this.isAeonUnlockSatisfied(aeon) && !this.hasOwnedUnitId(aeon.id));
+    return this.aeons.filter((aeon) => {
+      const progressStar = this.getAeonCurrentStar(aeon.id);
+      const unlockedNow = this.isAeonUnlockSatisfied(aeon);
+      if (progressStar >= 4) {
+        return !this.hasOwnedUnitId(aeon.id);
+      }
+      return unlockedNow || progressStar > 0;
+    });
   }
 
-  createAeonShopOffer(aeon) {
+  createAeonShopOffer(aeon, targetStar = 1, guaranteedFirst = false) {
+    const safeStar = clamp(Math.floor(asNumber(targetStar, 1)), 1, 4);
     const passiveRaw = aeon?.passive ?? null;
     const effects = { ...(passiveRaw?.effects ?? {}) };
     const passive = passiveRaw
@@ -959,13 +1083,16 @@ export class Game {
       id: aeon.id,
       name: aeon.name,
       path: aeon.path ?? "Aeon",
-      cost: 7,
+      cost: AEON_FRAGMENT_COST_BY_STAR[safeStar] ?? 7,
       faction: aeon.faction ?? "Aeon",
       archetypes: [...(aeon.archetypes ?? [])],
       bio: aeon.bio,
       imageUrl: aeon.imageUrl ?? "",
       logoUrl: aeon.logoUrl ?? "",
-      star: 4,
+      star: safeStar,
+      targetStar: safeStar,
+      fragment: safeStar < 4,
+      guaranteedFirst,
       passive,
       unlockText: aeon.unlock?.text ?? "Mo khoa boi doi hinh dac biet.",
     };
@@ -1030,9 +1157,34 @@ export class Game {
 
     const eligibleAeons = this.getEligibleAeons();
     if (eligibleAeons.length > 0) {
-      const slotIndex = randomInt(0, SHOP_SIZE - 1);
-      const aeon = pickRandom(eligibleAeons);
-      this.state.shop[slotIndex] = this.createAeonShopOffer(aeon);
+      const firstFragmentPool = eligibleAeons.filter((aeon) => {
+        const progress = this.getAeonProgress(aeon.id);
+        return progress.star <= 0 && progress.firstOfferShown !== true;
+      });
+
+      let chosenAeon = null;
+      let guaranteedFirst = false;
+
+      if (firstFragmentPool.length > 0) {
+        chosenAeon = pickRandom(firstFragmentPool);
+        guaranteedFirst = true;
+      } else {
+        const chance = this.getAeonRespawnChance(this.state.level);
+        const rolledPool = eligibleAeons.filter((aeon) => Math.random() <= chance);
+        if (rolledPool.length > 0) {
+          chosenAeon = pickRandom(rolledPool);
+        }
+      }
+
+      if (chosenAeon) {
+        const currentStar = this.getAeonCurrentStar(chosenAeon.id);
+        const targetStar = clamp(currentStar + 1, 1, 4);
+        const slotIndex = randomInt(0, SHOP_SIZE - 1);
+        this.state.shop[slotIndex] = this.createAeonShopOffer(chosenAeon, targetStar, guaranteedFirst);
+        if (guaranteedFirst) {
+          this.getAeonProgress(chosenAeon.id).firstOfferShown = true;
+        }
+      }
     }
 
     return { ok: true, goldDelta: free ? 0 : -2 };
@@ -1068,7 +1220,8 @@ export class Game {
     };
   }
 
-  createAeonOwnedUnit(aeon) {
+  createAeonOwnedUnit(aeon, star = 1) {
+    const safeStar = clamp(Math.floor(asNumber(star, 1)), 1, 4);
     const passiveRaw = aeon?.passive ?? null;
     const effects = { ...(passiveRaw?.effects ?? {}) };
     const passive = passiveRaw
@@ -1092,12 +1245,8 @@ export class Game {
       imageUrl: aeon.imageUrl ?? "",
       logoUrl: aeon.logoUrl ?? "",
       fusionImageUrl2: "",
-      star: 4,
-      stats: {
-        hp: Math.max(1, Math.floor(asNumber(aeon.stats?.hp, 2200))),
-        atk: Math.max(1, Math.floor(asNumber(aeon.stats?.atk, 220))),
-        spd: Math.max(0.1, asNumber(aeon.stats?.spd, 1.05)),
-      },
+      star: safeStar,
+      stats: this.getAeonStatsByStar(aeon, safeStar),
       passive,
       fusionMeta: null,
     };
@@ -1346,20 +1495,49 @@ export class Game {
     if (!offer) return { ok: false, reason: "O shop trong." };
     if (this.state.gold < offer.cost) return { ok: false, reason: "Khong du vang." };
 
-    const benchIndex = this.findEmptyBenchIndex();
-    if (benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
-
-    this.state.gold -= offer.cost;
     if (offer.kind === "aeon") {
       const aeon = this.aeonById.get(offer.id);
       if (!aeon) {
         this.state.shop[index] = null;
         return { ok: false, reason: "Du lieu the Aeon loi, hay lam moi shop." };
       }
-      this.state.bench[benchIndex] = this.createAeonOwnedUnit(aeon);
+
+      const ownedSlot = this.findOwnedAeonSlot(aeon.id);
+      const benchIndex = this.findEmptyBenchIndex();
+      if (!ownedSlot && benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
+
+      const currentStar = this.getAeonCurrentStar(aeon.id);
+      const targetStar = clamp(Math.floor(asNumber(offer.targetStar, currentStar + 1)), 1, 4);
+
+      this.state.gold -= offer.cost;
+      this.getAeonProgress(aeon.id).star = Math.max(currentStar, targetStar);
+      this.getAeonProgress(aeon.id).firstOfferShown = true;
+
+      const upgraded = this.createAeonOwnedUnit(aeon, targetStar);
+      if (ownedSlot) {
+        this.setUnitAt(ownedSlot.zone, ownedSlot.index, upgraded);
+      } else {
+        this.state.bench[benchIndex] = upgraded;
+      }
+
       this.state.shop[index] = null;
-      return { ok: true, goldDelta: -offer.cost, merged: false, reason: `Da trieu hoi Aeon ${aeon.name}.` };
+      const fragmentText = targetStar < 4
+        ? `Da dong bo manh ${aeon.name}: ★${targetStar}.`
+        : `Da dung tinh the ${aeon.name}: ★★★★ toi thuong!`;
+      return {
+        ok: true,
+        goldDelta: -offer.cost,
+        merged: false,
+        reason: ownedSlot
+          ? `Nang cap Aeon thanh cong. ${fragmentText}`
+          : `Da trieu hoi Aeon ${aeon.name}. ${fragmentText}`,
+      };
     }
+
+    const benchIndex = this.findEmptyBenchIndex();
+    if (benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
+
+    this.state.gold -= offer.cost;
 
     const base = this.charactersById.get(offer.id);
     if (!base) {
@@ -1587,8 +1765,9 @@ export class Game {
   }
 
   makeFighter(unit, side, index, buffs, roundScale = 1) {
-    const starHpScale = 1 + (unit.star - 1) * 0.85;
-    const starAtkScale = 1 + (unit.star - 1) * 0.55;
+    const isAeon = unit.faction === "Aeon" || String(unit.id ?? "").startsWith("aeon_");
+    const starHpScale = isAeon ? 1 : 1 + (unit.star - 1) * 0.85;
+    const starAtkScale = isAeon ? 1 : 1 + (unit.star - 1) * 0.55;
 
     const hp = Math.round(unit.stats.hp * starHpScale * (1 + buffs.hpPct) * roundScale);
     const atk = Math.round(unit.stats.atk * starAtkScale * (1 + buffs.atkPct) * roundScale);

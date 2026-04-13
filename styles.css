@@ -557,6 +557,34 @@ p {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--aeon-main) 28%, transparent 72%) inset;
 }
 
+.card.aeonOwnedCard .cardMid {
+  letter-spacing: 0.8px;
+  color: color-mix(in srgb, var(--aeon-main) 38%, #fff4cf 62%);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--aeon-main) 35%, transparent 65%);
+}
+
+.card.aeonOwnedCard.aeonShardStar .cardMid {
+  color: color-mix(in srgb, var(--aeon-accent) 42%, #ffe4a6 58%);
+  opacity: 0.95;
+}
+
+.card.aeonOwnedCard.aeonFinalStar .cardMid {
+  background: linear-gradient(95deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main));
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--aeon-main) 42%, transparent 58%);
+  animation: aeonFinalStarFlow 2.6s linear infinite;
+}
+
+.shopCard.aeonCard .cardMid.aeonOfferStar {
+  color: color-mix(in srgb, var(--aeon-accent) 38%, #fff4ce 62%);
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
 
 
 .aeonHead {
@@ -1236,6 +1264,15 @@ p {
   100% {
     transform: scale(1);
     filter: brightness(1);
+  }
+}
+
+@keyframes aeonFinalStarFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
   }
 }
 

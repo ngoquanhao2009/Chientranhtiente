@@ -6,6 +6,23 @@ function starText(star) {
   return "★".repeat(star);
 }
 
+function isAeonLike(unit) {
+  if (!unit) return false;
+  return unit.faction === "Aeon" || unit.kind === "aeon" || String(unit.id ?? "").startsWith("aeon_");
+}
+
+function aeonCardStarClass(unit) {
+  if (!isAeonLike(unit)) return "";
+  const tier = Math.max(1, Number(unit.targetStar ?? unit.star ?? 1));
+  return tier >= 4 ? " aeonFinalStar" : " aeonShardStar";
+}
+
+function cardStarLabel(unit) {
+  const tier = Math.max(1, Number(unit?.targetStar ?? unit?.star ?? 1));
+  if (!isAeonLike(unit)) return starText(tier);
+  return tier < 4 ? `Manh ${starText(tier)}` : starText(tier);
+}
+
 function unitTagHtml(game, unit) {
   const tags = game.getUnitDisplayTags(unit);
   return `<span class="chip">${tags.join(" • ")}</span>`;
@@ -104,6 +121,7 @@ function applyAeonCardTheme(card, unit) {
   card.style.setProperty("--aeon-glow", palette.main);
   card.style.setProperty("--aeon-icon", unit.logoUrl ? `url('${unit.logoUrl}')` : "none");
   card.style.setProperty("--aeon-phase", `${aeonPhaseSeconds(unit.id)}s`);
+  card.style.setProperty("--aeon-star", String(Math.max(1, Number(unit.targetStar ?? unit.star ?? 1))));
 }
 
 function passiveTriggerIconsHtml(unit) {
@@ -580,13 +598,13 @@ function renderBoard(game) {
       const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
       const aeonCardClass = unit?.faction === "Aeon" ? " aeonCard aeonOwnedCard" : "";
       slot.innerHTML = `
-        <div class="card boardCard glow${selectedClass}${aeonCardClass}" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
+        <div class="card boardCard glow${selectedClass}${aeonCardClass}${aeonCardStarClass(unit)}" data-board-index="${i}" draggable="true" data-drag-kind="board" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
             <span class="cost c${unit.cost}">${unit.cost}</span>
           </div>
-          <div class="cardMid">${starText(unit.star)}</div>
+          <div class="cardMid">${cardStarLabel(unit)}</div>
           <div class="cardTags">${unitTagHtml(game, unit)}</div>
           <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
           <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
@@ -621,13 +639,13 @@ function renderBench(game) {
       const selectedClass = isFusionSelected(game, unit) ? " fusionSelected" : "";
       const aeonCardClass = unit?.faction === "Aeon" ? " aeonCard aeonOwnedCard" : "";
       slot.innerHTML = `
-        <div class="card benchCard${selectedClass}${aeonCardClass}" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
+        <div class="card benchCard${selectedClass}${aeonCardClass}${aeonCardStarClass(unit)}" data-bench-index="${i}" draggable="true" data-drag-kind="bench" data-drag-index="${i}">
           ${cardPortraitHtml(unit)}
           <div class="cardTop">
             <b>${unit.name}</b>
             <span class="cost c${unit.cost}">${unit.cost}</span>
           </div>
-          <div class="cardMid">${starText(unit.star)}</div>
+          <div class="cardMid">${cardStarLabel(unit)}</div>
           <div class="cardTags">${unitTagHtml(game, unit)}</div>
           <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
           <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
@@ -660,7 +678,7 @@ function renderShop(game) {
       card.innerHTML = `<span class="slotHint">Da mua</span>`;
     } else {
       const aeonHead = unit.kind === "aeon"
-        ? `<div class="aeonHead"><span class="aeonBadge">AEON</span><span class="aeonPath">${unit.path ?? "Mythic"}</span></div>`
+        ? `<div class="aeonHead"><span class="aeonBadge">${unit.fragment ? "AEON MANH" : "AEON"}</span><span class="aeonPath">${unit.path ?? "Mythic"}</span></div>`
         : "";
       card.innerHTML = `
         ${aeonHead}
@@ -669,6 +687,7 @@ function renderShop(game) {
           <b>${unit.name}</b>
           <span class="cost c${unit.cost}">${unit.cost}</span>
         </div>
+        <div class="cardMid ${unit.kind === "aeon" ? "aeonOfferStar" : ""}">${cardStarLabel(unit)}</div>
         <div class="cardTags">${unitTagHtml(game, unit)}</div>
         <div class="cardPassive">${passiveBadgeHtml(unit)}</div>
         <div class="cardTriggers">${passiveTriggerIconsHtml(unit)}</div>
@@ -701,14 +720,25 @@ function renderShop(game) {
       .map((row) => {
         const pct = Math.max(0, Math.min(100, Math.round((row.current / row.need) * 100)));
         const stateClass = row.owned ? "owned" : row.unlocked ? "ready" : "locked";
-        const stateText = row.owned ? "Da so huu" : row.unlocked ? "Co the xuat hien" : `${row.current}/${row.need}`;
+        const starNow = Number(row.star ?? 0);
+        const nextChance = Number(row.nextChancePct ?? 0).toFixed(1);
+        let stateText = `${row.current}/${row.need}`;
+        if (row.maxed) {
+          stateText = "Toi da ★★★★";
+        } else if (row.unlocked && starNow <= 0 && Number(row.nextChancePct ?? 0) >= 99.9) {
+          stateText = "Manh dau tien san sang";
+        } else if (row.unlocked && starNow > 0) {
+          stateText = `${starText(starNow)} -> ${starText(row.nextStar ?? Math.min(starNow + 1, 4))} (${nextChance}%)`;
+        } else if (row.unlocked) {
+          stateText = `Co the xuat hien (${nextChance}%)`;
+        }
         return `
           <div class="aeonTrack ${stateClass}">
             <div class="aeonTrackTop">
               <b>${row.name}</b>
               <span>${stateText}</span>
             </div>
-            <div class="aeonTrackMeta">${row.path} · ${row.condition}</div>
+            <div class="aeonTrackMeta">${row.path} · Sao ${starNow}/4 · ${row.condition}</div>
             <div class="aeonBar"><span style="width:${pct}%"></span></div>
           </div>
         `;
