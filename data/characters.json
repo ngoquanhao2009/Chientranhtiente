@@ -7,7 +7,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Dan dau doi hinh va vao tran on dinh.",
+    "bio": "Dẫn dắt đội hình, vào giao tranh ổn định và linh hoạt.",
     "imageUrl": "assets/characters/c001.png",
     "stats": {
       "hp": 830,
@@ -23,7 +23,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Lop khien giup doi hinh tru san tot.",
+    "bio": "Tạo lá chắn tốt, giúp tuyến trước đứng vững đầu trận.",
     "imageUrl": "assets/characters/c002.png",
     "stats": {
       "hp": 730,
@@ -39,7 +39,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Don sat thuong don muc tieu on dinh.",
+    "bio": "Sát thương đơn mục tiêu ổn định, kết liễu hiệu quả.",
     "imageUrl": "assets/characters/c003.png",
     "stats": {
       "hp": 700,
@@ -55,7 +55,7 @@
     "archetypes": [
       "Erudition"
     ],
-    "bio": "Don sat thuong rong de don dep doi thu.",
+    "bio": "Chuyên sát thương diện rộng, dọn bàn giao tranh nhanh.",
     "imageUrl": "assets/characters/c004.png",
     "stats": {
       "hp": 940,
@@ -71,7 +71,7 @@
     "archetypes": [
       "Nihility"
     ],
-    "bio": "Kiem soat nhip danh cua giao tranh.",
+    "bio": "Kiểm soát nhịp trận bằng hiệu ứng làm chậm và suy yếu.",
     "imageUrl": "assets/characters/c005.png",
     "stats": {
       "hp": 900,
@@ -87,7 +87,7 @@
     "archetypes": [
       "Nihility"
     ],
-    "bio": "Duy tri sat thuong manh ve cuoi tran.",
+    "bio": "Duy trì sát thương đều tay, mạnh dần về cuối giao tranh.",
     "imageUrl": "assets/characters/c006.png",
     "stats": {
       "hp": 920,
@@ -103,7 +103,7 @@
     "archetypes": [
       "Nihility"
     ],
-    "bio": "Debuff va pha vo doi hinh doi thu.",
+    "bio": "Gây debuff khó chịu, phá nhịp đội hình đối phương.",
     "imageUrl": "assets/characters/c007.png",
     "stats": {
       "hp": 790,
@@ -119,7 +119,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Tien phong gay ap luc sat thuong lon.",
+    "bio": "Tiên phong áp lực cao, vừa công vừa thủ ổn.",
     "imageUrl": "assets/characters/c008.png",
     "stats": {
       "hp": 1120,
@@ -135,7 +135,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Doi mau lay sat thuong, cang danh cang manh.",
+    "bio": "Đổi máu lấy sát thương, càng đánh càng lì đòn.",
     "imageUrl": "assets/characters/c009.png",
     "stats": {
       "hp": 1280,
@@ -151,7 +151,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Ket lieu muc tieu cuc nhanh.",
+    "bio": "Sát thủ kết liễu nhanh, cực mạnh khi bắt được mục tiêu yếu.",
     "imageUrl": "assets/characters/c010.png",
     "stats": {
       "hp": 850,
@@ -167,7 +167,7 @@
     "archetypes": [
       "Harmony"
     ],
-    "bio": "Tang toc do va sat thuong cho doi hinh.",
+    "bio": "Hỗ trợ tăng nhịp và tăng sát thương cho toàn đội.",
     "imageUrl": "assets/characters/c011.png",
     "stats": {
       "hp": 770,
@@ -183,7 +183,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Chan truoc giu nhiet cho doi hinh.",
+    "bio": "Tanker chắn tuyến đầu, giữ đội hình cực kỳ chắc chắn.",
     "imageUrl": "assets/characters/c012.png",
     "stats": {
       "hp": 870,
@@ -199,7 +199,7 @@
     "archetypes": [
       "Abundance"
     ],
-    "bio": "Hau can de van hanh doi hinh dau game.",
+    "bio": "Hồi phục ổn định, rất hữu ích cho giai đoạn đầu game.",
     "imageUrl": "assets/characters/c013.png",
     "stats": {
       "hp": 640,
@@ -215,7 +215,7 @@
     "archetypes": [
       "Erudition"
     ],
-    "bio": "Sat thuong dien rong rat manh o giua tran.",
+    "bio": "Gây áp lực diện rộng mạnh ở giữa giao tranh.",
     "imageUrl": "assets/characters/c014.png",
     "stats": {
       "hp": 1000,
@@ -231,7 +231,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Giam sat thuong toan doi va giu form giao tranh.",
+    "bio": "Bảo kê toàn đội bằng giảm sát thương và lá chắn.",
     "imageUrl": "assets/characters/c015.png",
     "stats": {
       "hp": 1260,
@@ -247,7 +247,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Burst sat thuong cao, ket lieu nhanh.",
+    "bio": "Burst cao, chuyên xử lý mục tiêu trong thời gian ngắn.",
     "imageUrl": "assets/characters/c016.png",
     "stats": {
       "hp": 1100,
@@ -263,7 +263,7 @@
     "archetypes": [
       "Abundance"
     ],
-    "bio": "Giu nhiet doi hinh khi tran keo dai.",
+    "bio": "Giữ nhịp giao tranh dài bằng hồi phục liên tục.",
     "imageUrl": "assets/characters/c017.png",
     "stats": {
       "hp": 860,
@@ -279,7 +279,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Truy sat muc tieu uu tien rat hieu qua.",
+    "bio": "Truy sát mục tiêu ưu tiên rất hiệu quả.",
     "imageUrl": "assets/characters/c018.png",
     "stats": {
       "hp": 900,
@@ -295,7 +295,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Chan dau va giu doi hinh cuc ky ben bi.",
+    "bio": "Đỡ đòn mạnh, duy trì tuyến trước bền bỉ.",
     "imageUrl": "assets/characters/c019.png",
     "stats": {
       "hp": 1300,
@@ -311,7 +311,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Don sat thuong don vi tri cao, de ket hop buff.",
+    "bio": "Dồn sát thương đơn mục tiêu tốt, hợp đội hình đánh nhanh.",
     "imageUrl": "assets/characters/c020.png",
     "stats": {
       "hp": 900,
@@ -327,7 +327,7 @@
     "archetypes": [
       "Harmony"
     ],
-    "bio": "Buff tong the, giup team tang toc do trien khai.",
+    "bio": "Buff tổng lực giúp đội hình tăng tốc vận hành.",
     "imageUrl": "assets/characters/c021.png",
     "stats": {
       "hp": 930,
@@ -343,7 +343,7 @@
     "archetypes": [
       "Erudition"
     ],
-    "bio": "Quet giao tranh bang sat thuong rong.",
+    "bio": "Đánh lan tốt, tạo thêm đòn phụ để dọn bàn.",
     "imageUrl": "assets/characters/c022.png",
     "stats": {
       "hp": 650,
@@ -359,7 +359,7 @@
     "archetypes": [
       "Harmony"
     ],
-    "bio": "Ho tro doi hinh toan dien trong combat.",
+    "bio": "Hỗ trợ công-tốc nhịp nhàng, tăng sức bật cho cả đội.",
     "imageUrl": "assets/characters/c023.png",
     "stats": {
       "hp": 760,
@@ -375,7 +375,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Tieu diet muc tieu don voi sat thuong cao.",
+    "bio": "Đấu tay đôi mạnh, kết liễu mục tiêu rất sắc.",
     "imageUrl": "assets/characters/c024.png",
     "stats": {
       "hp": 900,
@@ -392,7 +392,7 @@
       "Harmony",
       "Elation"
     ],
-    "bio": "Bo tro bien ao, day nhip tan cong va sat thuong dot bien.",
+    "bio": "Hỗ trợ linh hoạt, tạo đột biến theo nhịp đội hình.",
     "imageUrl": "assets/characters/c025.png",
     "stats": {
       "hp": 850,
@@ -409,7 +409,7 @@
       "Nihility",
       "Elation"
     ],
-    "bio": "Nhieu meo vat gay roi doi hinh doi thu va tao ap luc som.",
+    "bio": "Bào mòn đối thủ bằng các hiệu ứng suy yếu liên tục.",
     "imageUrl": "assets/characters/c026.png",
     "stats": {
       "hp": 690,
@@ -426,7 +426,7 @@
       "Elation",
       "Harmony"
     ],
-    "bio": "Dieu chinh nhip giao tranh, giup doi hinh bung no sat thuong dung luc.",
+    "bio": "Hỗ trợ nhịp giao tranh và hồi phục nhẹ theo chu kỳ.",
     "imageUrl": "assets/characters/c027.png",
     "stats": {
       "hp": 820,
@@ -443,7 +443,7 @@
       "Elation",
       "Hunt"
     ],
-    "bio": "Carry Vui Ve sat thuong cao, de ket lieu doi thu o cuoi round.",
+    "bio": "Carry thiên đột biến, có khả năng tự duy trì tốt.",
     "imageUrl": "assets/characters/c028.png",
     "stats": {
       "hp": 1080,
@@ -460,7 +460,7 @@
       "Elation",
       "Erudition"
     ],
-    "bio": "Danh rong manh, tao nhieu pha bo no sat thuong tren san.",
+    "bio": "Gây áp lực diện rộng, mở điều kiện dồn sát thương.",
     "imageUrl": "assets/characters/c029.png",
     "stats": {
       "hp": 980,
@@ -477,7 +477,7 @@
       "Elation",
       "Nihility"
     ],
-    "bio": "Pha nhip doi thu tu som, de mo cua cho doi hinh Vui Ve.",
+    "bio": "Phá nhịp đội hình địch bằng bộ suy yếu khó chịu.",
     "imageUrl": "assets/characters/c030.png",
     "stats": {
       "hp": 660,

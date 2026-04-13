@@ -2,12 +2,12 @@
   {
     "id": "aeon_nanook",
     "name": "Nanook",
-    "path": "Huỷ Diệt",
+    "path": "Hủy Diệt",
     "faction": "Aeon",
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Pha huy de tai tao. Sat thuong cuong no o cuoi tran.",
+    "bio": "Phá hủy để tái tạo. Sát thương bùng nổ ở cuối giao tranh.",
     "imageUrl": "assets/aeons/aeon-nanook.png",
     "cost": 7,
     "star": 4,
@@ -20,12 +20,12 @@
       "type": "archetype",
       "id": "Destruction",
       "need": 4,
-      "text": "Can 4 Huy Diet tren Board."
+      "text": "Cần 4 Hủy Diệt trên bàn cờ."
     },
     "passive": {
       "name": "Entropy Collapse",
       "effectTone": "harmful",
-      "desc": "Con duong Huy Diet: sat thuong ket lieu cuc manh.",
+      "desc": "Con đường Hủy Diệt: khuếch đại khả năng kết liễu cực mạnh.",
       "effects": {
         "selfAtkPct": 0.38,
         "enemyDmgTakenPctUp": 0.28,
@@ -38,12 +38,12 @@
   {
     "id": "aeon_xipe",
     "name": "Xipe",
-    "path": "Hoà Hợp",
+    "path": "Hòa Hợp",
     "faction": "Aeon",
     "archetypes": [
       "Harmony"
     ],
-    "bio": "Hop nhat moi ca the vao mot nhac do chung.",
+    "bio": "Hợp nhất mọi cá thể vào một nhạc điệu chung.",
     "imageUrl": "assets/aeons/aeon-xipe.png",
     "cost": 7,
     "star": 4,
@@ -56,12 +56,12 @@
       "type": "archetype",
       "id": "Harmony",
       "need": 3,
-      "text": "Can 3 Hoa Hop tren Board."
+      "text": "Cần 3 Hòa Hợp trên bàn cờ."
     },
     "passive": {
       "name": "Choir of One",
       "effectTone": "beneficial",
-      "desc": "Con duong Hoa Hop: dong bo suc manh toan doi.",
+      "desc": "Con đường Hòa Hợp: đồng bộ hóa sức mạnh toàn đội.",
       "effects": {
         "teamAtkPct": 0.26,
         "teamSpdPct": 0.22,
@@ -78,7 +78,7 @@
     "archetypes": [
       "Abundance"
     ],
-    "bio": "Su song vo han, hoi phuc bat tan.",
+    "bio": "Sự sống vô hạn, hồi phục bền bỉ.",
     "imageUrl": "assets/aeons/aeon-yaoshi.png",
     "cost": 7,
     "star": 4,
@@ -91,12 +91,12 @@
       "type": "archetype",
       "id": "Abundance",
       "need": 2,
-      "text": "Can 2 Tru Phu tren Board."
+      "text": "Cần 2 Trù Phú trên bàn cờ."
     },
     "passive": {
       "name": "Immortal Bloom",
       "effectTone": "beneficial",
-      "desc": "Con duong Tru Phu: hoi phuc bat tan va hut mau.",
+      "desc": "Con đường Trù Phú: hồi phục bền bỉ và hút máu ổn định.",
       "effects": {
         "periodicHealPct": 0.2,
         "periodicHealInterval": 2,
@@ -114,7 +114,7 @@
     "archetypes": [
       "Nihility"
     ],
-    "bio": "Tat ca y nghia bi hoa tan trong hu vo.",
+    "bio": "Mọi ý nghĩa bị hòa tan trong hư vô.",
     "imageUrl": "assets/aeons/aeon-ix.png",
     "cost": 7,
     "star": 4,
@@ -127,12 +127,12 @@
       "type": "archetype",
       "id": "Nihility",
       "need": 4,
-      "text": "Can 4 Hu Vo tren Board."
+      "text": "Cần 4 Hư Vô trên bàn cờ."
     },
     "passive": {
       "name": "Null Horizon",
       "effectTone": "harmful",
-      "desc": "Con duong Hu Vo: rut can doi thu tren moi mat tran.",
+      "desc": "Con đường Hư Vô: bào mòn đối thủ trên mọi mặt trận.",
       "effects": {
         "enemySpdPctDown": 0.3,
         "enemyAtkPctDown": 0.26,
@@ -149,7 +149,7 @@
     "archetypes": [
       "Hunt"
     ],
-    "bio": "Truy sat muc tieu den hoi ket.",
+    "bio": "Truy sát mục tiêu đến hồi kết.",
     "imageUrl": "assets/aeons/aeon-lan.png",
     "cost": 7,
     "star": 4,
@@ -162,12 +162,12 @@
       "type": "archetype",
       "id": "Hunt",
       "need": 4,
-      "text": "Can 4 San Duoi tren Board."
+      "text": "Cần 4 Săn Bắn trên bàn cờ."
     },
     "passive": {
       "name": "Relentless Chase",
       "effectTone": "harmful",
-      "desc": "Con duong Tuan Liep: truy sat va ket lieu lien tuc.",
+      "desc": "Con đường Săn Bắn: truy sát mục tiêu đơn lẻ liên tục.",
       "effects": {
         "selfSpdPct": 0.28,
         "extraHitChance": 0.42,
@@ -180,12 +180,12 @@
   {
     "id": "aeon_nous",
     "name": "Nous",
-    "path": "Trí Thức",
+    "path": "Tri Thức",
     "faction": "Aeon",
     "archetypes": [
       "Erudition"
     ],
-    "bio": "Tri tue giai cau truc moi quy luat.",
+    "bio": "Trí tuệ giải cấu trúc mọi quy luật.",
     "imageUrl": "assets/aeons/aeon-nous.png",
     "cost": 7,
     "star": 4,
@@ -198,12 +198,12 @@
       "type": "archetype",
       "id": "Erudition",
       "need": 3,
-      "text": "Can 3 Tri Thuc tren Board."
+      "text": "Cần 3 Tri Thức trên bàn cờ."
     },
     "passive": {
       "name": "Equation of Stars",
       "effectTone": "mixed",
-      "desc": "Con duong Tri Thuc: toi uu hoa sat thuong va logic chien tran.",
+      "desc": "Con đường Tri Thức: tối ưu sát thương bằng tính toán.",
       "effects": {
         "teamAtkPct": 0.2,
         "enemyAtkPctDown": 0.2,
@@ -221,7 +221,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Dung thanh bao ve su ton tai.",
+    "bio": "Dựng thành bảo vệ sự tồn tại.",
     "imageUrl": "assets/aeons/aeon-qlipoth.png",
     "cost": 7,
     "star": 4,
@@ -234,12 +234,12 @@
       "type": "archetype",
       "id": "Preservation",
       "need": 4,
-      "text": "Can 4 Bao Ho tren Board."
+      "text": "Cần 4 Bảo Hộ trên bàn cờ."
     },
     "passive": {
       "name": "Amber Wall",
       "effectTone": "beneficial",
-      "desc": "Con duong Ton Ho: lap thanh bao ve the tran.",
+      "desc": "Con đường Bảo Hộ: dựng thành lũy bảo vệ đội hình.",
       "effects": {
         "teamShieldPct": 0.24,
         "teamDmgReductionPct": 0.22,
@@ -251,12 +251,12 @@
   {
     "id": "aeon_aha",
     "name": "Aha",
-    "path": "Vui Vẻ",
+    "path": "Hoan Lạc",
     "faction": "Aeon",
     "archetypes": [
       "Elation"
     ],
-    "bio": "Moi thu la mot tro dua vo tan.",
+    "bio": "Mọi thứ là một trò đùa vô tận.",
     "imageUrl": "assets/aeons/aeon-aha.png",
     "cost": 7,
     "star": 4,
@@ -269,12 +269,12 @@
       "type": "archetype",
       "id": "Elation",
       "need": 4,
-      "text": "Can 4 Vui Ve tren Board."
+      "text": "Cần 4 Hoan Lạc trên bàn cờ."
     },
     "passive": {
       "name": "Cosmic Punchline",
       "effectTone": "mixed",
-      "desc": "Con duong Hoan Du: sat thuong dot bien, kho doan.",
+      "desc": "Con đường Hoan Lạc: tạo đột biến bằng nhịp đánh bất ngờ.",
       "effects": {
         "extraHitChance": 0.5,
         "extraHitPct": 0.7,
@@ -304,12 +304,12 @@
       "type": "faction",
       "id": "Astral Express",
       "need": 4,
-      "text": "Can 4 Astral Express tren Board."
+      "text": "Cần 4 Astral Express trên bàn cờ."
     },
     "passive": {
       "name": "Trailblaze Engine",
       "effectTone": "beneficial",
-      "desc": "Con duong Khai Pha: day toan doi tien len khong gioi han.",
+      "desc": "Con đường Khai Phá: dẫn dắt đội hình tiến công toàn diện.",
       "effects": {
         "teamAtkPct": 0.2,
         "teamSpdPct": 0.2,
@@ -340,12 +340,12 @@
       "type": "faction",
       "id": "Genius Society",
       "need": 3,
-      "text": "Can 3 Genius Society tren Board."
+      "text": "Cần 3 Hiệp hội Thiên Tài trên bàn cờ."
     },
     "passive": {
       "name": "Edict of Order",
       "effectTone": "mixed",
-      "desc": "Con duong Trat Tu: ep doi thu vao khuon phep, buff dong minh.",
+      "desc": "Con đường Trật Tự: áp đặt nhịp trận bằng kỷ luật.",
       "effects": {
         "teamAtkPct": 0.18,
         "teamDmgReductionPct": 0.16,
@@ -376,12 +376,12 @@
       "type": "archetype",
       "id": "Remembrance",
       "need": 3,
-      "text": "Can 3 Ky Uc tren Board."
+      "text": "Cần 3 Ký Ức trên bàn cờ."
     },
     "passive": {
       "name": "Frozen Archive",
       "effectTone": "harmful",
-      "desc": "Con duong Ky Uc: dong bang nhip danh va danh dau so phan.",
+      "desc": "Con đường Ký Ức: kiểm soát giao tranh bằng đóng băng và ghi dấu.",
       "effects": {
         "enemySpdPctDown": 0.24,
         "onAttackMarkPctUp": 0.24,
@@ -399,7 +399,7 @@
     "archetypes": [
       "Preservation"
     ],
-    "bio": "Can bang tuyet doi giua cac luc luong.",
+    "bio": "Cân bằng tuyệt đối giữa các lực lượng.",
     "imageUrl": "assets/aeons/aeon-hooh.png",
     "cost": 7,
     "star": 4,
@@ -412,12 +412,12 @@
       "type": "faction",
       "id": "Belobog",
       "need": 4,
-      "text": "Can 4 Belobog tren Board."
+      "text": "Cần 4 Belobog trên bàn cờ."
     },
     "passive": {
       "name": "Perfect Equilibrium",
       "effectTone": "mixed",
-      "desc": "Con duong Can Bang: can bang cong-thu o nguong toi uu.",
+      "desc": "Con đường Cân Bằng: duy trì thế trận ổn định giữa công và thủ.",
       "effects": {
         "teamAtkPct": 0.18,
         "teamDmgReductionPct": 0.18,
@@ -435,7 +435,7 @@
     "archetypes": [
       "Elation"
     ],
-    "bio": "Ve dep hoan my vuot khoi tam voi.",
+    "bio": "Vẻ đẹp hoàn mỹ vượt khỏi tầm với.",
     "imageUrl": "assets/aeons/aeon-idrila.png",
     "cost": 7,
     "star": 4,
@@ -448,12 +448,12 @@
       "type": "faction",
       "id": "Galaxy Rangers",
       "need": 2,
-      "text": "Can 2 Galaxy Rangers tren Board."
+      "text": "Cần 2 Galaxy Rangers trên bàn cờ."
     },
     "passive": {
       "name": "Flawless Form",
       "effectTone": "beneficial",
-      "desc": "Con duong Sac Dep: toc do, sat thuong va do chinh xac hoan my.",
+      "desc": "Con đường Sắc Đẹp: cường hóa đội hình bằng nhịp điệu tinh tế.",
       "effects": {
         "selfSpdPct": 0.24,
         "selfAtkPct": 0.28,
@@ -471,7 +471,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Du da diet vong, anh huong van bat tan.",
+    "bio": "Dù đã diệt vong, ảnh hưởng vẫn bất tận.",
     "imageUrl": "assets/aeons/aeon-long.png",
     "cost": 7,
     "star": 4,
@@ -484,12 +484,12 @@
       "type": "faction",
       "id": "Xianzhou Luofu",
       "need": 4,
-      "text": "Can 4 Xianzhou Luofu tren Board."
+      "text": "Cần 4 Xianzhou Luofu trên bàn cờ."
     },
     "passive": {
       "name": "Undying Legacy",
       "effectTone": "beneficial",
-      "desc": "Con duong Bat Hu: co the kho bi ha guc va hoi phuc manh.",
+      "desc": "Con đường Vĩnh Cửu: bền bỉ và áp lực theo thời gian.",
       "effects": {
         "selfShieldPct": 0.22,
         "selfLifestealPct": 0.26,
@@ -507,7 +507,7 @@
     "archetypes": [
       "Nihility"
     ],
-    "bio": "Su that bi bo cong trong man suong mo.",
+    "bio": "Sự thật bị bẻ cong trong màn sương mờ.",
     "imageUrl": "assets/aeons/aeon-mythus.png",
     "cost": 7,
     "star": 4,
@@ -520,12 +520,12 @@
       "type": "faction",
       "id": "Masked Fools",
       "need": 3,
-      "text": "Can 3 Masked Fools tren Board."
+      "text": "Cần 3 Những Kẻ Đeo Mặt Nạ trên bàn cờ."
     },
     "passive": {
       "name": "Labyrinth of Lies",
       "effectTone": "harmful",
-      "desc": "Con duong Bi An: me hoac va bop meo suc manh dich.",
+      "desc": "Con đường Bí Ẩn: khiến đối thủ rơi vào hỗn loạn khó lường.",
       "effects": {
         "enemyAtkPctDown": 0.22,
         "enemySpdPctDown": 0.22,
@@ -543,7 +543,7 @@
     "archetypes": [
       "Destruction"
     ],
-    "bio": "Can nuot moi thu ma khong bao gio du.",
+    "bio": "Cơn đói nuốt mọi thứ mà không bao giờ đủ.",
     "imageUrl": "assets/aeons/aeon-oroboros.png",
     "cost": 7,
     "star": 4,
@@ -556,12 +556,12 @@
       "type": "faction",
       "id": "Stellaron Hunters",
       "need": 4,
-      "text": "Can 4 Stellaron Hunters tren Board."
+      "text": "Cần 4 Thợ săn Stellaron trên bàn cờ."
     },
     "passive": {
       "name": "Endless Appetite",
       "effectTone": "mixed",
-      "desc": "Con duong Tham Thao: cang danh cang manh, hut can doi thu.",
+      "desc": "Con đường Tham Ăn: càng giao tranh càng gia tăng áp lực.",
       "effects": {
         "selfLifestealPct": 0.3,
         "onHitThornsPct": 0.28,
@@ -592,12 +592,12 @@
       "type": "faction",
       "id": "Chrysos Heirs",
       "need": 4,
-      "text": "Can 4 Chrysos Heirs tren Board."
+      "text": "Cần 4 Hậu duệ Chrysos trên bàn cờ."
     },
     "passive": {
       "name": "Broodstorm",
       "effectTone": "beneficial",
-      "desc": "Con duong Phon Duc: toc do sinh soi khien team khong ngung lon.",
+      "desc": "Con đường Sinh Sôi: nhân bản lợi thế trong giao tranh dài.",
       "effects": {
         "periodicHealPct": 0.18,
         "periodicHealInterval": 2,
@@ -629,12 +629,12 @@
       "type": "faction",
       "id": "IPC",
       "need": 3,
-      "text": "Can 3 IPC tren Board."
+      "text": "Cần 3 IPC trên bàn cờ."
     },
     "passive": {
       "name": "Final Countdown",
       "effectTone": "harmful",
-      "desc": "Con duong Chung Mat: xu tu moi muc tieu den nguong tan diet.",
+      "desc": "Con đường Chung Mạt: đưa trận đấu về hồi kết tàn khốc.",
       "effects": {
         "executeThresholdPct": 0.34,
         "executeBonusPct": 0.34,

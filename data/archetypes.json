@@ -1,83 +1,205 @@
 [
   {
     "id": "Destruction",
-    "name": "Huy Diet",
-    "desc": "Sat thuong cao va kha nang tru san tot.",
+    "name": "Hủy Diệt",
+    "desc": "Sát thương cao và khả năng trụ sàn tốt.",
     "tiers": [
-      { "need": 2, "label": "+10% HP, +8% ATK", "effects": { "hpPct": 0.1, "atkPct": 0.08 } },
-      { "need": 4, "label": "+20% HP, +16% ATK", "effects": { "hpPct": 0.2, "atkPct": 0.16 } }
+      {
+        "need": 2,
+        "label": "+10% HP, +8% ATK",
+        "effects": {
+          "hpPct": 0.1,
+          "atkPct": 0.08
+        }
+      },
+      {
+        "need": 4,
+        "label": "+20% HP, +16% ATK",
+        "effects": {
+          "hpPct": 0.2,
+          "atkPct": 0.16
+        }
+      }
     ]
   },
   {
     "id": "Hunt",
-    "name": "San Duoi",
-    "desc": "Danh don muc tieu nhanh va manh.",
+    "name": "Săn Bắn",
+    "desc": "Dồn sát thương đơn mục tiêu nhanh và mạnh.",
     "tiers": [
-      { "need": 2, "label": "+10% ATK, +8% SPD", "effects": { "atkPct": 0.1, "spdPct": 0.08 } },
-      { "need": 4, "label": "+20% ATK, +14% SPD", "effects": { "atkPct": 0.2, "spdPct": 0.14 } }
+      {
+        "need": 2,
+        "label": "+10% ATK, +8% SPD",
+        "effects": {
+          "atkPct": 0.1,
+          "spdPct": 0.08
+        }
+      },
+      {
+        "need": 4,
+        "label": "+20% ATK, +14% SPD",
+        "effects": {
+          "atkPct": 0.2,
+          "spdPct": 0.14
+        }
+      }
     ]
   },
   {
     "id": "Erudition",
-    "name": "Tri Thuc",
-    "desc": "Danh rong va don dep doi hinh.",
+    "name": "Tri Thức",
+    "desc": "Đánh diện rộng, dọn đội hình hiệu quả.",
     "tiers": [
-      { "need": 2, "label": "+9% ATK", "effects": { "atkPct": 0.09 } },
-      { "need": 3, "label": "+18% ATK", "effects": { "atkPct": 0.18 } }
+      {
+        "need": 2,
+        "label": "+9% ATK",
+        "effects": {
+          "atkPct": 0.09
+        }
+      },
+      {
+        "need": 3,
+        "label": "+18% ATK",
+        "effects": {
+          "atkPct": 0.18
+        }
+      }
     ]
   },
   {
     "id": "Harmony",
-    "name": "Hoa Hop",
-    "desc": "Tang nhip tan cong va suc ben cho team.",
+    "name": "Hòa Hợp",
+    "desc": "Khuếch đại nhịp đánh và sức bền cho đồng đội.",
     "tiers": [
-      { "need": 2, "label": "+8% SPD, +6% HP", "effects": { "spdPct": 0.08, "hpPct": 0.06 } },
-      { "need": 3, "label": "+16% SPD, +12% HP", "effects": { "spdPct": 0.16, "hpPct": 0.12 } }
+      {
+        "need": 2,
+        "label": "+8% SPD, +6% HP",
+        "effects": {
+          "spdPct": 0.08,
+          "hpPct": 0.06
+        }
+      },
+      {
+        "need": 3,
+        "label": "+16% SPD, +12% HP",
+        "effects": {
+          "spdPct": 0.16,
+          "hpPct": 0.12
+        }
+      }
     ]
   },
   {
     "id": "Nihility",
-    "name": "Hu Vo",
-    "desc": "Pha nhiet doi thu bang sat thuong dai hoi.",
+    "name": "Hư Vô",
+    "desc": "Bào mòn đối thủ bằng hiệu ứng suy yếu.",
     "tiers": [
-      { "need": 2, "label": "+9% ATK, +6% SPD", "effects": { "atkPct": 0.09, "spdPct": 0.06 } },
-      { "need": 4, "label": "+18% ATK, +12% SPD", "effects": { "atkPct": 0.18, "spdPct": 0.12 } }
+      {
+        "need": 2,
+        "label": "+9% ATK, +6% SPD",
+        "effects": {
+          "atkPct": 0.09,
+          "spdPct": 0.06
+        }
+      },
+      {
+        "need": 4,
+        "label": "+18% ATK, +12% SPD",
+        "effects": {
+          "atkPct": 0.18,
+          "spdPct": 0.12
+        }
+      }
     ]
   },
   {
     "id": "Preservation",
-    "name": "Bao Ho",
-    "desc": "Loi choi phong thu va can cau doi hinh.",
+    "name": "Bảo Hộ",
+    "desc": "Thiên về phòng thủ và câu kéo giao tranh.",
     "tiers": [
-      { "need": 2, "label": "+12% HP", "effects": { "hpPct": 0.12 } },
-      { "need": 4, "label": "+26% HP", "effects": { "hpPct": 0.26 } }
+      {
+        "need": 2,
+        "label": "+12% HP",
+        "effects": {
+          "hpPct": 0.12
+        }
+      },
+      {
+        "need": 4,
+        "label": "+26% HP",
+        "effects": {
+          "hpPct": 0.26
+        }
+      }
     ]
   },
   {
     "id": "Abundance",
-    "name": "Tru Phu",
-    "desc": "Giup doi hinh truoc ap luc trong tran dai.",
+    "name": "Trù Phú",
+    "desc": "Duy trì đội hình bằng hồi phục ổn định.",
     "tiers": [
-      { "need": 1, "label": "+4% HP, +4% SPD", "effects": { "hpPct": 0.04, "spdPct": 0.04 } },
-      { "need": 2, "label": "+10% HP, +8% SPD", "effects": { "hpPct": 0.1, "spdPct": 0.08 } }
+      {
+        "need": 1,
+        "label": "+4% HP, +4% SPD",
+        "effects": {
+          "hpPct": 0.04,
+          "spdPct": 0.04
+        }
+      },
+      {
+        "need": 2,
+        "label": "+10% HP, +8% SPD",
+        "effects": {
+          "hpPct": 0.1,
+          "spdPct": 0.08
+        }
+      }
     ]
   },
   {
     "id": "Remembrance",
-    "name": "Ky Uc",
-    "desc": "Kiem soat nhip tran va bo sung sat thuong.",
+    "name": "Ký Ức",
+    "desc": "Kiểm soát nhịp trận và bổ sung sát thương.",
     "tiers": [
-      { "need": 2, "label": "+8% HP, +6% ATK", "effects": { "hpPct": 0.08, "atkPct": 0.06 } },
-      { "need": 3, "label": "+16% HP, +12% ATK", "effects": { "hpPct": 0.16, "atkPct": 0.12 } }
+      {
+        "need": 2,
+        "label": "+8% HP, +6% ATK",
+        "effects": {
+          "hpPct": 0.08,
+          "atkPct": 0.06
+        }
+      },
+      {
+        "need": 3,
+        "label": "+16% HP, +12% ATK",
+        "effects": {
+          "hpPct": 0.16,
+          "atkPct": 0.12
+        }
+      }
     ]
   },
   {
     "id": "Elation",
-    "name": "Vui Ve",
-    "desc": "Danh nhanh, tao dot bien sat thuong theo nhip.",
+    "name": "Hoan Lạc",
+    "desc": "Tốc độ cao, tạo đột biến sát thương theo nhịp.",
     "tiers": [
-      { "need": 2, "label": "+8% ATK, +8% SPD", "effects": { "atkPct": 0.08, "spdPct": 0.08 } },
-      { "need": 4, "label": "+16% ATK, +16% SPD", "effects": { "atkPct": 0.16, "spdPct": 0.16 } }
+      {
+        "need": 2,
+        "label": "+8% ATK, +8% SPD",
+        "effects": {
+          "atkPct": 0.08,
+          "spdPct": 0.08
+        }
+      },
+      {
+        "need": 4,
+        "label": "+16% ATK, +16% SPD",
+        "effects": {
+          "atkPct": 0.16,
+          "spdPct": 0.16
+        }
+      }
     ]
   }
 ]

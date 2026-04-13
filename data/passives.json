@@ -1,242 +1,339 @@
 [
   {
     "id": "c001",
-    "name": "Adaptive Strike",
+    "name": "Đòn Đánh Thích Ứng",
     "effectTone": "mixed",
-    "wikiHint": "Trailblazer phong cach da dung, vua tan cong vua giu nhi",
-    "desc": "Ban linh linh hoat: tang cong ban than va hoi chut giam sat thuong.",
-    "effects": { "selfAtkPct": 0.1, "selfDmgReductionPct": 0.06 }
+    "wikiHint": "Trailblazer theo phong cách đa dụng, vừa tấn công vừa giữ nhịp.",
+    "desc": "Bản năng linh hoạt giúp tăng công bản thân và giảm nhẹ sát thương nhận vào.",
+    "effects": {
+      "selfAtkPct": 0.1,
+      "selfDmgReductionPct": 0.06
+    }
   },
   {
     "id": "c002",
-    "name": "Camera Guard",
+    "name": "Lá Chắn Ống Kính",
     "effectTone": "beneficial",
-    "wikiHint": "March 7th noi bat ve khien bao ke",
-    "desc": "Mo giao khien dau tran cho toan doi.",
-    "effects": { "teamShieldPct": 0.12 }
+    "wikiHint": "March 7th nổi bật với lớp khiên bảo kê đồng đội.",
+    "desc": "Dựng lá chắn mở giao tranh, giúp cả đội trụ tuyến đầu tốt hơn.",
+    "effects": {
+      "teamShieldPct": 0.12
+    }
   },
   {
     "id": "c003",
-    "name": "Cloud Piercer",
+    "name": "Thương Vân Xuyên",
     "effectTone": "harmful",
-    "wikiHint": "Dan Heng manh o sat thuong ket lieu",
-    "desc": "Danh manh hon vao muc tieu thap mau.",
-    "effects": { "executeThresholdPct": 0.45, "executeBonusPct": 0.24 }
+    "wikiHint": "Dan Heng mạnh ở khả năng kết liễu mục tiêu thấp máu.",
+    "desc": "Sát thương tăng rõ rệt khi kết liễu mục tiêu thấp máu.",
+    "effects": {
+      "executeThresholdPct": 0.45,
+      "executeBonusPct": 0.24
+    }
   },
   {
     "id": "c004",
-    "name": "Molten Sweep",
+    "name": "Quét Nóng Chảy",
     "effectTone": "harmful",
-    "wikiHint": "Himeko nghieng sat thuong rong",
-    "desc": "Ap luc dien rong lam giam toc do doi thu.",
-    "effects": { "enemySpdPctDown": 0.08 }
+    "wikiHint": "Himeko thiên về sát thương diện rộng.",
+    "desc": "Áp lực diện rộng làm giảm nhịp tấn công của đối phương.",
+    "effects": {
+      "enemySpdPctDown": 0.08
+    }
   },
   {
     "id": "c005",
-    "name": "Imaginary Lock",
+    "name": "Khóa Trường Ảo",
     "effectTone": "harmful",
-    "wikiHint": "Welt chuyen kiem soat toc do doi thu",
-    "desc": "Lam cham doi hinh doi thu va giam luc danh.",
-    "effects": { "enemySpdPctDown": 0.1, "enemyAtkPctDown": 0.06 }
+    "wikiHint": "Welt giỏi kiểm soát nhịp trận và tốc độ đối thủ.",
+    "desc": "Làm chậm và suy yếu đầu ra sát thương của đội hình địch.",
+    "effects": {
+      "enemySpdPctDown": 0.1,
+      "enemyAtkPctDown": 0.06
+    }
   },
   {
     "id": "c006",
-    "name": "Shock Trigger",
+    "name": "Kíp Nổ Điện Kích",
     "effectTone": "harmful",
-    "wikiHint": "Kafka co nhieu don sat thuong tiep dien",
-    "desc": "Co ti le danh them don sat thuong phu.",
-    "effects": { "extraHitChance": 0.3, "extraHitPct": 0.34 }
+    "wikiHint": "Kafka có nhiều đòn sát thương nối tiếp.",
+    "desc": "Có tỉ lệ kích hoạt thêm đòn sát thương phụ lên mục tiêu.",
+    "effects": {
+      "extraHitChance": 0.3,
+      "extraHitPct": 0.34
+    }
   },
   {
     "id": "c007",
-    "name": "System Breach",
+    "name": "Xâm Nhập Hệ Thống",
     "effectTone": "harmful",
-    "wikiHint": "Silver Wolf gioi gay yeu diem va debuff",
-    "desc": "Lam doi thu yeu di, giam sat thuong dau ra.",
-    "effects": { "enemyAtkPctDown": 0.12, "onAttackMarkPctUp": 0.08 }
+    "wikiHint": "Silver Wolf mạnh ở gây điểm yếu và debuff.",
+    "desc": "Khoét điểm yếu đối thủ, giảm sức công phá của chúng.",
+    "effects": {
+      "enemyAtkPctDown": 0.12,
+      "onAttackMarkPctUp": 0.08
+    }
   },
   {
     "id": "c008",
-    "name": "Molten Armor",
+    "name": "Giáp Nóng Chảy",
     "effectTone": "beneficial",
-    "wikiHint": "Firefly vua tan cong vua chiu don tot",
-    "desc": "Tang mau ao va sat thuong ban than.",
-    "effects": { "selfShieldPct": 0.15, "selfAtkPct": 0.1 }
+    "wikiHint": "Firefly vừa gây áp lực lớn vừa trụ giao tranh tốt.",
+    "desc": "Tăng lớp giáp tự thân và khuếch đại sát thương đầu ra.",
+    "effects": {
+      "selfShieldPct": 0.15,
+      "selfAtkPct": 0.1
+    }
   },
   {
     "id": "c009",
-    "name": "Shuhu Gift",
+    "name": "Ân Tứ Shuhu",
     "effectTone": "mixed",
-    "wikiHint": "Blade doi mau lay sat thuong",
-    "desc": "Hut mau theo sat thuong gay ra va giam sat thuong nhan vao.",
-    "effects": { "selfLifestealPct": 0.2, "selfDmgReductionPct": 0.08, "onHitHealPct": 0.05 }
+    "wikiHint": "Blade đổi máu lấy sát thương rất hiệu quả.",
+    "desc": "Đổi máu lấy sức mạnh, hút máu tốt và giảm sát thương nhận vào.",
+    "effects": {
+      "selfLifestealPct": 0.2,
+      "selfDmgReductionPct": 0.08,
+      "onHitHealPct": 0.05
+    }
   },
   {
     "id": "c010",
-    "name": "Resurgence",
+    "name": "Tái Xuất",
     "effectTone": "mixed",
-    "wikiHint": "Seele thuong co nhip ket lieu roi boi them",
-    "desc": "Khi ha guc muc tieu, tang cong va toc do tam thoi.",
-    "effects": { "onKillAtkPct": 0.12, "onKillSpdPct": 0.08 }
+    "wikiHint": "Seele thường bùng nổ sau khi kết liễu mục tiêu.",
+    "desc": "Sau khi hạ gục mục tiêu sẽ tăng công và tốc độ trong thời gian ngắn.",
+    "effects": {
+      "onKillAtkPct": 0.12,
+      "onKillSpdPct": 0.08
+    }
   },
   {
     "id": "c011",
-    "name": "Commanding Wind",
+    "name": "Gió Hiệu Lệnh",
     "effectTone": "beneficial",
-    "wikiHint": "Bronya buff sat thuong va day nhip doi",
-    "desc": "Tang cong va toc cho toan doi.",
-    "effects": { "teamAtkPct": 0.08, "teamSpdPct": 0.08 }
+    "wikiHint": "Bronya thiên về buff sát thương và đẩy nhịp đội hình.",
+    "desc": "Cường hóa nhịp đánh toàn đội bằng buff công và tốc độ.",
+    "effects": {
+      "teamAtkPct": 0.08,
+      "teamSpdPct": 0.08
+    }
   },
   {
     "id": "c012",
-    "name": "Landau Wall",
+    "name": "Thành Lũy Landau",
     "effectTone": "beneficial",
-    "wikiHint": "Gepard la tanker dat khien",
-    "desc": "Tang khang sat thuong toan doi.",
-    "effects": { "teamDmgReductionPct": 0.08, "onHitGuardPct": 0.05 }
+    "wikiHint": "Gepard là tanker mạnh với khả năng dựng khiên.",
+    "desc": "Gia cố phòng tuyến, tăng khả năng chống chịu cho đồng minh.",
+    "effects": {
+      "teamDmgReductionPct": 0.08,
+      "onHitGuardPct": 0.05
+    }
   },
   {
     "id": "c013",
-    "name": "Medical Injection",
+    "name": "Tiêm Trợ Y",
     "effectTone": "beneficial",
-    "wikiHint": "Natasha la healer co hoi phuc chu ky",
-    "desc": "Moi vai luot se hoi phuc nhe cho dong doi.",
-    "effects": { "periodicHealPct": 0.08, "periodicHealInterval": 3 }
+    "wikiHint": "Natasha là healer có hồi phục theo chu kỳ.",
+    "desc": "Định kỳ hồi phục cho đồng đội, giúp đội hình ổn định hơn.",
+    "effects": {
+      "periodicHealPct": 0.08,
+      "periodicHealInterval": 3
+    }
   },
   {
     "id": "c014",
-    "name": "Lightning Lord Echo",
+    "name": "Dư Chấn Lôi Đình Quân",
     "effectTone": "harmful",
-    "wikiHint": "Jing Yuan noi tieng sat thuong bo sung",
-    "desc": "Co ti le danh them sat thuong dien.",
-    "effects": { "extraHitChance": 0.26, "extraHitPct": 0.4 }
+    "wikiHint": "Jing Yuan nổi tiếng với sát thương bổ sung liên tục.",
+    "desc": "Có tỉ lệ tung thêm đòn điện, gia tăng áp lực liên tục.",
+    "effects": {
+      "extraHitChance": 0.26,
+      "extraHitPct": 0.4
+    }
   },
   {
     "id": "c015",
-    "name": "Matrix of Prescience",
+    "name": "Ma Trận Tiên Tri",
     "effectTone": "beneficial",
-    "wikiHint": "Fu Xuan chia sat thuong va bao ke doi",
-    "desc": "Tang mau ao va giam sat thuong cho toan doi.",
-    "effects": { "teamShieldPct": 0.1, "teamDmgReductionPct": 0.1 }
+    "wikiHint": "Fu Xuan chia sẻ sát thương và bảo kê toàn đội.",
+    "desc": "Chia sẻ bảo hộ toàn đội bằng lá chắn và giảm sát thương nhận vào.",
+    "effects": {
+      "teamShieldPct": 0.1,
+      "teamDmgReductionPct": 0.1
+    }
   },
   {
     "id": "c016",
-    "name": "Transcendent Flash",
+    "name": "Tia Chớp Siêu Phàm",
     "effectTone": "harmful",
-    "wikiHint": "Jingliu co burst ket lieu cuc manh",
-    "desc": "Sat thuong cao hon khi ket lieu muc tieu thap mau.",
-    "effects": { "selfAtkPct": 0.12, "executeThresholdPct": 0.5, "executeBonusPct": 0.26 }
+    "wikiHint": "Jingliu có burst kết liễu cực mạnh.",
+    "desc": "Tăng mạnh khả năng kết liễu mục tiêu ở ngưỡng máu thấp.",
+    "effects": {
+      "selfAtkPct": 0.12,
+      "executeThresholdPct": 0.5,
+      "executeBonusPct": 0.26
+    }
   },
   {
     "id": "c017",
-    "name": "Abyss Flower",
+    "name": "Hoa Bỉ Ngạn",
     "effectTone": "beneficial",
-    "wikiHint": "Luocha co truong hoi phuc tu dong",
-    "desc": "Hoi phuc theo chu ky va hut mau nhe.",
-    "effects": { "periodicHealPct": 0.09, "periodicHealInterval": 2, "selfLifestealPct": 0.08 }
+    "wikiHint": "Luocha có vùng hồi phục tự động ổn định.",
+    "desc": "Tạo nhịp hồi phục đều đặn và bổ sung hút máu cho bản thân.",
+    "effects": {
+      "periodicHealPct": 0.09,
+      "periodicHealInterval": 2,
+      "selfLifestealPct": 0.08
+    }
   },
   {
     "id": "c018",
-    "name": "Proof of Debt",
+    "name": "Bằng Chứng Công Nợ",
     "effectTone": "harmful",
-    "wikiHint": "Topaz manh o truy sat muc tieu uu tien",
-    "desc": "Tang sat thuong ket lieu vao muc tieu thap mau.",
-    "effects": { "executeThresholdPct": 0.55, "executeBonusPct": 0.22 }
+    "wikiHint": "Topaz mạnh ở truy sát mục tiêu ưu tiên.",
+    "desc": "Tập trung truy sát mục tiêu ưu tiên, kết liễu rất nhanh.",
+    "effects": {
+      "executeThresholdPct": 0.55,
+      "executeBonusPct": 0.22
+    }
   },
   {
     "id": "c019",
-    "name": "Stoneheart Bet",
+    "name": "Canh Bạc Đá Quý",
     "effectTone": "beneficial",
-    "wikiHint": "Aventurine de khien va giu nhip doi",
-    "desc": "Dat khien lon cho doi va tang do ben.",
-    "effects": { "teamShieldPct": 0.14, "teamDmgReductionPct": 0.06, "onHitThornsPct": 0.2 }
+    "wikiHint": "Aventurine thiên về lớp khiên và độ bền tuyến trước.",
+    "desc": "Dựng khiên lớn cho đội và phản đòn nhẹ khi bị tấn công.",
+    "effects": {
+      "teamShieldPct": 0.14,
+      "teamDmgReductionPct": 0.06,
+      "onHitThornsPct": 0.2
+    }
   },
   {
     "id": "c020",
-    "name": "Rational Verdict",
+    "name": "Phán Quyết Lý Tính",
     "effectTone": "harmful",
-    "wikiHint": "Dr. Ratio gioi don sat thuong truc phat",
-    "desc": "Danh dau doi thu yeu, tang sat thuong dau ra.",
-    "effects": { "selfAtkPct": 0.1, "enemyDmgTakenPctUp": 0.08 }
+    "wikiHint": "Dr. Ratio giỏi dồn sát thương trừng phạt mục tiêu.",
+    "desc": "Đánh dấu điểm yếu, khiến mục tiêu nhận nhiều sát thương hơn.",
+    "effects": {
+      "selfAtkPct": 0.1,
+      "enemyDmgTakenPctUp": 0.08
+    }
   },
   {
     "id": "c021",
-    "name": "String Theory",
+    "name": "Lý Thuyết Dây",
     "effectTone": "beneficial",
-    "wikiHint": "Ruan Mei buff toan doi rat manh",
-    "desc": "Tang toc va sat thuong cho ca doi.",
-    "effects": { "teamAtkPct": 0.1, "teamSpdPct": 0.1 }
+    "wikiHint": "Ruan Mei là nguồn buff toàn đội rất mạnh.",
+    "desc": "Tăng tốc triển khai giao tranh nhờ buff công và tốc độ toàn đội.",
+    "effects": {
+      "teamAtkPct": 0.1,
+      "teamSpdPct": 0.1
+    }
   },
   {
     "id": "c022",
-    "name": "Kuru Kuru",
+    "name": "Xoay Nào Xoay Nào",
     "effectTone": "harmful",
-    "wikiHint": "Herta co don quet bo sung khi doi thu thap mau",
-    "desc": "Co ti le danh them sat thuong xoay.",
-    "effects": { "extraHitChance": 0.24, "extraHitPct": 0.36 }
+    "wikiHint": "Herta có đòn quét bổ sung khi đối thủ suy yếu.",
+    "desc": "Có tỉ lệ tung thêm đòn quét, tạo sát thương diện rộng phụ.",
+    "effects": {
+      "extraHitChance": 0.24,
+      "extraHitPct": 0.36
+    }
   },
   {
     "id": "c023",
-    "name": "Encore Chorus",
+    "name": "Khúc Điệp Khúc",
     "effectTone": "beneficial",
-    "wikiHint": "Robin buff nhip tan cong toan doi",
-    "desc": "Truyen cam hung, tang sat thuong va nhip danh cho doi.",
-    "effects": { "teamAtkPct": 0.08, "teamSpdPct": 0.12 }
+    "wikiHint": "Robin buff nhịp tấn công toàn đội rất tốt.",
+    "desc": "Truyền cảm hứng cho đồng đội, tăng công và đẩy nhịp đánh.",
+    "effects": {
+      "teamAtkPct": 0.08,
+      "teamSpdPct": 0.12
+    }
   },
   {
     "id": "c024",
-    "name": "Duel Protocol",
+    "name": "Nghị Thức Đấu Súng",
     "effectTone": "harmful",
-    "wikiHint": "Boothill thien ve don sat thuong don muc tieu",
-    "desc": "Sat thuong ket lieu va buff khi ha guc.",
-    "effects": { "executeThresholdPct": 0.5, "executeBonusPct": 0.24, "onKillAtkPct": 0.08, "onAttackWeakenPctDown": 0.08 }
+    "wikiHint": "Boothill thiên về sát thương đơn mục tiêu.",
+    "desc": "Mạnh ở kèo đơn mục tiêu, kết hợp buff sau khi hạ gục.",
+    "effects": {
+      "executeThresholdPct": 0.5,
+      "executeBonusPct": 0.24,
+      "onKillAtkPct": 0.08,
+      "onAttackWeakenPctDown": 0.08
+    }
   },
   {
     "id": "c025",
-    "name": "Illusion Jackpot",
+    "name": "Jackpot Ảo Ảnh",
     "effectTone": "beneficial",
-    "wikiHint": "Sparkle buff crit va nhip doi dang ao",
-    "desc": "Tang toc va sat thuong cho toan doi, ke ca ban than.",
-    "effects": { "teamAtkPct": 0.07, "teamSpdPct": 0.1, "selfAtkPct": 0.05 }
+    "wikiHint": "Sparkle buff nhịp đội hình theo lối chơi ảo thuật.",
+    "desc": "Tăng nhịp đánh và sát thương cho cả đội theo phong cách linh hoạt.",
+    "effects": {
+      "teamAtkPct": 0.07,
+      "teamSpdPct": 0.1,
+      "selfAtkPct": 0.05
+    }
   },
   {
     "id": "c026",
-    "name": "Wind Shear Hustle",
+    "name": "Phi Vũ Phong Sát",
     "effectTone": "harmful",
-    "wikiHint": "Sampo nghieng dot va roi nhip doi thu",
-    "desc": "Lam giam toc va sat thuong doi thu.",
-    "effects": { "enemySpdPctDown": 0.08, "enemyAtkPctDown": 0.08 }
+    "wikiHint": "Sampo thiên về bào mòn và phá nhịp đối thủ.",
+    "desc": "Gây suy yếu tốc độ và sát thương đầu ra của đối thủ.",
+    "effects": {
+      "enemySpdPctDown": 0.08,
+      "enemyAtkPctDown": 0.08
+    }
   },
   {
     "id": "c027",
-    "name": "Resonant Verse",
+    "name": "Khúc Cộng Hưởng",
     "effectTone": "beneficial",
-    "wikiHint": "Suy luan theo phong cach Harmony/Elation",
-    "desc": "Tang nhip danh va hoi nhe theo chu ky.",
-    "effects": { "teamSpdPct": 0.08, "periodicHealPct": 0.06, "periodicHealInterval": 3 }
+    "wikiHint": "Thiết kế theo phong cách Harmony/Hoan Lạc.",
+    "desc": "Buff nhịp đội hình và hồi nhẹ định kỳ trong giao tranh.",
+    "effects": {
+      "teamSpdPct": 0.08,
+      "periodicHealPct": 0.06,
+      "periodicHealInterval": 3
+    }
   },
   {
     "id": "c028",
-    "name": "Lucky Trigger",
+    "name": "Kích Hoạt May Rủi",
     "effectTone": "mixed",
-    "wikiHint": "Suy luan carry Hunt/Elation",
-    "desc": "Co kha nang danh them va hoi mau theo sat thuong.",
-    "effects": { "extraHitChance": 0.28, "extraHitPct": 0.34, "selfLifestealPct": 0.1 }
+    "wikiHint": "Thiết kế theo hướng carry Săn Bắn/Hoan Lạc.",
+    "desc": "Vừa có đòn đánh thêm vừa có hút máu để duy trì áp lực.",
+    "effects": {
+      "extraHitChance": 0.28,
+      "extraHitPct": 0.34,
+      "selfLifestealPct": 0.1
+    }
   },
   {
     "id": "c029",
-    "name": "Starfall Reprise",
+    "name": "Tái Tấu Tinh Vũ",
     "effectTone": "harmful",
-    "wikiHint": "Suy luan Erudition/Elation sat thuong rong",
-    "desc": "Lam doi thu cham hon va de bi ha guc hon.",
-    "effects": { "enemySpdPctDown": 0.06, "enemyDmgTakenPctUp": 0.08 }
+    "wikiHint": "Thiết kế theo hướng Tri Thức/Hoan Lạc diện rộng.",
+    "desc": "Làm mục tiêu chậm lại và dễ bị dồn sát thương hơn.",
+    "effects": {
+      "enemySpdPctDown": 0.06,
+      "enemyDmgTakenPctUp": 0.08
+    }
   },
   {
     "id": "c030",
-    "name": "Ashen Prank",
+    "name": "Trò Đùa Tro Tàn",
     "effectTone": "harmful",
-    "wikiHint": "Suy luan Nihility/Elation gay roi nhip",
-    "desc": "Giam sat thuong va toc cua doi thu.",
-    "effects": { "enemyAtkPctDown": 0.07, "enemySpdPctDown": 0.07 }
+    "wikiHint": "Thiết kế theo hướng Hư Vô/Hoan Lạc gây rối nhịp.",
+    "desc": "Bẻ nhịp đội hình địch bằng giảm công và giảm tốc độ.",
+    "effects": {
+      "enemyAtkPctDown": 0.07,
+      "enemySpdPctDown": 0.07
+    }
   }
 ]

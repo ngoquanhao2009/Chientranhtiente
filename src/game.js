@@ -171,6 +171,7 @@ export class Game {
     this.aeons = validated.aeons;
     this.shopOdds = validated.shopOdds;
     this.archetypeNameById = new Map(this.archetypes.map((x) => [x.id, x.name]));
+    this.factionNameById = new Map(this.factions.map((x) => [x.id, x.name]));
     this.charactersById = new Map(this.characters.map((u) => [u.id, u]));
     this.passiveById = new Map(this.passives.map((x) => [x.id, x]));
     this.aeonById = new Map(this.aeons.map((x) => [x.id, x]));
@@ -697,12 +698,16 @@ export class Game {
     return this.archetypeNameById.get(id) ?? id;
   }
 
+  displayFaction(id) {
+    return this.factionNameById.get(id) ?? id;
+  }
+
   getUnitDisplayTags(unit) {
     if (unit?.faction === "Aeon") {
       return ["Aeon", unit.path ?? "Aeon"];
     }
     const archetypes = (unit.archetypes ?? []).map((id) => this.displayArchetype(id));
-    return [unit.faction, ...archetypes].filter(Boolean);
+    return [this.displayFaction(unit.faction), ...archetypes].filter(Boolean);
   }
 
   unitInspectTags(unit) {
