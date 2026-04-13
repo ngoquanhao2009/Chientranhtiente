@@ -92,14 +92,14 @@ const AEON_THEME_BY_ID = {
 };
 
 const AEON_STAR_POWER_BY_LEVEL = {
-  1: 0.1,
-  2: 0.3,
-  3: 0.6,
+  1: 0.133,
+  2: 0.4,
+  3: 0.8,
   4: 1,
 };
 
-const AEON_FRAGMENT_RESPAWN_BASE_CHANCE = 0.02;
-const AEON_FRAGMENT_RESPAWN_PER_LEVEL = 0.015;
+const AEON_FRAGMENT_RESPAWN_BASE_CHANCE = 0.01;
+const AEON_FRAGMENT_RESPAWN_PER_LEVEL = 0.0075;
 const AEON_FRAGMENT_RESPAWN_MAX_CHANCE = 0.22;
 
 const AEON_FRAGMENT_COST_BY_STAR = {
@@ -1522,7 +1522,7 @@ export class Game {
 
       this.state.shop[index] = null;
       const fragmentText = targetStar < 4
-        ? `Da dong bo manh ${aeon.name}: ★${targetStar}.`
+        ? `Da dong bo ${aeon.name}: ★${targetStar}.`
         : `Da dung tinh the ${aeon.name}: ★★★★ toi thuong!`;
       return {
         ok: true,

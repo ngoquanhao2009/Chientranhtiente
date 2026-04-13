@@ -20,7 +20,7 @@ function aeonCardStarClass(unit) {
 function cardStarLabel(unit) {
   const tier = Math.max(1, Number(unit?.targetStar ?? unit?.star ?? 1));
   if (!isAeonLike(unit)) return starText(tier);
-  return tier < 4 ? `Manh ${starText(tier)}` : starText(tier);
+  return starText(tier);
 }
 
 function unitTagHtml(game, unit) {
@@ -678,7 +678,7 @@ function renderShop(game) {
       card.innerHTML = `<span class="slotHint">Da mua</span>`;
     } else {
       const aeonHead = unit.kind === "aeon"
-        ? `<div class="aeonHead"><span class="aeonBadge">${unit.fragment ? "AEON MANH" : "AEON"}</span><span class="aeonPath">${unit.path ?? "Mythic"}</span></div>`
+        ? `<div class="aeonHead"><span class="aeonBadge">AEON</span><span class="aeonPath">${unit.path ?? "Mythic"}</span></div>`
         : "";
       card.innerHTML = `
         ${aeonHead}
@@ -726,7 +726,7 @@ function renderShop(game) {
         if (row.maxed) {
           stateText = "Toi da ★★★★";
         } else if (row.unlocked && starNow <= 0 && Number(row.nextChancePct ?? 0) >= 99.9) {
-          stateText = "Manh dau tien san sang";
+          stateText = "Sao dau tien san sang";
         } else if (row.unlocked && starNow > 0) {
           stateText = `${starText(starNow)} -> ${starText(row.nextStar ?? Math.min(starNow + 1, 4))} (${nextChance}%)`;
         } else if (row.unlocked) {
