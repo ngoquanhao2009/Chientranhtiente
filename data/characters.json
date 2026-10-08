@@ -393,7 +393,7 @@
       "Elation"
     ],
     "bio": "Hỗ trợ linh hoạt, tạo đột biến theo nhịp đội hình.",
-    "imageUrl": "assets/characters/c025.png",
+    "imageUrl": "assets/characters/c031.webp",
     "stats": {
       "hp": 850,
       "atk": 84,
@@ -512,7 +512,7 @@
       "Preservation"
     ],
     "bio": "Một canh bạc lấp lánh, càng nguy hiểm càng cười lớn.",
-    "imageUrl": "assets/characters/c019.png",
+    "imageUrl": "assets/characters/c032.webp",
     "stats": {
       "hp": 1160,
       "atk": 104,
@@ -529,7 +529,7 @@
       "Nihility"
     ],
     "bio": "Bản vá lỗi tối thượng, biến luật trận đấu thành trò đùa.",
-    "imageUrl": "assets/characters/c007.png",
+    "imageUrl": "assets/characters/c033.webp",
     "stats": {
       "hp": 980,
       "atk": 142,
@@ -546,7 +546,7 @@
       "Destruction"
     ],
     "bio": "Kẻ khai phá bước lên sân khấu và không ai biết màn tiếp theo là gì.",
-    "imageUrl": "assets/characters/c001.png",
+    "imageUrl": "assets/characters/c034.webp",
     "stats": {
       "hp": 860,
       "atk": 78,

@@ -285,7 +285,7 @@
     "trueForm": {
       "name": "Aha - The Complete Joke",
       "bio": "Chan than Aeon cua tieng cuoi cuoi cung: ca vu tru la san khau cua Aha.",
-      "imageUrl": "assets/aeons/aeon-aha.png",
+      "imageUrl": "assets/aeons/aeon-aha-true.webp",
       "logoUrl": "assets/aeon-logos/aeon-aha.png",
       "passive": {
         "id": "aha-true-form-passive",
