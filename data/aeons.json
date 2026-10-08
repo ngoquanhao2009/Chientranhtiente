@@ -281,7 +281,31 @@
         "selfAtkPct": 0.26
       }
     },
-    "logoUrl": "assets/aeon-logos/aeon-aha.png"
+    "logoUrl": "assets/aeon-logos/aeon-aha.png",
+    "trueForm": {
+      "name": "Aha - The Complete Joke",
+      "bio": "Chan than Aeon cua tieng cuoi cuoi cung: ca vu tru la san khau cua Aha.",
+      "imageUrl": "assets/aeons/aeon-aha.png",
+      "logoUrl": "assets/aeon-logos/aeon-aha.png",
+      "passive": {
+        "id": "aha-true-form-passive",
+        "name": "The Universe Is My Stage",
+        "effectTone": "mixed",
+        "desc": "Aha bien san khau thanh tro dua cuoi cung va tang manh suc manh toan doi.",
+        "effects": {
+          "selfAtkPct": 0.62,
+          "teamAtkPct": 0.34,
+          "teamSpdPct": 0.28,
+          "extraHitChance": 0.9,
+          "extraHitPct": 1.1
+        }
+      },
+      "skills": {
+        "basic": "Tro Dua Vo Tan",
+        "skill": "Cuoi Lan Cuoi Bo",
+        "ultimate": "Man Cui Chao Cuoi Cung"
+      }
+    }
   },
   {
     "id": "aeon_akivili",

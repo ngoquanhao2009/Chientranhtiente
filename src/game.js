@@ -109,6 +109,9 @@ const AEON_FRAGMENT_COST_BY_STAR = {
   4: 7,
 };
 
+const MAX_AHA_STAR = 10;
+const WISHPOWER_MAX = 100;
+
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -342,6 +345,16 @@ export class Game {
     return costFactor * starFactor * roundFactor;
   }
 
+  getAeonMaxStar(aeonId) {
+    return aeonId === "aeon_aha" ? MAX_AHA_STAR : 4;
+  }
+
+  getAeonTrueForm(aeon) {
+    return aeon?.id === "aeon_aha" && aeon.trueForm && typeof aeon.trueForm === "object"
+      ? aeon.trueForm
+      : null;
+  }
+
   scalePassivePct(value, scale, cap = 0.55) {
     if (!value) return 0;
     return clamp(value * scale, 0, cap);
@@ -390,6 +403,9 @@ export class Game {
         playbackId: 0,
         log: ["Bat dau van dau. Chon doi hinh va bam Qua vong."],
       },
+      wishpower: 0,
+      ahaComplete: false,
+      partyTrick: {},
       inspect: {
         title: "Huong dan nhanh",
         tags: ["Keo-tha de sap doi hinh"],
@@ -429,6 +445,10 @@ export class Game {
         ? Math.max(1, Math.floor(asNumber(source.shopLockTargetRound, asNumber(source.round, 1) + 1)))
         : null,
       aeonProgress,
+      wishpower: clamp(Math.floor(asNumber(source.wishpower, 0)), 0, WISHPOWER_MAX),
+      ahaComplete: source.ahaComplete === true
+        || board.some((unit) => unit?.id === "aeon_aha" && unit.star >= MAX_AHA_STAR),
+      partyTrick: source.partyTrick && typeof source.partyTrick === "object" ? source.partyTrick : {},
       bench,
       board,
       shop,
@@ -509,8 +529,11 @@ export class Game {
     const base = this.charactersById.get(raw.id);
     const aeon = this.aeonById.get(raw.id);
     if (aeon) {
-      const star = clamp(Math.floor(asNumber(raw.star, 4)), 1, 4);
-      const passiveRaw = raw.passive && typeof raw.passive === "object" ? raw.passive : aeon.passive;
+      const star = clamp(Math.floor(asNumber(raw.star, 4)), 1, this.getAeonMaxStar(aeon.id));
+      const trueForm = star >= MAX_AHA_STAR ? this.getAeonTrueForm(aeon) : null;
+      const passiveRaw = raw.passive && typeof raw.passive === "object"
+        ? raw.passive
+        : trueForm?.passive ?? aeon.passive;
       const passive = passiveRaw
         ? {
           ...passiveRaw,
@@ -523,19 +546,21 @@ export class Game {
       return {
         uid: typeof raw.uid === "string" && raw.uid.trim() ? raw.uid : uid(),
         id: aeon.id,
-        name: aeon.name,
+        name: trueForm?.name ?? aeon.name,
         path: aeon.path ?? "Aeon",
         cost: 7,
         faction: aeon.faction ?? "Aeon",
         archetypes: Array.isArray(aeon.archetypes) ? aeon.archetypes.slice(0, 6) : [],
-        bio: String(aeon.bio ?? "The co suc manh Aeon."),
-        imageUrl: String(raw.imageUrl ?? aeon.imageUrl ?? ""),
-        logoUrl: String(raw.logoUrl ?? aeon.logoUrl ?? ""),
+        bio: String(trueForm?.bio ?? aeon.bio ?? "The co suc manh Aeon."),
+        imageUrl: String(raw.imageUrl ?? trueForm?.imageUrl ?? aeon.imageUrl ?? ""),
+        logoUrl: String(raw.logoUrl ?? trueForm?.logoUrl ?? aeon.logoUrl ?? ""),
         fusionImageUrl2: "",
         star,
         stats: this.getAeonStatsByStar(aeon, star),
         bossSkill: null,
         passive,
+        trueForm: Boolean(trueForm),
+        skills: trueForm?.skills ?? null,
         fusionMeta: null,
       };
     }
@@ -925,7 +950,7 @@ export class Game {
     for (const aeon of this.aeons) {
       const row = source[aeon.id] && typeof source[aeon.id] === "object" ? source[aeon.id] : {};
       normalized[aeon.id] = {
-        star: clamp(Math.floor(asNumber(row.star, 0)), 0, 4),
+        star: clamp(Math.floor(asNumber(row.star, 0)), 0, this.getAeonMaxStar(aeon.id)),
         firstOfferShown: row.firstOfferShown === true,
       };
     }
@@ -933,7 +958,7 @@ export class Game {
     const inferFromLineup = (unit) => {
       if (!unit || unit.faction !== "Aeon") return;
       if (!normalized[unit.id]) return;
-      const ownedStar = clamp(Math.floor(asNumber(unit.star, 1)), 1, 4);
+      const ownedStar = clamp(Math.floor(asNumber(unit.star, 1)), 1, this.getAeonMaxStar(unit.id));
       if (ownedStar > normalized[unit.id].star) {
         normalized[unit.id].star = ownedStar;
       }
@@ -960,7 +985,38 @@ export class Game {
   }
 
   getAeonCurrentStar(aeonId) {
-    return clamp(Math.floor(asNumber(this.getAeonProgress(aeonId)?.star, 0)), 0, 4);
+    return clamp(Math.floor(asNumber(this.getAeonProgress(aeonId)?.star, 0)), 0, this.getAeonMaxStar(aeonId));
+  }
+
+  refreshPartyTrick() {
+    const next = {};
+    for (const unit of this.boardUnits) {
+      if ((unit.archetypes ?? []).includes("Elation")) next[unit.uid] = true;
+    }
+    this.state.partyTrick = next;
+    return Object.keys(next).length;
+  }
+
+  tryCompleteAha() {
+    if (this.state.ahaComplete) return { ok: false, reason: "Aha da o dang hoan chinh." };
+
+    const partyTrickCount = this.refreshPartyTrick();
+    const ahaSlot = this.state.board
+      .map((unit, index) => ({ unit, index }))
+      .find((slot) => slot.unit?.id === "aeon_aha");
+    const ahaStar = ahaSlot ? ahaSlot.unit.star : 0;
+    if (partyTrickCount < 4 || !ahaSlot || ahaStar < 4 || this.state.wishpower < WISHPOWER_MAX) {
+      return { ok: false, reason: "Chua du Full Elation, Party Trick va Wishpower." };
+    }
+
+    const aha = this.aeonById.get("aeon_aha");
+    const complete = this.createAeonOwnedUnit(aha, MAX_AHA_STAR);
+    this.state.board[ahaSlot.index] = complete;
+    this.state.aeonProgress.aeon_aha.star = MAX_AHA_STAR;
+    this.state.ahaComplete = true;
+    this.state.wishpower = 0;
+    this.state.combat.log = ["AHA: HAHAHAHAHA! Chien truong bien thanh san khau cua vu tru!", ...(this.state.combat.log ?? [])].slice(0, 50);
+    return { ok: true, unit: complete };
   }
 
   getAeonRespawnChance(level = this.state.level) {
@@ -973,8 +1029,10 @@ export class Game {
   }
 
   getAeonStatsByStar(aeon, star = 1) {
-    const tier = clamp(Math.floor(asNumber(star, 1)), 1, 4);
-    const power = AEON_STAR_POWER_BY_LEVEL[tier] ?? 1;
+    const tier = clamp(Math.floor(asNumber(star, 1)), 1, this.getAeonMaxStar(aeon?.id));
+    const power = tier >= MAX_AHA_STAR
+      ? 2.65
+      : AEON_STAR_POWER_BY_LEVEL[tier] ?? 1;
     return {
       hp: Math.max(1, Math.floor(asNumber(aeon?.stats?.hp, 2200) * power)),
       atk: Math.max(1, Math.floor(asNumber(aeon?.stats?.atk, 220) * power)),
@@ -1001,11 +1059,12 @@ export class Game {
         ? this.countBoardByFaction(rule.id)
         : this.countBoardByArchetype(rule.id);
       const progress = this.getAeonProgress(aeon.id);
-      const star = clamp(Math.floor(asNumber(progress.star, 0)), 0, 4);
+      const maxStar = this.getAeonMaxStar(aeon.id);
+      const star = clamp(Math.floor(asNumber(progress.star, 0)), 0, maxStar);
       const owned = this.hasOwnedUnitId(aeon.id);
       const unlocked = current >= need || star > 0;
-      const maxed = star >= 4;
-      const nextStar = clamp(star + 1, 1, 4);
+      const maxed = star >= maxStar;
+      const nextStar = clamp(star + 1, 1, maxStar);
       const nextChancePct = unlocked && !maxed
         ? ((star === 0 && progress.firstOfferShown !== true) ? 100 : this.getAeonRespawnChance(this.state.level) * 100)
         : 0;
@@ -1022,6 +1081,7 @@ export class Game {
         nextStar,
         nextChancePct: Number(nextChancePct.toFixed(1)),
         condition: aeon.unlock?.text ?? "Dat dieu kien doi hinh",
+        maxStar,
       });
     }
     return rows;
@@ -1063,7 +1123,7 @@ export class Game {
     return this.aeons.filter((aeon) => {
       const progressStar = this.getAeonCurrentStar(aeon.id);
       const unlockedNow = this.isAeonUnlockSatisfied(aeon);
-      if (progressStar >= 4) {
+      if (progressStar >= this.getAeonMaxStar(aeon.id)) {
         return !this.hasOwnedUnitId(aeon.id);
       }
       return unlockedNow || progressStar > 0;
@@ -1071,7 +1131,7 @@ export class Game {
   }
 
   createAeonShopOffer(aeon, targetStar = 1, guaranteedFirst = false) {
-    const safeStar = clamp(Math.floor(asNumber(targetStar, 1)), 1, 4);
+    const safeStar = clamp(Math.floor(asNumber(targetStar, 1)), 1, this.getAeonMaxStar(aeon?.id));
     const passiveRaw = aeon?.passive ?? null;
     const effects = { ...(passiveRaw?.effects ?? {}) };
     const passive = passiveRaw
@@ -1226,8 +1286,10 @@ export class Game {
   }
 
   createAeonOwnedUnit(aeon, star = 1) {
-    const safeStar = clamp(Math.floor(asNumber(star, 1)), 1, 4);
-    const passiveRaw = aeon?.passive ?? null;
+    const safeStar = clamp(Math.floor(asNumber(star, 1)), 1, this.getAeonMaxStar(aeon?.id));
+    const trueForm = safeStar >= MAX_AHA_STAR ? this.getAeonTrueForm(aeon) : null;
+    const isTrueAha = Boolean(trueForm);
+    const passiveRaw = trueForm?.passive ?? aeon?.passive ?? null;
     const effects = { ...(passiveRaw?.effects ?? {}) };
     const passive = passiveRaw
       ? {
@@ -1241,18 +1303,22 @@ export class Game {
     return {
       uid: uid(),
       id: aeon.id,
-      name: aeon.name,
+      name: trueForm?.name ?? aeon.name,
       path: aeon.path ?? "Aeon",
       cost: 7,
       faction: aeon.faction ?? "Aeon",
       archetypes: [...(aeon.archetypes ?? [])],
-      bio: aeon.bio,
-      imageUrl: aeon.imageUrl ?? "",
-      logoUrl: aeon.logoUrl ?? "",
+      bio: trueForm?.bio ?? aeon.bio,
+      imageUrl: trueForm?.imageUrl ?? aeon.imageUrl ?? "",
+      logoUrl: trueForm?.logoUrl ?? aeon.logoUrl ?? "",
       fusionImageUrl2: "",
       star: safeStar,
       stats: this.getAeonStatsByStar(aeon, safeStar),
-      passive,
+      passive: isTrueAha
+        ? { ...passive, themeColor: "#facc15", triggerKinds: ["ATK", "AURA"] }
+        : passive,
+      trueForm: isTrueAha,
+      skills: trueForm?.skills ?? null,
       fusionMeta: null,
     };
   }
@@ -1512,7 +1578,11 @@ export class Game {
       if (!ownedSlot && benchIndex === -1) return { ok: false, reason: "Day hang du bi." };
 
       const currentStar = this.getAeonCurrentStar(aeon.id);
-      const targetStar = clamp(Math.floor(asNumber(offer.targetStar, currentStar + 1)), 1, 4);
+      const targetStar = clamp(
+        Math.floor(asNumber(offer.targetStar, currentStar + 1)),
+        1,
+        this.getAeonMaxStar(aeon.id),
+      );
 
       this.state.gold -= offer.cost;
       this.getAeonProgress(aeon.id).star = Math.max(currentStar, targetStar);
@@ -1528,7 +1598,9 @@ export class Game {
       this.state.shop[index] = null;
       const fragmentText = targetStar < 4
         ? `Da dong bo ${aeon.name}: ★${targetStar}.`
-        : `Da dung tinh the ${aeon.name}: ★★★★ toi thuong!`;
+        : targetStar >= MAX_AHA_STAR
+          ? `Da danh thuc ${aeon.name}: ★★★★★★★★★★ True Form!`
+          : `Da dung tinh the ${aeon.name}: ★★★★ toi thuong!`;
       return {
         ok: true,
         goldDelta: -offer.cost,
@@ -2705,6 +2777,13 @@ export class Game {
 
     const currentRound = this.state.round;
     const combatResult = this.runCombat(currentRound);
+    this.refreshPartyTrick();
+    this.state.wishpower = clamp(
+      this.state.wishpower + (combatResult.win ? 35 : 15),
+      0,
+      WISHPOWER_MAX,
+    );
+    const ahaTransformation = combatResult.win ? this.tryCompleteAha() : { ok: false };
     const income = this.computeIncome(combatResult.win);
     const bossBonus = combatResult.boss && combatResult.win ? 2 : 0;
 
@@ -2729,6 +2808,7 @@ export class Game {
       boss: combatResult.boss,
       bossName: combatResult.bossName,
       bossInfo: this.state.combat.bossInfo,
+      ahaTransformation,
     };
   }
 }

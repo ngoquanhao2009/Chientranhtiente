@@ -579,6 +579,17 @@ p {
   animation: aeonFinalStarFlow 2.6s linear infinite;
 }
 
+.card.aeonOwnedCard.ahaCompleteStar {
+  border-color: #facc15;
+  box-shadow: 0 0 24px #fb718588, inset 0 0 24px #facc1522;
+}
+
+.card.aeonOwnedCard.ahaCompleteStar .cardMid {
+  color: #facc15;
+  text-shadow: 0 0 10px #fb7185, 0 0 18px #22d3ee;
+  letter-spacing: 0.08em;
+}
+
 .shopCard.aeonCard .cardMid.aeonOfferStar {
   color: color-mix(in srgb, var(--aeon-accent) 38%, #fff4ce 62%);
   font-weight: 800;

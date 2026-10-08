@@ -335,5 +335,51 @@
       "enemyAtkPctDown": 0.07,
       "enemySpdPctDown": 0.07
     }
+  },
+  {
+    "id": "c031",
+    "name": "Dao Dien Cu Twist",
+    "effectTone": "beneficial",
+    "wikiHint": "Pearl dieu khien nhip san khau bang nhung man xuat hien bat ngo.",
+    "desc": "Tang cong va toc do cho doi hinh Elation.",
+    "effects": {
+      "teamAtkPct": 0.11,
+      "teamSpdPct": 0.1
+    }
+  },
+  {
+    "id": "c032",
+    "name": "Canh Bac Waveflair",
+    "effectTone": "mixed",
+    "wikiHint": "Aventurine Waveflair bien hiem nguy thanh man trinh dien.",
+    "desc": "Dung khien va phan don bang mot nu cuoi tu tin.",
+    "effects": {
+      "teamShieldPct": 0.16,
+      "teamDmgReductionPct": 0.08,
+      "onHitThornsPct": 0.22
+    }
+  },
+  {
+    "id": "c033",
+    "name": "Cheat Code 999",
+    "effectTone": "harmful",
+    "wikiHint": "Silver Wolf LV.999 be cong luat choi bang mot ban va loi.",
+    "desc": "Khoet diem yeu va tao them don danh phu voi ti le cao.",
+    "effects": {
+      "enemyDmgTakenPctUp": 0.12,
+      "extraHitChance": 0.38,
+      "extraHitPct": 0.48
+    }
+  },
+  {
+    "id": "c034",
+    "name": "Duong Ray Tieng Cuoi",
+    "effectTone": "mixed",
+    "wikiHint": "Trailblazer Elation mo man cho tro dua tiep theo cua Aha.",
+    "desc": "Vua tang cong ban than vua lam cham nhip doi thu.",
+    "effects": {
+      "selfAtkPct": 0.14,
+      "enemySpdPctDown": 0.1
+    }
   }
 ]

@@ -14,6 +14,7 @@ function isAeonLike(unit) {
 function aeonCardStarClass(unit) {
   if (!isAeonLike(unit)) return "";
   const tier = Math.max(1, Number(unit.targetStar ?? unit.star ?? 1));
+  if (tier >= 10 || unit.trueForm === true) return " aeonFinalStar ahaCompleteStar";
   return tier >= 4 ? " aeonFinalStar" : " aeonShardStar";
 }
 
@@ -563,6 +564,7 @@ export function bindUI(game, handlers) {
 
 function renderHud(game) {
   const hud = el("hud");
+  const partyTrickCount = game.boardUnits.filter((unit) => (unit.archetypes ?? []).includes("Elation")).length;
   const xpPart = game.canLevel
     ? `${game.state.xp}/${game.xpToNext}`
     : "MAX";
@@ -574,6 +576,8 @@ function renderHud(game) {
     <div class="stat"><span>EXP</span><b>${xpPart}</b></div>
     <div class="stat"><span>Mau</span><b>${game.state.playerHp}</b></div>
     <div class="stat"><span>Streak</span><b>${game.state.streak}</b></div>
+    <div class="stat wishStat"><span>Wishpower</span><b>${game.state.wishpower ?? 0}/100</b></div>
+    <div class="stat"><span>Party Trick</span><b>${partyTrickCount}/4</b></div>
   `;
 }
 
@@ -724,11 +728,11 @@ function renderShop(game) {
         const nextChance = Number(row.nextChancePct ?? 0).toFixed(1);
         let stateText = `${row.current}/${row.need}`;
         if (row.maxed) {
-          stateText = "Toi da ★★★★";
+          stateText = `Toi da ${starText(row.maxStar ?? 4)}`;
         } else if (row.unlocked && starNow <= 0 && Number(row.nextChancePct ?? 0) >= 99.9) {
           stateText = "Sao dau tien san sang";
         } else if (row.unlocked && starNow > 0) {
-          stateText = `${starText(starNow)} -> ${starText(row.nextStar ?? Math.min(starNow + 1, 4))} (${nextChance}%)`;
+          stateText = `${starText(starNow)} -> ${starText(row.nextStar ?? Math.min(starNow + 1, row.maxStar ?? 4))} (${nextChance}%)`;
         } else if (row.unlocked) {
           stateText = `Co the xuat hien (${nextChance}%)`;
         }
@@ -738,7 +742,7 @@ function renderShop(game) {
               <b>${row.name}</b>
               <span>${stateText}</span>
             </div>
-            <div class="aeonTrackMeta">${row.path} · Sao ${starNow}/4 · ${row.condition}</div>
+            <div class="aeonTrackMeta">${row.path} · Sao ${starNow}/${row.maxStar ?? 4} · ${row.condition}</div>
             <div class="aeonBar"><span style="width:${pct}%"></span></div>
           </div>
         `;

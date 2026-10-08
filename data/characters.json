@@ -484,5 +484,73 @@
       "atk": 52,
       "spd": 1.09
     }
+  },
+  {
+    "id": "c031",
+    "name": "Pearl",
+    "cost": 3,
+    "faction": "Genius Society",
+    "archetypes": [
+      "Elation",
+      "Harmony"
+    ],
+    "bio": "Nữ đạo diễn sân khấu biến mọi pha xử lý thành một cú twist.",
+    "imageUrl": "assets/characters/c031.png",
+    "stats": {
+      "hp": 840,
+      "atk": 86,
+      "spd": 1.15
+    }
+  },
+  {
+    "id": "c032",
+    "name": "Aventurine Waveflair",
+    "cost": 4,
+    "faction": "IPC",
+    "archetypes": [
+      "Elation",
+      "Preservation"
+    ],
+    "bio": "Một canh bạc lấp lánh, càng nguy hiểm càng cười lớn.",
+    "imageUrl": "assets/characters/c032.png",
+    "stats": {
+      "hp": 1160,
+      "atk": 104,
+      "spd": 1.06
+    }
+  },
+  {
+    "id": "c033",
+    "name": "Silver Wolf LV.999",
+    "cost": 5,
+    "faction": "Stellaron Hunters",
+    "archetypes": [
+      "Elation",
+      "Nihility"
+    ],
+    "bio": "Bản vá lỗi tối thượng, biến luật trận đấu thành trò đùa.",
+    "imageUrl": "assets/characters/c033.png",
+    "stats": {
+      "hp": 980,
+      "atk": 142,
+      "spd": 1.2
+    }
+  },
+  {
+    "id": "c034",
+    "name": "Trailblazer: Elation",
+    "cost": 2,
+    "faction": "Astral Express",
+    "archetypes": [
+      "Elation",
+      "Destruction"
+    ],
+    "bio": "Kẻ khai phá bước lên sân khấu và không ai biết màn tiếp theo là gì.",
+    "imageUrl": "assets/characters/c034.png",
+    "stats": {
+      "hp": 860,
+      "atk": 78,
+      "spd": 1.1
+    }
   }
 ]
