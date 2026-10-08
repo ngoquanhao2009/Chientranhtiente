@@ -54,6 +54,10 @@ const CHARACTER_THEME_BY_ID = {
   c028: "#fb7185",
   c029: "#fde047",
   c030: "#9ca3af",
+  c031: "#f472b6",
+  c032: "#f59e0b",
+  c033: "#60a5fa",
+  c034: "#fb7185",
 };
 
 const FACTION_THEME_BY_NAME = {
