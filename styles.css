@@ -267,14 +267,7 @@ p {
 
 .cardMid {
   margin-top: 4px;
-  background: linear-gradient(100deg, #ff4d8d, #a855f7, #f0abfc, #ff4d8d);
-  background-size: 240% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: brightness(1.15) saturate(1.18);
-  text-shadow: 0 0 10px #c026d355;
-  animation: starRarityGlow 2.4s linear infinite;
+  color: #ffe08a;
 }
 
 .cardTags {
@@ -571,19 +564,11 @@ p {
 }
 
 .card.aeonOwnedCard.aeonShardStar .cardMid {
-  color: color-mix(in srgb, var(--aeon-accent) 42%, #ffe4a6 58%);
-  opacity: 0.95;
+  color: #ffe08a;
 }
 
 .card.aeonOwnedCard.aeonFinalStar .cardMid {
-  background: linear-gradient(95deg, #ff285f, #9d39ff, #f0abfc, #ff285f);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-weight: 900;
-  text-shadow: 0 0 18px color-mix(in srgb, var(--aeon-main) 42%, transparent 58%);
-  animation: aeonFinalStarFlow 2.6s linear infinite;
+  color: #ffe08a;
 }
 
 .card.aeonOwnedCard.ahaCompleteStar {
@@ -592,13 +577,15 @@ p {
 }
 
 .card.aeonOwnedCard.ahaCompleteStar .cardMid {
-  color: #fff7ed;
   background: linear-gradient(95deg, #ff2d75, #9333ea, #f5d0fe, #ff2d75);
   background-size: 260% 100%;
   -webkit-background-clip: text;
   background-clip: text;
+  color: transparent;
+  font-weight: 900;
   text-shadow: 0 0 10px #fb7185, 0 0 18px #a855f7;
   letter-spacing: 0.08em;
+  animation: ahaTrueStarFlow 2.6s linear infinite;
 }
 
 .shopCard.aeonCard .cardMid.aeonOfferStar {
@@ -1298,19 +1285,19 @@ p {
   }
 }
 
-@keyframes starRarityGlow {
+@keyframes ahaTrueStarFlow {
   0% {
     background-position: 0% 50%;
   }
   100% {
-    background-position: 240% 50%;
+    background-position: 260% 50%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card.aeonOwnedCard,
   .card.aeonOwnedCard::after,
-  .cardMid,
+  .card.aeonOwnedCard.ahaCompleteStar .cardMid,
   .fighter.aeonFighter,
   .fighter.aeonFighter::before,
   .fighter.aeonFighter.actorFlash {
