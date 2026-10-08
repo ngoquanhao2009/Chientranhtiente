@@ -568,7 +568,14 @@ p {
 }
 
 .card.aeonOwnedCard.aeonFinalStar .cardMid {
-  color: #ffe08a;
+  background: linear-gradient(95deg, var(--aeon-main), var(--aeon-accent), var(--aeon-third), var(--aeon-main));
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--aeon-main) 42%, transparent 58%);
+  animation: aeonFinalStarFlow 2.6s linear infinite;
 }
 
 .card.aeonOwnedCard.ahaCompleteStar {
@@ -1297,6 +1304,7 @@ p {
 @media (prefers-reduced-motion: reduce) {
   .card.aeonOwnedCard,
   .card.aeonOwnedCard::after,
+  .card.aeonOwnedCard.aeonFinalStar .cardMid,
   .card.aeonOwnedCard.ahaCompleteStar .cardMid,
   .fighter.aeonFighter,
   .fighter.aeonFighter::before,
